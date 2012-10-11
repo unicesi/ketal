@@ -4,6 +4,9 @@ import java.net.URL;
 
 import co.edu.icesi.ketal.core.*;
 
+import org.jgroups.protocols.TransportedVectorTime;
+
+
 public class TestEvent1 implements Event{
 
 	private Character eventChar;
@@ -54,4 +57,18 @@ public class TestEvent1 implements Event{
 	public boolean setTargetLocalization(URL url) {
 		return false;
 	}
+
+
+	@Override
+	public TransportedVectorTime getTransportedVectorTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

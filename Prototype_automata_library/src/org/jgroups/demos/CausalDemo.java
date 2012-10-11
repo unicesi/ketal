@@ -15,6 +15,11 @@ import java.util.Random;
 import java.util.Stack;
 import java.util.Vector;
 
+import org.jgroups.protocols.TransportedVectorTime;
+import co.edu.icesi.ketal.core.Event;
+
+
+import java.net.URL;
 
 
 /**
@@ -176,6 +181,8 @@ public class CausalDemo implements Runnable
 			   if (msg != null)
 			   {
 				   cm = (CausalMessage) msg.getObject();
+				   System.out.println("TVT: "+ cm.getTransportedVectorTime());
+
 				   List members = channel.getView().getMembers();
 				   String receivedLetter = cm.message;
 
@@ -281,7 +288,7 @@ public class CausalDemo implements Runnable
  * Class to encapsulate the message info
  * @author Andres Barrera
  */
-class CausalMessage implements Serializable
+class CausalMessage implements Serializable, co.edu.icesi.ketal.core.Event
 {
 
 	private static final long serialVersionUID = 780718666884109552L;
@@ -299,6 +306,52 @@ class CausalMessage implements Serializable
 		return "CausalMessage[" + message + '=' + message + "member=" + member + ']';
 	}
 	
+	@Override
+	public boolean equals(Event e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public URL getLocalization() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean setLocalization(URL url) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public URL getTargetLocalization() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean setTargetLocalization(URL url) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private TransportedVectorTime tvt;
+	@Override
+	public TransportedVectorTime getTransportedVectorTime() {
+		return tvt;
+	}
+
+	@Override
+	public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
+		if(this.tvt==null)
+		{
+			this.tvt=tvt;
+		}		
+		this.tvt=tvt;
+		return true;
+	}
+
 }
 
 /**

@@ -78,7 +78,8 @@ public class DistributionProperties {
 		    "UNICAST(timeout=1200,2400,3600):" +
 		    "pbcast.STABLE(stability_delay=1000;desired_avg_gossip=20000;max_bytes=0):" +
 		    "FRAG(frag_size=8192):" +
-		    "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=true;print_local_addr=true):Causal";
+		    			               "print_local_addr=false;down_thread=true;up_thread=true):Causal(causal_order_prot_interest=false)";
+
 		    //"AWEDLOCALCLOCKMANAGEMENT";
 		    //"CAUSALTAGS";
 		    //+
@@ -91,8 +92,10 @@ public class DistributionProperties {
 			    "VERIFY_SUSPECT(timeout=1500;down_thread=false;up_thread=false):" +
 			    "pbcast.NAKACK(down_thread=true;up_thread=true;gc_lag=100;retransmit_timeout=3000):" +
 			    "pbcast.STABLE(desired_avg_gossip=20000;down_thread=false;up_thread=false):" +
-			    "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=false;" +
-			               "print_local_addr=false;down_thread=true;up_thread=true):Causal";
+
+		    "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=true;print_local_addr=true
+
+):Causal(causal_order_prot_interest=false)";
 		}
 		
 		String stackTail = ""; //":pbcast.STATE_TRANSFER(up_thread=true;down_thread=true)";

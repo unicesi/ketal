@@ -73,6 +73,19 @@ import javax.print.attribute.standard.QueuedJobCount;
 //@Experimental
 public class Causal extends Protocol
 {
+
+		
+/*--------------------------------Properties-------------------------------------------*/
+	
+	@Property(description="This property modidfies the protocol behavior. True, if the protocol has to order the message through " +
+			"causal protocol. False, if you are interested in the vector instead of the order of the messages. Default is True")
+	protected boolean causal_order_prot_interest=true;
+	
+	public void set_type_causal(boolean causal_order_prot){
+		this.causal_order_prot_interest=causal_order_prot;
+	}
+/*--------------------------------Properties-------------------------------------------*/
+
 	static
 	{
 		ClassConfigurator.add((short)1900, CausalHeader.class);
@@ -1029,7 +1042,27 @@ public class Causal extends Protocol
         
         
         synchronized (lock) {
+        	        if(!causal_order_prot_interest)
+        {
         	
+        	//PROOF
+        	System.err.println("Instance of"+ msg.getObject());
+        	System.err.println("Instance of"+ (msg.getObject() instanceof co.edu.icesi.ketal.core.Event));
+        	
+        	/**
+        	 * If the msg encapsulates a Ketal Event, this protocol 
+        	 * modifies the TransportedVectorTime of that Event.
+        	 * In other case, the message is passed up. 
+        	 */        	
+        	if (msg.getObject() instanceof co.edu.icesi.ketal.core.Event) {
+            	System.err.print("Sin ordenamiento: ----");
+        		co.edu.icesi.ketal.core.Event ketalEvent= ((co.edu.icesi.ketal.core.Event)msg.getObject());
+        		ketalEvent.setTransportedVectorTime(messageVector);
+        		msg.setObject(ketalEvent);			
+			}
+        	return up_prot.up(new Event(Event.MSG, msg));	
+        }else{	
+
         if(!waitingMessages.isEmpty())
         {
         	System.err.print("Upwarding: "+upwardWaitingQueue);

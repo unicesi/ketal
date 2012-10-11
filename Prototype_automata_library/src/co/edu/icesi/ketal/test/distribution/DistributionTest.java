@@ -88,6 +88,7 @@ public class DistributionTest {
  	    for(int index=0; index<anVector.size(); index++)
  	    {
  	    	Event myEvent = myVector.get(index);
+	       System.out.print(myEvent.getTransportedVectorTime().getValues());
  	    	Event anEvent = anVector.get(index);
  	    	if(!myEvent.equals(anEvent))
  	    	{

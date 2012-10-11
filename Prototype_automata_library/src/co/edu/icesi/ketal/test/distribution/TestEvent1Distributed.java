@@ -4,10 +4,17 @@ import java.io.Serializable;
 import java.net.URL;
 
 import co.edu.icesi.ketal.core.Event;
+
+import org.jgroups.protocols.TransportedVectorTime;
+
+
 public class TestEvent1Distributed  implements Event, Serializable{
 
 	private static final long serialVersionUID = 14L;
 		public Character alphabet;
+
+		private TransportedVectorTime tvt;
+
 		
 		public TestEvent1Distributed(Character a) {
 			alphabet=a;
@@ -61,4 +68,21 @@ public class TestEvent1Distributed  implements Event, Serializable{
 		public boolean setTargetLocalization(URL url) {
 			return false;
 		}
+
+		@Override
+		public TransportedVectorTime getTransportedVectorTime() {
+			return tvt;
+		}
+
+		@Override
+		public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
+			
+			if(this.tvt!=null)
+			{
+				this.tvt=tvt;
+				return true;
+			}
+			return false;
+		}
+
 }

@@ -1,6 +1,9 @@
 package co.edu.icesi.ketal.core;
 
+
 import java.net.URL;
+import org.jgroups.protocols.TransportedVectorTime;
+
 
 /**
  * It describes any class with Event Behavior. It means, the programmer can
@@ -41,7 +44,22 @@ public interface Event
 	 * @return
 	 */
 	public boolean setTargetLocalization(URL url);
+
+
+	/**
+	 * This method is used by CausalEqualsExpression to determine the causal relationship
+	 * between two different events. The transportedVectorTime is an Object modified by the Causal Protocol 
+	 * @return TransportedVectorTime
+	 */
+	public TransportedVectorTime getTransportedVectorTime();
 	
+	/**
+	 * This method is used by Causal Protocol in the JGroups Stack.
+	 * @return true if it can be set or false in other case.
+	 */
+	public boolean setTransportedVectorTime(TransportedVectorTime tvt);
+
+
 	//todo: documentar
 		//public Character getCharacterOfAlphabet();
 		
