@@ -1,0 +1,49 @@
+package co.edu.icesi.ketal.test.defaultEqualsEventTest;
+
+import java.net.URL;
+
+import co.edu.icesi.ketal.core.*;
+
+public class TestEvent1 implements Event{
+
+	private Character eventChar;
+	
+	public TestEvent1(Character a) {
+		eventChar=a;
+
+	}
+	
+	public Character getCharacterOfAlphabet() {
+		// TODO Auto-generated method stub
+		return eventChar;
+	}
+	
+	@Override
+	public boolean equals(Event anEvent) {
+	       if (this == anEvent)
+	           return true;
+	       if (anEvent == null)
+	           return false;
+	       if (getClass() != anEvent.getClass())
+	           return false;
+	       TestEvent1 other = (TestEvent1) anEvent;
+	       if (eventChar == null) {
+	           if (other.getCharacterOfAlphabet() != null)
+	               return false;
+	       } else if (!eventChar.equals(other.getCharacterOfAlphabet()))
+	           return false;
+	       return true;
+	   }
+
+	@Override
+	public URL getLocalization() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setLocalization(URL url) {
+		// TODO Auto-generated method stub
+		
+	}
+}
