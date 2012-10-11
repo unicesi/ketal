@@ -109,19 +109,23 @@ public class TransportedVectorTime implements Serializable
     * @param other TransportedVectorTimebeing compared with this.
     * @return true if this TransportedVectorTimeis less than or equal from
     * other, false othwerwise
+    * 
+    * Fixed by Oscar Garces
     */
    public boolean lessThanOrEqual(TransportedVectorTime other)
    {
       int[] b = other.getValues();
       int[] a = values;
+      boolean less=true;
       for (int k = 0; k < a.length; k++)
       {
-          if (a[k] < b[k])
-              return true;
-          else if (a[k] > b[k])
-              return false;
+           if (a[k] > b[k])
+        	  {
+              less=false;
+              break;
+        	  }
       }
-       return true; // equals ?!?
+       return less; 
    }
 
    /**
@@ -144,6 +148,30 @@ public class TransportedVectorTime implements Serializable
 
       return true;
    }
+   
+   public synchronized boolean isCausallyNext(TransportedVectorTime vector) {
+       int senderIndex = vector.getSenderIndex();
+      
+       int[] otherTimeVector = vector.getValues();
+
+       if (otherTimeVector.length!=values.length) {
+          return true;
+       }
+       
+       boolean nextCausalFromSender = false;
+       boolean nextCausal = true;
+
+       for (int i=0;i<values.length;i++) {
+          if ((i == senderIndex) && (otherTimeVector[i] == values[i] + 1)) {
+             nextCausalFromSender = true;
+             continue;
+          }
+          if (otherTimeVector[i] > values[i]) nextCausal = false;
+       }
+       
+       return (nextCausalFromSender && nextCausal);
+   }
+   
 
    /**
     * Returns String representation of this vector timestamp

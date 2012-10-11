@@ -23,5 +23,23 @@ public class NotExpression implements Unary{
 		return !exp.evaluate(event);
 	}
 
+	@Override
+	public Event getEvent() {
+		return exp.getEvent();
+	}
+
+	@Override
+	public boolean setEvent(Event anEvent) {
+		try
+		{
+			this.exp.setEvent(anEvent);
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+	}
+
 
 }

@@ -44,13 +44,22 @@ public class TestEvent1Distributed  implements Event, Serializable{
 
 		@Override
 		public URL getLocalization() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public void setLocalization(URL url) {
-			// TODO Auto-generated method stub
+		public boolean setLocalization(URL url) {
+			return true;
 			
+		}
+
+		@Override
+		public URL getTargetLocalization() {
+			return null;
+		}
+
+		@Override
+		public boolean setTargetLocalization(URL url) {
+			return false;
 		}
 }

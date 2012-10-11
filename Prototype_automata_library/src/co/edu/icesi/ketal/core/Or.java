@@ -28,5 +28,15 @@ public class Or implements Binary{
 		return leftExpression.evaluate(event) || rightExpression.evaluate(event);
 	}
 
+	@Override
+	public Event getEvent() {
+		throw new UnsupportedOperationException("The Binary Expressions can not do this operation");
+	}
+
+	@Override
+	public boolean setEvent(Event anEvent) {
+		throw new UnsupportedOperationException("The Binary Expressions can not do this operation");
+	}
+
 
 }

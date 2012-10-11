@@ -25,8 +25,22 @@ public interface Event
 	 * Method to set the localization of the event
 	 * @param url Representing the localization
 	 */
-	public void setLocalization(URL url);
+	public boolean setLocalization(URL url);
 	
+	/**
+	 * Method to get the localization of a specific target if it is necessary.
+	 * It means, if the event must be executed in a specific target.
+	 * @return
+	 */
+	public URL getTargetLocalization();
+	
+	/**
+	 * Sets the localization of the target of the event, it means if the event must be executed in a specific 
+	 * target
+	 * @param url
+	 * @return
+	 */
+	public boolean setTargetLocalization(URL url);
 	
 	//todo: documentar
 		//public Character getCharacterOfAlphabet();

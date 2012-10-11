@@ -12,7 +12,21 @@ public interface Expression {
 	 */
 	public boolean evaluate(Event event);
 	
-	//TODO:
-	//public boolean evaluate(Expression myExp);
+	/**
+	 * This method returns the associated Event of the expression
+	 * @return the actual Event associated with this Expression
+	 * 
+	 * modified by Okgarces
+	 */
+	public Event getEvent();
+	
+	/**
+	 * This method sets and permits to modify the event associated with the 
+	 * expression
+	 * @param anEvent the new Event associated with this Expression
+	 * 
+	 * modified by Okgarces
+	 */
+	public boolean setEvent(Event anEvent);
 	
 }

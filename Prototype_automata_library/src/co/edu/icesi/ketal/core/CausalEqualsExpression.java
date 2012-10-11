@@ -17,6 +17,7 @@ public class CausalEqualsExpression implements Expression
 		return false;
 	}
 
+	@Override
 	/**
 	 * Get the event associated
 	 * @return Event evaluated by the Expression
@@ -26,6 +27,7 @@ public class CausalEqualsExpression implements Expression
 		return event;
 	}
 	
+	@Override
 	/**
 	 * Set the event associated
 	 * @param event Event evaluated by the Expression

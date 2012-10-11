@@ -14,7 +14,6 @@ public class TestEvent1 implements Event{
 	}
 	
 	public Character getCharacterOfAlphabet() {
-		// TODO Auto-generated method stub
 		return eventChar;
 	}
 	
@@ -37,13 +36,22 @@ public class TestEvent1 implements Event{
 
 	@Override
 	public URL getLocalization() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setLocalization(URL url) {
-		// TODO Auto-generated method stub
+	public boolean setLocalization(URL url) {
+		return false;
 		
+	}
+
+	@Override
+	public URL getTargetLocalization() {
+		return null;
+	}
+
+	@Override
+	public boolean setTargetLocalization(URL url) {
+		return false;
 	}
 }

@@ -26,11 +26,26 @@ public class DefaultEqualsExpression implements Expression{
 		return this.event.equals(anEvent);
 	}
 	
+	@Override
 	/**
 	 * @return Event associated with the Expression
 	 */
 	public Event getEvent()
 	{
 		return event;
+	}
+
+	@Override
+	public boolean setEvent(Event anEvent) {
+
+		try
+		{
+			this.event=anEvent;
+			return true;
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 	}		
 }

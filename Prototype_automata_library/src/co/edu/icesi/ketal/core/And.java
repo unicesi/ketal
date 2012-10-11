@@ -30,5 +30,26 @@ public class And implements Binary{
 		return leftExpression.evaluate(event) && rightExpression.evaluate(event);
 	}
 
+	@Override
+	/**
+	 * This method is not supported by binary Expression. The use of this method shall
+	 * throw an UnsupportedOperationException
+	 * @return None
+	 */
+	public Event getEvent() {
+		throw new UnsupportedOperationException("The Binary Expressions can not do this operation");
+	}
+
+
+	@Override
+	/**
+	 * This method is not supported by binary Expression. The use of this method shall
+	 * throw an UnsupportedOperationException
+	 * @return None
+	 */
+	public boolean setEvent(Event anEvent) {
+		throw new UnsupportedOperationException("The Binary Expressions can not do this operation");
+	}
+
 
 }

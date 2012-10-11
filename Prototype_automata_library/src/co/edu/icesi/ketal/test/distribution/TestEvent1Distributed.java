@@ -6,6 +6,7 @@ import java.net.URL;
 import co.edu.icesi.ketal.core.Event;
 public class TestEvent1Distributed  implements Event, Serializable{
 
+	private static final long serialVersionUID = 14L;
 		public Character alphabet;
 		
 		public TestEvent1Distributed(Character a) {
@@ -14,7 +15,6 @@ public class TestEvent1Distributed  implements Event, Serializable{
 		}
 		
 		public Character getCharacterOfAlphabet() {
-			// TODO Auto-generated method stub
 			return alphabet;
 		}
 
@@ -44,13 +44,21 @@ public class TestEvent1Distributed  implements Event, Serializable{
 
 		@Override
 		public URL getLocalization() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		public void setLocalization(URL url) {
-			// TODO Auto-generated method stub
-			
+		public boolean setLocalization(URL url) {
+			return false;
+		}
+
+		@Override
+		public URL getTargetLocalization() {
+			return null;
+		}
+
+		@Override
+		public boolean setTargetLocalization(URL url) {
+			return false;
 		}
 }

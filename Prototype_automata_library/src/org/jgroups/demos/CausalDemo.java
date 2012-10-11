@@ -4,6 +4,7 @@ package org.jgroups.demos;
 import org.jgroups.*;
 import org.jgroups.logging.Log;
 import org.jgroups.logging.LogFactory;
+import org.jgroups.protocols.Causal;
 
 import java.io.Serializable;
 import java.util.EmptyStackException;
@@ -108,7 +109,6 @@ public class CausalDemo implements Runnable
 	   try
 	   {
 		   channel = new JChannel(props);
-		   
 		   channel.setReceiver(receiver);
 		   channel.connect("CausalGroup");
 		   System.out.println("View:" + channel.getView());
@@ -123,7 +123,7 @@ public class CausalDemo implements Runnable
 	   {
 		   e.printStackTrace();
 		   System.out.println("Could not connect to channel");
-		   return;
+		   return;                                                                                 
 	   }
 	   
    }
@@ -207,6 +207,8 @@ public class CausalDemo implements Runnable
 					   }
 					   Address next = (Address) members.get(nextTarget);
 					   String nextChar = getNext(receivedLetter);
+					 			   
+					   
 					   if (nextChar.compareTo("Z") < 1)
 					   {
 						   System.out.println("Sending " + nextChar);
@@ -261,17 +263,16 @@ public class CausalDemo implements Runnable
 		   }
 	   }
 
-	   //if parameter start is passed , start the demo
-	   test = new CausalDemo(start);
-	   try
-	   {
-		   new Thread(test).start();
-	   }
-	   catch (Exception e)
-	   {
-		   System.err.println(e);
-	   }
-
+	     test = new CausalDemo(start);
+		   try
+		   {
+			   new Thread(test).start();
+		   }
+		   catch (Exception e)
+		   {
+			   System.err.println(e);
+		   }
+	  
    }
 
 }
@@ -325,6 +326,10 @@ class CausalReceiver extends ReceiverAdapter
 		{
 			return null;
 		}
+	}
+	
+	public LinkedList<Message> getMessages(){
+		return msgs;
 	}
 	
 }

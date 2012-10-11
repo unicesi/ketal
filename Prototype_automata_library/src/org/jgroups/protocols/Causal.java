@@ -10,6 +10,14 @@ import org.jgroups.util.Streamable;
 import java.io.*;
 import java.util.*;
 
+import javax.print.attribute.standard.QueuedJobCount;
+
+/****
+ * FIXME
+ * - The dequeue mechanism is no completed.
+ * - Problems when a host enter into the distributed system and this has started.
+ */
+
 /** <p>
  * Implements casual ordering layer using vector clocks.
  * </p>
@@ -172,7 +180,7 @@ public class Causal extends Protocol
         {
             return "[CAUSALHEADER:" + t + ']';
         }
-        
+
     }
     
     public static final class CausalNewViewHeader extends Header implements Streamable {
@@ -559,6 +567,15 @@ public class Causal extends Protocol
         public synchronized void increment() {
             timeVector[view.getLocalIndex()]++;
         }
+        
+        /**
+         * @TODO Arreglar esto
+         * @exception
+         */
+        public synchronized void decrement() {
+            timeVector[view.getLocalIndex()]--;
+        }
+
 
         /**
          * Returns a minimal lightweight representation of this Vector Time
@@ -847,13 +864,21 @@ public class Causal extends Protocol
 //        return true;
 //    }
     
+    
+    /**
+     * PROOF boolean flag waiting the own message.
+     * This arraylist contains messages the host has sent but they hasn´t been processed yet.
+     * @author Oscar Kiyoshige Garcés.
+     */
+    private ArrayList<TransportedVectorTime> waitingMessages= new ArrayList<TransportedVectorTime>();
+    
     /**
      * Process a downward event.
      * @param evt The event.
      */
     public Object down(Event evt) {
         try {
-            // If not a MSG, just pass down.
+        	// If not a MSG, just pass down.
             if (evt.getType()!=Event.MSG) {
                 if(evt.getType() == Event.SET_LOCAL_ADDRESS) {
                     localAddress=(Address)evt.getArg();
@@ -874,18 +899,25 @@ public class Causal extends Protocol
             TransportedVectorTime tvt=null;
             
             synchronized(lock) {
+
+            	//PROOF &&waitingMessages.isEmpty()
                 if (isEnabled()) {
-                    currentView.increment();
+                
+                	currentView.increment();                    
                     tvt=currentView.getTransportedVectorTime();
                     if (log.isTraceEnabled()) log.trace("Sent 1 down message @ "+currentView.timeVectorString());
                 } else {
-                    if (log.isTraceEnabled()) log.trace("Enqueued 1 down message...");
+                	if (log.isTraceEnabled()) log.trace("Enqueued 1 down message...");
                     downwardWaitingQueue.add(evt);
                 }
             }
             
-            if (tvt!=null) {
-                msg.putHeader(this.id, new CausalHeader(tvt));
+            if (tvt!=null) { 
+            	
+            	//PROOF the TVT is added to the waiting messages.
+            	
+            	waitingMessages.add(tvt);
+            	msg.putHeader(this.id, new CausalHeader(tvt));
                 return down_prot.down(evt);
             }
         } catch (RuntimeException e) {
@@ -907,9 +939,10 @@ public class Causal extends Protocol
                     upViewChange(evt);
                     break;                    
                 case Event.MSG:
-                    return upMsg(evt);
+                	return upMsg(evt);
+                	
                 default:
-                    return up_prot.up(evt);
+                	return up_prot.up(evt);
             }
         } catch (RuntimeException e) {
             if (debug) log.error("*** up: "+e.getMessage(), e);
@@ -918,7 +951,7 @@ public class Causal extends Protocol
         return null;
     }
     
-
+    
     /**
      * Process a VIEW_CHANGE event.
      * @param evt The event.
@@ -952,11 +985,18 @@ public class Causal extends Protocol
         up_prot.up(evt);
     }
     
+    /**
+     * This method wait until all the own messages has arrived and passed through this
+     * protocol.
+     * @param evt
+     * @return
+     * @Modifiedby Oscar Kiyoshige Garcés.
+     */
     private Object upMsg(Event evt) {
         Message msg = (Message) evt.getArg();
         Address src=msg.getSrc();
-        
-        // Check for a causal new view header
+       
+        //	Check for a causal new view header
         Object obj = msg.getHeader((short)CausalNewViewHeader.serialVersionUID);
 
         if (obj instanceof CausalNewViewHeader) {
@@ -972,36 +1012,143 @@ public class Causal extends Protocol
             return up_prot.up(evt);
         }
         
+        /**
+         * PROOF vector print
+         */
+        //////////////////////////////////////////////////////////////////////////
+        System.err.print("Upwarding: "+upwardWaitingQueue);
+        System.err.println("Downwarding: "+downwardWaitingQueue);
         TransportedVectorTime messageVector = ((CausalHeader)obj).getVectorTime();
+        System.out.print("app Vector");
+        printValues(currentView.timeVector);
+        System.out.println("");
+        System.out.print("new Vector: "+messageVector.getAssociatedMessage());
+        printValues(messageVector.getValues());
+        System.out.println("");
+      ///////////////////////////////////////////////////////////////////////////
+        
         
         synchronized (lock) {
-            if (currentView==null||currentView.getView().getIndex(src)<0) {
-                if (log.isDebugEnabled()) log.debug("Discarding "+obj+" from "+msg.getSrc());
-                return null;
-            }
-            
-            if (currentView.isCausallyNext(messageVector)) {
-                if (log.isTraceEnabled()) log.trace("passing up message "+msg+", headers are "+msg.printHeaders()+", local vector is "+currentView.timeVectorString());
-                up_prot.up(evt);
-                currentView.max(messageVector);
-            } else  {
-                if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
+        	
+        if(!waitingMessages.isEmpty())
+        {
+        	System.err.print("Upwarding: "+upwardWaitingQueue);
+            System.err.println("Downwarding: "+downwardWaitingQueue);
+            System.err.println("Cola de espera: "+waitingMessages);
+        	//PROOF
+            if(waitingMessages.contains(messageVector))
+            {
+            	waitingMessages.remove(messageVector);
+            	if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
                 messageVector.setAssociatedMessage(msg);
-                addToDelayQueue(messageVector);
+                
+                boolean thereIsAFirstMessageWaiting=false;
+                
+                for(TransportedVectorTime waitingVector : waitingMessages)
+                {
+                	if(waitingVector.isCausallyNext(messageVector))
+                	{
+                		thereIsAFirstMessageWaiting=true;
+                	}
+                }
+                /**
+                 * PROOF This is under the suppose there is no more messages that are first (causally) that vectorMessage
+                 * and in the queue this vector cause the first one.
+                 */
+                if(!thereIsAFirstMessageWaiting&&(upwardWaitingQueue.size()>0))
+                {
+                	if(messageVector.isCausallyNext((TransportedVectorTime)upwardWaitingQueue.get(0)))
+                	{
+                		delegateUpMsg(evt);
+                	}else
+                	{
+                		addToDelayQueue(messageVector);	
+                	}
+                	
+                }else
+                {
+                	addToDelayQueue(messageVector);	
+                }
+                
+            	if(waitingMessages.isEmpty())
+            	{
+            		flushUpwardingQueue();
+            	}
+            }else{
+        	if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
+            messageVector.setAssociatedMessage(msg);
+            addToDelayQueue(messageVector);
             }
             
-            TransportedVectorTime queuedVector = null;
             
+        }else{
+        	delegateUpMsg(evt);
+        }
+        }
+        return null;
+    }
+    
+    /**
+     * This flush the Queue and sent the Events that isCausallyNext with
+     * the current Vector.
+     * PROOF
+     */
+    private Object flushUpwardingQueue()
+    {
+    	synchronized (lock) {
+
+            TransportedVectorTime queuedVector = null;
             while ((!upwardWaitingQueue.isEmpty()) &&
                     currentView.isCausallyNext((queuedVector = (TransportedVectorTime) upwardWaitingQueue.getFirst()))) {
-                upwardWaitingQueue.remove(queuedVector);
-                Message tmp=queuedVector.getAssociatedMessage();
+            	//PROOF
+            	System.err.print("desencolando");
+            	
+            	upwardWaitingQueue.remove(queuedVector);
+            	Message tmp=queuedVector.getAssociatedMessage();
                 if (log.isTraceEnabled()) log.trace("released message "+tmp+", headers are "+tmp.printHeaders());
                 up_prot.up(new Event(Event.MSG, tmp));
                 currentView.max(queuedVector);
             }
+		}
+    	return null;
+    }
+    
+    /**
+     * This new DelegateUpMsg process a Causal "Event".
+     * @param evt
+     * @return
+     * PROOF
+     */
+    private Object delegateUpMsg(Event evt)
+    {
+    	synchronized (lock) {
+    	Message msg = (Message) evt.getArg();
+        Address src=msg.getSrc();
+        Object obj = msg.getHeader(this.id);
+        TransportedVectorTime messageVector = ((CausalHeader)obj).getVectorTime();
+    	
+        if (currentView==null||currentView.getView().getIndex(src)<0) {
+            if (log.isDebugEnabled()) log.debug("Discarding "+obj+" from "+msg.getSrc());
+            return null;
         }
-        return null;
+        
+        if (currentView.isCausallyNext(messageVector)) {
+            if (log.isTraceEnabled()) log.trace("passing up message "+msg+", headers are "+msg.printHeaders()+", local vector is "+currentView.timeVectorString());
+            up_prot.up(evt);
+            currentView.max(messageVector);
+        } else  {
+            if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
+            messageVector.setAssociatedMessage(msg);
+            addToDelayQueue(messageVector);
+        }            
+        /** Flush and compares if the incoming message could cause others 
+         *  that are queued.
+         * PROOF
+         */
+       flushUpwardingQueue();
+    	}
+    
+    	return null;
     }
     
     /**
@@ -1060,4 +1207,13 @@ public class Causal extends Protocol
     }
 
     
+    private void printValues(int[] val){
+    	System.out.print("[");
+    	for(int con=0; con<val.length; con++){
+    		System.out.print(""+val[con]+",");
+    	}
+    	System.out.print("]");
+    	System.out.println();
+    }
+     
 }
