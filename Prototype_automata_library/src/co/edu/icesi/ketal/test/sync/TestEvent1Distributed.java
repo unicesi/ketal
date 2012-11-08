@@ -3,6 +3,8 @@ package co.edu.icesi.ketal.test.sync;
 import java.io.Serializable;
 import java.net.URL;
 
+import org.jgroups.protocols.TransportedVectorTime;
+
 import co.edu.icesi.ketal.core.Event;
 public class TestEvent1Distributed  implements Event, Serializable{
 
@@ -60,6 +62,18 @@ public class TestEvent1Distributed  implements Event, Serializable{
 
 		@Override
 		public boolean setTargetLocalization(URL url) {
+			return false;
+		}
+
+		@Override
+		public TransportedVectorTime getTransportedVectorTime() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
+			// TODO Auto-generated method stub
 			return false;
 		}
 }

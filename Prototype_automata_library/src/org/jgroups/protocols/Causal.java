@@ -1118,7 +1118,8 @@ public class Causal extends Protocol
         	delegateUpMsg(evt);
         }
         }
-        return null;
+        return null;	        
+        }
     }
     
     /**

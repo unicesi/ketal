@@ -87,15 +87,21 @@ public class DistributionProperties {
 		}
 		else if(protocol.equals("TCP")){
 			 stack = "TCP(start_port=7800):" +
-			    "TCPPING(initial_hosts=localhost[7800];port_range=5;timeout=3000;" +
-			            "num_initial_members=3;up_thread=true;down_thread=true):" +
-			    "VERIFY_SUSPECT(timeout=1500;down_thread=false;up_thread=false):" +
-			    "pbcast.NAKACK(down_thread=true;up_thread=true;gc_lag=100;retransmit_timeout=3000):" +
-			    "pbcast.STABLE(desired_avg_gossip=20000;down_thread=false;up_thread=false):" +
 
-		    "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=true;print_local_addr=true
-
-):Causal(causal_order_prot_interest=false)";
+				   "mcast_addr=228.8.8.8;loopback=true;mcast_recv_buf_size=64000;max_bundle_size=60000;" +
+				   "max_bundle_timeout=30;use_incoming_packet_handler=false;use_outgoing_packet_handler=false;" +
+				   "ucast_send_buf_size=32000;ip_ttl=32;enable_bundling=false" +
+		    addr + 
+		    port + "):" +
+		    "PING(timeout=2000;num_initial_members=3):" +
+		    "MERGE2(min_interval=10000;max_interval=20000):" +
+		    "FD(timeout=2000;max_tries=4):" +
+		    "VERIFY_SUSPECT(timeout=1500):" +
+		    "pbcast.NAKACK(use_mcast_xmit=false;gc_lag=50;retransmit_timeout=600,1200,2400,4800):" +
+		    "UNICAST(timeout=1200,2400,3600):" +
+		    "pbcast.STABLE(stability_delay=1000;desired_avg_gossip=20000;max_bytes=0):" +
+		    "FRAG(frag_size=8192):" +
+		    			               "print_local_addr=false;down_thread=true;up_thread=true):Causal(causal_order_prot_interest=false)";
 		}
 		
 		String stackTail = ""; //":pbcast.STATE_TRANSFER(up_thread=true;down_thread=true)";
