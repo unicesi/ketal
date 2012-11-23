@@ -27,7 +27,8 @@ public class Automaton {
 	 * Empty constructor. Permits to create an Automaton. 
 	 */
 	public Automaton(){
-		automaton= new dk.brics.automaton.Automaton();
+		
+		automaton= new dk.brics.automaton.Automaton();		
 		begin = null;
 		current = null;
 		endStates = new HashSet<State>();
@@ -47,29 +48,48 @@ public class Automaton {
 	
 	/**
 	 * Constructs an Automaton, with specific params.
-	 * @param states: Set of states.
 	 * @param transitions: Transitions, between states.
 	 * @param begin: Start State.
 	 * @param end: Set of end states.
 	 */
-	public Automaton(Set<State> states, Set<Transition> transitions, State begin, Set<State> end){
+	public Automaton(Set<Transition> transitions, State begin, Set<State> end){
 		this.begin = begin;
 		this.endStates = end;
 		this.transitions = transitions;
+		
 	}
 	
 	/**
 	 * Constructs an Automaton, with a Regular Expression, and a set of expressions.
 	 * @param regexp: Regular Expression
 	 * @param expressions: HashTable<Object, Character> of Expressions, that are matched with a character.
+	 * @throws KetalException 
+	 * 
+	 *  
 	 */
-	public Automaton(String regexp, Hashtable<Expression,Character> expressions){
+	public Automaton(String regexp, Hashtable<Expression,Character> expressions) throws KetalException{
 		automaton = new RegExp(regexp).toAutomaton();
 		automaton.removeDeadTransitions();
+		
+		Enumeration<Character> elements = expressions.elements();
+		Character result = null;
+
+		while (elements.hasMoreElements())
+		{
+			result = (Character) elements.nextElement();
+			
+			if (regexp.indexOf(result.charValue())==-1)
+			{
+				throw new KetalException("Elements of the Regular Expression doesnt match with the Mapped Expressions");
+			}
+		}
+		
 		this.expressions = expressions;
 	}
 	
 	/**
+	 * TODO: This constructor could be removed. 
+	 * 
 	 * Constructs an Automaton that accepts sequence of Events.
 	 * @param states: Set of states of the automaton.
 	 * @param transitions: Transitions between states.
@@ -78,6 +98,19 @@ public class Automaton {
 	 * @param expressions: Hashtable<Object, Character> of expressions,  that are matched with a character.
 	 */
 	public Automaton(ArrayList<State> states, ArrayList<Transition> transitions, State begin, ArrayList<State> end, Hashtable<Expression,Character> expressions){
+		
+		this.expressions = expressions;
+	}
+	
+	
+	/**
+	 * TODO: This constructor should replace the constructor above.
+	 * @param states
+	 * @param begin
+	 * @param end
+	 * @param expressions
+	 */
+	public Automaton(Set<State> states, State begin, ArrayList<State> end, Hashtable<Expression,Character> expressions){
 		
 		this.expressions = expressions;
 	}
@@ -120,7 +153,7 @@ public class Automaton {
 	 * @param exp Expression to be searched in the HashTable
 	 * @return Character mapped to a specific Expression.
 	 */
-	public Character getCharacterMapExpression(Object exp){
+	public Character getCharacterMapExpression(Expression exp){
 		
 		if(exp !=null){
 	
@@ -160,15 +193,17 @@ public class Automaton {
 	 * 
 	 * Modified by Andres Barrera 2011-Nov-18
 	 */
-	public boolean perform(char c)
+	public boolean perform(Event event, char c)
 	{
 		if (current != null)
 		{
 			if (current.getState() != null)
 			{
-				current.setState(current.getState().step(c));
-				if (current.getState()!= null)
+				State temp = current;
+				temp.setState(current.getState().step(c));
+				if (temp.getState()!= null)
 				{
+					current.setState(current.getState().step(c));
 					return true;
 				}
 			}
@@ -187,15 +222,17 @@ public class Automaton {
 		if (checkEvent(event)){
 			
 			// Get the char mapped with the given event
-			char c = getCharacterMapExpression(event);
-			if (c != '-'){
-				
-				return perform(c);
-				
-			}
+			Expression exp = getExpression(event);
 			
-		}
-		
+			if(exp.evaluate(event))
+			{
+				char c = getCharacterMapExpression(exp);
+				if (c != '-'){				
+					return perform(event,c);
+				}	
+			}
+					
+		}		
 		return false;
 	}
 	
@@ -248,7 +285,6 @@ public class Automaton {
 
 	}
 	
-	
 	/**
 	 * Looks for an expression associated with the event
 	 * @param ev Event to be evaluated with the expressions of the automaton
@@ -257,7 +293,7 @@ public class Automaton {
 	public Expression getExpression(Event ev) {
 		
 		// First we get all the expressions used in the transitions of the automaton
-		Enumeration keys = expressions.keys();
+		Enumeration<Expression> keys = expressions.keys();
 		Expression result = null;
 		boolean done = false;
 
@@ -368,5 +404,4 @@ public class Automaton {
 			}
 		}
 	}
-
 }

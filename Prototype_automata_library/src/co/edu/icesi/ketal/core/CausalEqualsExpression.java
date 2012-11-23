@@ -8,18 +8,30 @@ public class CausalEqualsExpression implements Expression
 {
 	public Event event;
 	
-	/* (non-Javadoc)
-	 * @see co.edu.icesi.ketal.core.Expression#evaluate(co.edu.icesi.ketal.core.Event)
+	/**
+	 * Constructor to create a CausalEqualsExpression with the given event
+	 * @param anEvent to be used by the Expression
+	 */
+	public CausalEqualsExpression(Event anEvent)
+	{
+		this.event=anEvent;
+	}
+	
+	/*
+	 * This method evaluates whether two events are causal related.
+	 * The way we choose to evaluates the causality, is to evaluate the causal relationship, the incoming event happens before 
+	 * the Event described in this Expression. 
 	 */
 	@Override
 	public boolean evaluate(Event event)
 	{
-		return false;
+		return event.getTransportedVectorTime().lessThanOrEqual(this.event.getTransportedVectorTime());
+		
 	}
 
 	@Override
 	/**
-	 * Get the event associated
+	 * Get the associated event
 	 * @return Event evaluated by the Expression
 	 */
 	public Event getEvent()

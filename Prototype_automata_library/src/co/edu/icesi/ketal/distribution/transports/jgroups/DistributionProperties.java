@@ -78,7 +78,7 @@ public class DistributionProperties {
 		    "UNICAST(timeout=1200,2400,3600):" +
 		    "pbcast.STABLE(stability_delay=1000;desired_avg_gossip=20000;max_bytes=0):" +
 		    "FRAG(frag_size=8192):" +
-		    			               "print_local_addr=false;down_thread=true;up_thread=true):Causal(causal_order_prot_interest=false)";
+		    			               "print_local_addr=false;down_thread=true;up_thread=true):Causal(causal_order_prot_interest=false)"; //CausalOrder has a parameter to indicates if the protocol organized or not the messages.
 
 		    //"AWEDLOCALCLOCKMANAGEMENT";
 		    //"CAUSALTAGS";

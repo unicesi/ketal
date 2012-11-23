@@ -54,4 +54,34 @@ public class Transition {
 	public Expression getExpression() {
 		return expression;
 	}
+	
+	public void setExpression(Expression exp)
+	{
+		this.expression=exp;
+		
+	}
+	
+	/**
+	 * Try a transition using an Expression.
+	 * @param c
+	 * @return
+	 */
+	public boolean evaluateExpression(Event incomingEvent)
+	{
+		if (begin != null)
+		{
+			if (begin.getState() != null)
+			{
+				if(this.expression.evaluate(incomingEvent)){
+					//begin.setState(begin.getState().step(c));
+					if (begin.getState()!= null)
+					{
+						return true;
+					}
+				}
+				
+			}
+		}
+		return false;
+	}
 }

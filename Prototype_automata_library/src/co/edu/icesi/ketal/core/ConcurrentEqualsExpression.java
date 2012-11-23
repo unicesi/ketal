@@ -8,13 +8,27 @@ public class ConcurrentEqualsExpression implements Expression
 {
 	public Event event;
 	
-	/* (non-Javadoc)
-	 * @see co.edu.icesi.ketal.core.Expression#evaluate(co.edu.icesi.ketal.core.Event)
+	
+	/**
+	 * Constructor to create a CausalEqualsExpression with the given event
+	 * @param anEvent to be used by the Expression
+	 */
+	public ConcurrentEqualsExpression(Event anEvent)
+	{
+		this.event=anEvent;
+	}
+	
+	/*
+	 * This method evaluates whether two events are concurrent.
+	 * The way we choose to evaluates the concurrency, is to evaluate the causal relationship betwen the events. In both ways. 
 	 */
 	@Override
 	public boolean evaluate(Event event)
 	{
-		return false;
+		boolean acausalb = this.event.getTransportedVectorTime().lessThanOrEqual(event.getTransportedVectorTime());
+		boolean bcausala = event.getTransportedVectorTime().lessThanOrEqual(this.event.getTransportedVectorTime());
+
+		return !(acausalb && bcausala);
 	}
 	
 	@Override

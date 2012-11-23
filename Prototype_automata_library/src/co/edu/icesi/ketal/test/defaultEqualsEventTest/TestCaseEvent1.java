@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import co.edu.icesi.ketal.core.Automaton;
+import co.edu.icesi.ketal.core.CausalEqualsExpression;
 import co.edu.icesi.ketal.core.DefaultEqualsExpression;
 import co.edu.icesi.ketal.core.Event;
 
