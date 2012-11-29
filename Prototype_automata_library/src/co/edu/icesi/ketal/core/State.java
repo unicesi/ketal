@@ -13,8 +13,8 @@ public class State {
 	 * Constructor
 	 * @param state
 	 */
-	public State(dk.brics.automaton.State state){
-		this.state = state;
+	public State(){
+		
 	}
 	
 	/**

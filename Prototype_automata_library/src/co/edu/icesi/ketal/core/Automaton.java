@@ -45,20 +45,6 @@ public class Automaton {
 		automatonByRegularExpression(regexp);
 		
 	}
-	
-	/**
-	 * Constructs an Automaton, with specific params.
-	 * @param transitions: Transitions, between states.
-	 * @param begin: Start State.
-	 * @param end: Set of end states.
-	 */
-	public Automaton(Set<Transition> transitions, State begin, Set<State> end){
-		this.begin = begin;
-		this.endStates = end;
-		this.transitions = transitions;
-		
-	}
-	
 	/**
 	 * Constructs an Automaton, with a Regular Expression, and a set of expressions.
 	 * @param regexp: Regular Expression
@@ -88,31 +74,47 @@ public class Automaton {
 	}
 	
 	/**
-	 * TODO: This constructor could be removed. 
-	 * 
-	 * Constructs an Automaton that accepts sequence of Events.
-	 * @param states: Set of states of the automaton.
-	 * @param transitions: Transitions between states.
+	 * Constructs an Automaton, with specific params.
+	 * @param transitions: Transitions, between states.
 	 * @param begin: Start State.
-	 * @param end: Set of end States.
-	 * @param expressions: Hashtable<Object, Character> of expressions,  that are matched with a character.
+	 * @param end: Set of end states.
 	 */
-	public Automaton(ArrayList<State> states, ArrayList<Transition> transitions, State begin, ArrayList<State> end, Hashtable<Expression,Character> expressions){
+	public Automaton(Set<Transition> transitions, State begin, Set<State> end){
+		this.begin = begin;
+		this.endStates = end;
+		this.transitions = transitions;
 		
-		this.expressions = expressions;
+		createInstanceAutomaton(transitions, begin, end);
 	}
 	
-	
 	/**
-	 * TODO: This constructor should replace the constructor above.
-	 * @param states
-	 * @param begin
-	 * @param end
-	 * @param expressions
+	 * Constructs an Automaton, with specific params.
+	 * @param transitions: Transitions, between states.
+	 * @param begin: Start State.
+	 * @param end: Set of end states.
 	 */
-	public Automaton(Set<State> states, State begin, ArrayList<State> end, Hashtable<Expression,Character> expressions){
-		
+	public Automaton(Set<Transition> transitions, State begin, Set<State> end, Hashtable<Expression,Character> expressions){
+		this.begin = begin;
+		this.endStates = end;
+		this.transitions = transitions;
 		this.expressions = expressions;
+		
+	}
+	
+	private void createInstanceAutomaton(Set<Transition> transitions, State begin, Set<State> end)
+	{
+		dk.brics.automaton.State anState;
+		dk.brics.automaton.State nextState;
+		dk.brics.automaton.Transition transition;
+		
+		Set<State> states = new HashSet();
+		
+		for(Transition tran: transitions)
+		{
+			tran.getBegin();
+			
+		}
+		
 	}
 	
 	

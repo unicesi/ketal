@@ -7,28 +7,20 @@ package co.edu.icesi.ketal.core;
  * right now.
  */
 public class Transition {
-	private dk.brics.automaton.Transition transition;
 	private State begin;
 	private State end;
 	private Expression expression;
+	private Character character;
 	
 	/**
 	 * Constructor
 	 * @param transition
 	 * @param begin
 	 */
-	public Transition(dk.brics.automaton.Transition transition, State begin){
-		this.transition = transition;
+	public Transition(State begin, State end, Expression exp){
 		this.begin = begin;
-		this.end = new State(this.transition.getDest());
-	}
-
-	/**
-	 * Get the Transition
-	 * @return Transition
-	 */
-	public dk.brics.automaton.Transition getTransition() {
-		return transition;
+		this.end = end;
+		this.expression=exp;
 	}
 
 	/**
