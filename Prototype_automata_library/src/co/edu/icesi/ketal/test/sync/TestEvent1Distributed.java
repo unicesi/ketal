@@ -8,6 +8,10 @@ import org.jgroups.protocols.TransportedVectorTime;
 import co.edu.icesi.ketal.core.Event;
 public class TestEvent1Distributed  implements Event, Serializable{
 
+		/**
+	 * 
+	 */
+		private static final long serialVersionUID = 101010101L;
 		public Character alphabet;
 		
 		public TestEvent1Distributed(Character a) {
@@ -16,7 +20,7 @@ public class TestEvent1Distributed  implements Event, Serializable{
 		}
 		
 		public Character getCharacterOfAlphabet() {
-			// TODO Auto-generated method stub
+			//No need this method
 			return alphabet;
 		}
 
@@ -67,13 +71,13 @@ public class TestEvent1Distributed  implements Event, Serializable{
 
 		@Override
 		public TransportedVectorTime getTransportedVectorTime() {
-			// TODO Auto-generated method stub
+			//No need this method
 			return null;
 		}
 
 		@Override
 		public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
-			// TODO Auto-generated method stub
+			//No need this method
 			return false;
 		}
 }

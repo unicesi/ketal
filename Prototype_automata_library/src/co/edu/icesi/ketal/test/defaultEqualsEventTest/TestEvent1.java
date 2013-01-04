@@ -61,13 +61,13 @@ public class TestEvent1 implements Event{
 
 	@Override
 	public TransportedVectorTime getTransportedVectorTime() {
-		// TODO Auto-generated method stub
+		//No need this method
 		return null;
 	}
 
 	@Override
 	public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
-		// TODO Auto-generated method stub
+		//No need this method
 		return false;
 	}
 

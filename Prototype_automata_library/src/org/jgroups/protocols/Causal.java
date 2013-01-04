@@ -7,13 +7,15 @@ import org.jgroups.conf.ClassConfigurator;
 import org.jgroups.stack.Protocol;
 import org.jgroups.util.Streamable;
 
+import co.edu.icesi.ketal.distribution.BrokerMessage;
+
 import java.io.*;
 import java.util.*;
 
 import javax.print.attribute.standard.QueuedJobCount;
 
 /****
- * FIXME
+ * FIXME Causal problems
  * - The dequeue mechanism is no completed.
  * - Problems when a host enter into the distributed system and this has started.
  */
@@ -1006,6 +1008,8 @@ public class Causal extends Protocol
      * @Modifiedby Oscar Kiyoshige Garcés.
      */
     private Object upMsg(Event evt) {
+    	
+    	
         Message msg = (Message) evt.getArg();
         Address src=msg.getSrc();
        
@@ -1042,83 +1046,87 @@ public class Causal extends Protocol
         
         
         synchronized (lock) {
-        	        if(!causal_order_prot_interest)
-        {
-        	
-        	//PROOF
-        	System.err.println("Instance of"+ msg.getObject());
-        	System.err.println("Instance of"+ (msg.getObject() instanceof co.edu.icesi.ketal.core.Event));
         	
         	/**
         	 * If the msg encapsulates a Ketal Event, this protocol 
         	 * modifies the TransportedVectorTime of that Event.
         	 * In other case, the message is passed up. 
-        	 */        	
-        	if (msg.getObject() instanceof co.edu.icesi.ketal.core.Event) {
-            	System.err.print("Sin ordenamiento: ----");
-        		co.edu.icesi.ketal.core.Event ketalEvent= ((co.edu.icesi.ketal.core.Event)msg.getObject());
-        		ketalEvent.setTransportedVectorTime(messageVector);
-        		msg.setObject(ketalEvent);			
-			}
-        	return up_prot.up(new Event(Event.MSG, msg));	
-        }else{	
+        	 */      
+        	System.err.print("Colocando un vector en el Evento");
+        	if (msg.getObject() instanceof BrokerMessage) {
+    			BrokerMessage bm = (BrokerMessage) msg.getObject();
+    			if (bm != null) {
+    				if (bm.getEvent() instanceof co.edu.icesi.ketal.core.Event) {
+    	            	System.err.print("Sin ordenamiento: ----");
+    	        		co.edu.icesi.ketal.core.Event ketalEvent= bm.getEvent();
+    	        		ketalEvent.setTransportedVectorTime(messageVector);
+    	        		bm.setEvent(ketalEvent);
+    	        		msg.setObject(bm);			
+    				}
+    			}
+        	}
+        	
+        	if(!causal_order_prot_interest)
+        	{
+        		return up_prot.up(new Event(Event.MSG, msg));	
+        	}else{	
 
-        if(!waitingMessages.isEmpty())
-        {
-        	System.err.print("Upwarding: "+upwardWaitingQueue);
-            System.err.println("Downwarding: "+downwardWaitingQueue);
-            System.err.println("Cola de espera: "+waitingMessages);
-        	//PROOF
-            if(waitingMessages.contains(messageVector))
-            {
-            	waitingMessages.remove(messageVector);
-            	if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
-                messageVector.setAssociatedMessage(msg);
-                
-                boolean thereIsAFirstMessageWaiting=false;
-                
-                for(TransportedVectorTime waitingVector : waitingMessages)
-                {
-                	if(waitingVector.isCausallyNext(messageVector))
-                	{
-                		thereIsAFirstMessageWaiting=true;
-                	}
-                }
-                /**
-                 * PROOF This is under the suppose there is no more messages that are first (causally) that vectorMessage
-                 * and in the queue this vector cause the first one.
-                 */
-                if(!thereIsAFirstMessageWaiting&&(upwardWaitingQueue.size()>0))
-                {
-                	if(messageVector.isCausallyNext((TransportedVectorTime)upwardWaitingQueue.get(0)))
-                	{
-                		delegateUpMsg(evt);
-                	}else
-                	{
-                		addToDelayQueue(messageVector);	
-                	}
-                	
-                }else
-                {
-                	addToDelayQueue(messageVector);	
-                }
-                
-            	if(waitingMessages.isEmpty())
-            	{
-            		flushUpwardingQueue();
-            	}
-            }else{
-        	if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
-            messageVector.setAssociatedMessage(msg);
-            addToDelayQueue(messageVector);
-            }
-            
-            
-        }else{
-        	delegateUpMsg(evt);
-        }
-        }
-        return null;	        
+        		if(!waitingMessages.isEmpty())
+        		{
+        			System.err.print("Upwarding: "+upwardWaitingQueue);
+        			System.err.println("Downwarding: "+downwardWaitingQueue);
+        			System.err.println("Cola de espera: "+waitingMessages);
+        			//PROOF
+        			if(waitingMessages.contains(messageVector))
+        			{
+        				waitingMessages.remove(messageVector);
+        				if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
+        				messageVector.setAssociatedMessage(msg);
+
+        				boolean thereIsAFirstMessageWaiting=false;
+
+        				for(TransportedVectorTime waitingVector : waitingMessages)
+        				{
+        					if(waitingVector.isCausallyNext(messageVector))
+        					{
+        						thereIsAFirstMessageWaiting=true;
+        					}
+        				}
+        				/**
+        				 * PROOF This is under the suppose there is no more messages that are first (causally) that vectorMessage
+        				 * and in the queue this vector cause the first one.
+        				 */
+        				if(!thereIsAFirstMessageWaiting&&(upwardWaitingQueue.size()>0))
+        				{
+        					if(messageVector.isCausallyNext((TransportedVectorTime)upwardWaitingQueue.get(0)))
+        					{
+        						delegateUpMsg(evt);
+        					}else
+        					{
+        						addToDelayQueue(messageVector);	
+        					}
+
+        				}else
+        				{
+        					addToDelayQueue(messageVector);	
+        				}
+
+        				if(waitingMessages.isEmpty())
+        				{
+        					flushUpwardingQueue();
+        				}
+        			}else{
+        				if (log.isTraceEnabled()) log.trace("queuing message "+msg+", headers are "+msg.printHeaders());
+        				messageVector.setAssociatedMessage(msg);
+        				addToDelayQueue(messageVector);
+        			}
+
+
+        		}else{
+        			delegateUpMsg(evt);
+        		}
+        	}
+        	return null;	        
         }
     }
     

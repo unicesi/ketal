@@ -4,15 +4,12 @@ package co.edu.icesi.ketal.test.causal;
 import org.jgroups.*;
 import org.jgroups.logging.Log;
 import org.jgroups.logging.LogFactory;
-import org.jgroups.protocols.Causal;
 
 import java.io.Serializable;
-import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
-import java.util.Stack;
 import java.util.Vector;
 
 import org.jgroups.protocols.TransportedVectorTime;
@@ -40,7 +37,7 @@ import java.net.URL;
 public class CausalDemo implements Runnable
 {
 	private Channel channel;
-	private final Vector alphabet = new Vector();
+	private final Vector<String> alphabet = new Vector<String>();
 	private boolean starter = false;
 	private int doneCount=0;
 	private Log log=LogFactory.getLog(getClass());
@@ -183,7 +180,7 @@ public class CausalDemo implements Runnable
 				   cm = (CausalMessage) msg.getObject();
 				   System.out.println("TVT: "+ cm.getTransportedVectorTime());
 
-				   List members = channel.getView().getMembers();
+				   List<Address> members = channel.getView().getMembers();
 				   String receivedLetter = cm.message;
 
 				   if("Z".equals(receivedLetter))
@@ -308,31 +305,31 @@ class CausalMessage implements Serializable, co.edu.icesi.ketal.core.Event
 	
 	@Override
 	public boolean equals(Event e) {
-		// TODO Auto-generated method stub
+		//No need this method
 		return false;
 	}
 
 	@Override
 	public URL getLocalization() {
-		// TODO Auto-generated method stub
+		//No need this method
 		return null;
 	}
 
 	@Override
 	public boolean setLocalization(URL url) {
-		// TODO Auto-generated method stub
+		//No need this method
 		return false;
 	}
 
 	@Override
 	public URL getTargetLocalization() {
-		// TODO Auto-generated method stub
+		//No need this method
 		return null;
 	}
 
 	@Override
 	public boolean setTargetLocalization(URL url) {
-		// TODO Auto-generated method stub
+		//No need this method
 		return false;
 	}
 

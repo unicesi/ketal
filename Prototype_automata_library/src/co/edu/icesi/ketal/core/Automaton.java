@@ -21,7 +21,11 @@ public class Automaton {
 	private State current;
 	private Set<State> endStates;
 	private Set<Transition> transitions;
-	private Hashtable<Expression, Character> expressions;
+	private Hashtable<Expression, Character> expressionsExp_Char;
+	private Event incomingEvent;
+	
+	private Set<Transition> transitionsOfCurrentState;
+	private Hashtable<Character, Expression> expressionsChar_Exp;
 	
 	/**
 	 * Empty constructor. Permits to create an Automaton. 
@@ -33,7 +37,7 @@ public class Automaton {
 		current = null;
 		endStates = new HashSet<State>();
 		transitions= new HashSet<Transition>();
-		expressions = new Hashtable<Expression,Character>();
+		expressionsExp_Char = new Hashtable<Expression,Character>();
 	}
 
 	/**
@@ -43,19 +47,22 @@ public class Automaton {
 	public Automaton(String regexp){
 		
 		automatonByRegularExpression(regexp);
+		expressionsChar_Exp = new Hashtable<Character, Expression>();
+		expressionsExp_Char = new Hashtable<Expression, Character>();
 		
 	}
+
 	/**
 	 * Constructs an Automaton, with a Regular Expression, and a set of expressions.
 	 * @param regexp: Regular Expression
 	 * @param expressions: HashTable<Object, Character> of Expressions, that are matched with a character.
-	 * @throws KetalException 
-	 * 
 	 *  
 	 */
-	public Automaton(String regexp, Hashtable<Expression,Character> expressions) throws KetalException{
-		automaton = new RegExp(regexp).toAutomaton();
-		automaton.removeDeadTransitions();
+	public Automaton(String regexp, Hashtable<Expression,Character> expressions){
+		
+		try{
+		
+		automatonByRegularExpression(regexp);
 		
 		Enumeration<Character> elements = expressions.elements();
 		Character result = null;
@@ -66,11 +73,22 @@ public class Automaton {
 			
 			if (regexp.indexOf(result.charValue())==-1)
 			{
-				throw new KetalException("Elements of the Regular Expression doesnt match with the Mapped Expressions");
+				throw new KetalException("There are errors in the mapped Expressions");
 			}
 		}
 		
-		this.expressions = expressions;
+		this.expressionsExp_Char = expressions;
+		
+		fillMapCharacterExpression();
+		
+		//The current Transitions set is updated.
+		findTransitionsCurrentState();
+		
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -81,10 +99,16 @@ public class Automaton {
 	 */
 	public Automaton(Set<Transition> transitions, State begin, Set<State> end){
 		this.begin = begin;
+		this.current = begin;
 		this.endStates = end;
 		this.transitions = transitions;
 		
-		createInstanceAutomaton(transitions, begin, end);
+		this.automaton = new dk.brics.automaton.Automaton();
+		this.automaton.setInitialState(begin.getState());
+		
+		expressionsChar_Exp = new Hashtable<Character, Expression>();
+		expressionsExp_Char = new Hashtable<Expression, Character>();
+		
 	}
 	
 	/**
@@ -94,29 +118,182 @@ public class Automaton {
 	 * @param end: Set of end states.
 	 */
 	public Automaton(Set<Transition> transitions, State begin, Set<State> end, Hashtable<Expression,Character> expressions){
+	
+		try{
 		this.begin = begin;
+		this.current = begin;
 		this.endStates = end;
 		this.transitions = transitions;
-		this.expressions = expressions;
+		this.expressionsExp_Char = expressions;
 		
+		this.automaton = new dk.brics.automaton.Automaton();
+		this.automaton.setInitialState(begin.getState());
+		
+		fillMapCharacterExpression();
+		
+		//The current Transitions set is updated.
+		findTransitionsCurrentState();
+		
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
-	private void createInstanceAutomaton(Set<Transition> transitions, State begin, Set<State> end)
+	/**
+	 * The map expressions is bijective function. 
+	 * This method fills the other HashTable.
+	 * 
+	 * @throws KetalException in the case is not a bijective function.
+	 */
+	private void fillMapCharacterExpression() throws KetalException
 	{
-		dk.brics.automaton.State anState;
-		dk.brics.automaton.State nextState;
-		dk.brics.automaton.Transition transition;
+		expressionsChar_Exp =  new Hashtable<Character, Expression>();
 		
-		Set<State> states = new HashSet();
-		
-		for(Transition tran: transitions)
+		// First we get all the expressions
+		Enumeration<Expression> keys = expressionsExp_Char.keys();
+		Expression result = null;
+		int numberOfSize=0;
+
+		while (keys.hasMoreElements())
 		{
-			tran.getBegin();
+			result = keys.nextElement();
+			numberOfSize = expressionsChar_Exp.size();
+			expressionsChar_Exp.put(expressionsExp_Char.get(result), result);
+						
+			if(numberOfSize>=expressionsChar_Exp.size())
+			{
+				throw new KetalException("There are errors in the mapped Expressions");
+			}
 			
 		}
 		
 	}
 	
+	/**
+	 * This Automata Facade change the estates and dynamically change the state
+	 * and the transitions.
+	 */
+	private void findTransitionsCurrentState(){
+		
+		Iterator<Transition> it=transitions.iterator();
+		Transition temp=null;
+		
+		transitionsOfCurrentState =  new HashSet<Transition>();
+		
+		/*
+		if(transitionsOfCurrentState!=null)
+		{
+		transitionsOfCurrentState.clear();
+		
+		}else{
+			transitionsOfCurrentState =  new HashSet<Transition>();
+		}*/
+		
+		while(it.hasNext()){
+			
+			temp = (Transition)it.next();
+			
+			if(temp.getBegin().equals(current)){
+				temp.setExpression(getExpressionMapCharacter(temp.getCharacter()));
+				transitionsOfCurrentState.add(temp);
+				
+			}
+			
+		}		
+		
+	}
+		
+	/**
+	 * Pruebaaaa
+	 * TODO Es una prueba para hacer el STEP.
+	 * 
+	 */
+	public boolean step(Character c)
+	{
+		State temp = new State(current.getState().step(c));
+		
+		if(temp.getState()!=null)
+		{
+			current=temp;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * TODO Step que reciba un event, Se est‡ Trabajando esto.
+	 * @param eve
+	 * @return
+	 */
+	public boolean step(Event eve)
+	{
+		
+		Iterator<Transition> itTrans = transitionsOfCurrentState.iterator();
+		
+		Transition transition=null;
+		while(itTrans.hasNext())
+		{
+			transition=itTrans.next();
+			
+			//The first Transition that is found and is true to do the perform the transition, we choose that.
+			
+			//This is the initial Transition if we no have events to compare.
+			//if(!transition.evaluateExpression(eve) && current.getEventCauseThisState() == null)
+			if(current.getEventCauseThisState() == null)
+			{				
+				if( perform(eve, transition.getCharacter()))
+				{
+					return true;
+				}
+			}
+			
+			//The case the transition have the events to compare or could be.
+			if(transition.evaluateExpression(eve))
+			{	
+				if( perform(eve, transition.getCharacter()))
+				{
+					return true;
+				}
+				
+			}else{
+				
+				
+				if(transition.getExpression().getEvent().equals(eve))
+				{
+					Expression exp = transition.getExpression();
+					exp.setEvent(eve);
+					transition.setExpression(exp);
+					
+					if(incomingEvent != null){
+						if(transition.evaluateExpression(incomingEvent))
+						{	
+							if (perform(eve, transition.getCharacter()))
+							{
+								return true;
+							}
+							
+						}
+					}
+					
+					if(current.getEventCauseThisState() != null){
+						if(transition.evaluateExpression(current.getEventCauseThisState()))
+						{	
+							if( perform(eve, transition.getCharacter()))
+							{
+								return true;
+							}
+							
+						}
+					}
+					
+				}
+			}
+			
+		}
+		
+		incomingEvent = eve;
+		return false;
+	}	
 	
 	/**
 	 * Get the State attribute begin
@@ -139,7 +316,8 @@ public class Automaton {
 	 * @return set of Transitions between states.
 	 */
 	public Set<Transition> getTransitions() {
-		return transitions;
+		//return transitions;
+		return transitionsOfCurrentState;
 	}
 
 	/**
@@ -160,13 +338,32 @@ public class Automaton {
 		if(exp !=null){
 	
 			//Search in the HashTable Expressions if the Expression exp exists.
-			Character c = (Character) expressions.get(exp);
+			Character c = (Character) expressionsExp_Char.get(exp);
 			
 			if (c != null){
 				return c.charValue();
 			}
 		}
 		return '-';
+	}
+	
+	/**
+	 * Look for an Expression in the HashTable and get its character
+	 * @param exp Expression to be searched in the HashTable
+	 * @return Character mapped to a specific Expression.
+	 */
+	private Expression getExpressionMapCharacter(Character cha)
+	{
+		if(cha !=null){
+			
+			//Search in the HashTable the Character mapped with a Expression
+			Expression exp = (Expression) expressionsChar_Exp.get(cha);
+			if (exp != null){
+				return exp;
+			}
+		}
+		return null;
+		
 	}
 
 	/**
@@ -175,7 +372,7 @@ public class Automaton {
 	 */
 	public Hashtable<Expression,Character> getMapAlphabet()
 	{
-		return expressions;
+		return expressionsExp_Char;
 	}
 
 	/**
@@ -193,7 +390,7 @@ public class Automaton {
 	 * @return boolean if the perform was successful
 	 * 
 	 * 
-	 * Modified by Andres Barrera 2011-Nov-18
+	 * Modified by Oscar GarcŽs dic-2012
 	 */
 	public boolean perform(Event event, char c)
 	{
@@ -201,11 +398,15 @@ public class Automaton {
 		{
 			if (current.getState() != null)
 			{
-				State temp = current;
-				temp.setState(current.getState().step(c));
+				State temp = new State(current.getState().step(c));
+				//TODO this is a soft solution to a basic problem. No resolved.
+				// When a dk.brics.State step (C) the instance change.
+				
 				if (temp.getState()!= null)
 				{
-					current.setState(current.getState().step(c));
+					current.setState(temp.getState());
+					current.setEventCauseThisState(event);
+					findTransitionsCurrentState();
 					return true;
 				}
 			}
@@ -220,26 +421,54 @@ public class Automaton {
 	 * @return True: Event has mapped. False other case.
 	 */
 	public boolean evaluate(Event event){
+	
+		// Get the Expression mapped with the given event
+		Expression exp = getExpression(event);
 		
-		if (checkEvent(event)){
+		if (exp !=null){
 			
-			// Get the char mapped with the given event
-			Expression exp = getExpression(event);
-			
-			if(exp.evaluate(event))
-			{
-				char c = getCharacterMapExpression(exp);
-				if (c != '-'){				
-					return perform(event,c);
-				}	
+			try{
+				if(exp.evaluate(event))
+				{
+					// Get the character mapped with the given expression
+					char c = getCharacterMapExpression(exp);
+					if (c != '-'){				
+						return perform(event,c);
+					}	
+				}
 			}
+			catch(Exception ex){
+				
+			//int index	
+				if(incomingEvent!=null && current.getEventCauseThisState() != null)
+				{
 					
+				}
+				
+				if(incomingEvent!=null){
+				Expression temp = exp;
+				temp.setEvent(incomingEvent);
+				
+				if(exp.evaluate(event))
+				{
+					// Get the character mapped with the given expression
+					char c = getCharacterMapExpression(exp);
+					if (c != '-'){				
+						return perform(event,c);
+					}	
+				}
+				}else{
+					incomingEvent = event;
+				}
+				
+			}
 		}		
 		return false;
 	}
 	
 	/**
 	 * Check if the given event is present in an expression of any transition in the automaton
+	 * This shall be removed
 	 * @param event to be checked
 	 * @return boolean true if there is some transition that has it, false in other case
 	 */
@@ -272,11 +501,13 @@ public class Automaton {
 	 * @return boolean indicates if the mapping was successful
 	 */
 	public boolean mapExpressionToAlphabet(Expression exp, Character symbol)
-	{
-		int size = expressions.size();
-		expressions.put(exp, symbol);
+	{	
+		int size = expressionsExp_Char.size();
+		int size2= expressionsChar_Exp.size();
+		expressionsExp_Char.put(exp, symbol);
+		expressionsChar_Exp.put(symbol, exp);
 
-		if (expressions.size() > size)
+		if ((expressionsExp_Char.size() > size)&&(expressionsChar_Exp.size() > size2))
 		{
 			return true;
 		}
@@ -287,6 +518,10 @@ public class Automaton {
 
 	}
 	
+	public void initializeAutomaton(){
+		findTransitionsCurrentState();
+	}
+	
 	/**
 	 * Looks for an expression associated with the event
 	 * @param ev Event to be evaluated with the expressions of the automaton
@@ -295,7 +530,7 @@ public class Automaton {
 	public Expression getExpression(Event ev) {
 		
 		// First we get all the expressions used in the transitions of the automaton
-		Enumeration<Expression> keys = expressions.keys();
+		Enumeration<Expression> keys = expressionsExp_Char.keys();
 		Expression result = null;
 		boolean done = false;
 
@@ -380,29 +615,55 @@ public class Automaton {
 		
 		//We map the begin and current State attributes with the initial state of the automaton
 		begin = new State(automaton.getInitialState());
-		current = new State(automaton.getInitialState());
+		current = begin;
 		
 		//We initialize the endStates HashSet and we fill it with the accept states of the automaton
 		endStates = new HashSet<State>();
 		Iterator<dk.brics.automaton.State> i = automaton.getAcceptStates().iterator();
 		while (i.hasNext()){
 			endStates.add(new State(i.next()));
-		}
+		}	
+		
+		
 		//We initialize the transitions HashSet 
 		transitions = new HashSet<Transition>();
 		//We get all the automaton's states
-		Iterator<dk.brics.automaton.State> i2 = automaton.getStates().iterator();
-		Iterator<dk.brics.automaton.Transition> i3;
+		Iterator<dk.brics.automaton.State> iState2 = automaton.getStates().iterator();
+		Iterator<dk.brics.automaton.Transition> iTran3;
 		dk.brics.automaton.Transition nextTran=null;
-		dk.brics.automaton.State nextState = null;
-		while (i2.hasNext()){
-			nextState=i2.next();
+		dk.brics.automaton.State anStateDk=null;
+		dk.brics.automaton.State nextStateDk=null;
+		
+		Set<State> alreadyStates = new HashSet<State>();
+		State anState = current;
+		State nextState = new State();
+		alreadyStates.add(anState);
+		
+		while (iState2.hasNext()){
+			anStateDk=iState2.next();
+			
+			anState=new State(anStateDk);
+			
+			if(!alreadyStates.contains(anState))
+			{
+				alreadyStates.add(anState);
+			}
 			//For each state, we get all the state's transitions
-			i3 = i2.next().getTransitions().iterator();
-			while (i3.hasNext()){
-				nextTran=i3.next();
+			iTran3 = anStateDk.getTransitions().iterator();
+			while (iTran3.hasNext()){
+				nextTran=iTran3.next();
+				
+				nextStateDk =nextTran.getDest();
+				
+				nextState = new State(nextStateDk);
+				
+				if(!alreadyStates.contains(nextState))
+				{
+					alreadyStates.add(nextState);
+				}			
+				
 				// We fill the HashSet with those transitions
-				transitions.add(new Transition(nextTran, new State(nextState)));
+				transitions.add(new Transition(anState,nextState, nextTran.getMax()));
 			}
 		}
 	}

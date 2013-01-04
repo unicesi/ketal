@@ -12,8 +12,10 @@ public class Transition {
 	private Expression expression;
 	private Character character;
 	
+	private dk.brics.automaton.Transition transition;
+	
 	/**
-	 * Constructor
+	 * Future Constructor. Automatic map Exp and a Character. 
 	 * @param transition
 	 * @param begin
 	 */
@@ -21,6 +23,18 @@ public class Transition {
 		this.begin = begin;
 		this.end = end;
 		this.expression=exp;
+	}
+	
+	
+	public Transition(State begin, State end, Character character)
+	{
+		this.begin=begin;
+		this.end = end;
+		this.character=character;
+		
+		dk.brics.automaton.Transition tran= new dk.brics.automaton.Transition(character, end.getState()); 
+		begin.getState().addTransition(tran);
+		this.transition = tran;
 	}
 
 	/**
@@ -75,5 +89,14 @@ public class Transition {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Return mapped to an Expression and to Transition
+	 * @return
+	 */
+	public Character getCharacter()
+	{
+		return character;
 	}
 }

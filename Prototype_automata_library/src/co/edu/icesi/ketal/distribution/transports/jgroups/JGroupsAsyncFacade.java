@@ -3,6 +3,8 @@ package co.edu.icesi.ketal.distribution.transports.jgroups;
 // JGroups imports
 import org.jgroups.Message;
 import org.jgroups.View;
+import org.jgroups.stack.ProtocolStack;
+
 import co.edu.icesi.ketal.distribution.BrokerMessage;
 
 /**
@@ -116,6 +118,7 @@ public class JGroupsAsyncFacade extends JGroupsAbstractFacade {
 	 * @param msg
 	 */
 	public void receive(Message msg) {
+		
 		if (msg.getObject() instanceof BrokerMessage) {
 			BrokerMessage bm = (BrokerMessage) msg.getObject();
 			if (bm != null) {
@@ -160,7 +163,7 @@ public class JGroupsAsyncFacade extends JGroupsAbstractFacade {
 				// try {
 				// channel.send(msg.getSrc(), m);
 				// } catch (Exception e) {
-				// // TODO Auto-generated catch block
+				// 
 				// e.printStackTrace();
 				// }
 				// break;

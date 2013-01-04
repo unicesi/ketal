@@ -114,13 +114,10 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 
 			rsp_list = disp.callRemoteMethods(null, call, opts);
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -162,13 +159,11 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 			futures = disp.callRemoteMethodsWithFuture(null, call, opts);
 
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -187,10 +182,10 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 	 * (call) and saves the results in a list super.rsp_list =
 	 * super.disp.callRemoteMethods(null, call, opts);
 	 * 
-	 * } catch (NoSuchMethodException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } catch (SecurityException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } catch (Exception e) {
-	 * // TODO Auto-generated catch block e.printStackTrace(); }
+	 * } catch (NoSuchMethodException e) { 
+	 * e.printStackTrace(); } catch (SecurityException e) {
+	 *  e.printStackTrace(); } catch (Exception e) {
+	 *  e.printStackTrace(); }
 	 * 
 	 * return super.rsp_list; }
 	 */

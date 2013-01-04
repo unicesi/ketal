@@ -84,10 +84,8 @@ public class FuturesTest {
 					System.err.println("Future Done!");
 					System.out.println(future.get());
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

@@ -23,7 +23,6 @@ public class DefaultMessageHandler implements BrokerMessageHandler {
 	@Override
 	public Object handle(Event event, Map metadata, Message msg,
 			int typeOfMsgSent) {
-		// TODO Auto-generated method stub
 		if (typeOfMsgSent == 0) {
 			System.out.println("DefaultHandler! Event: " + event
 					+ " Metadata: " + metadata);

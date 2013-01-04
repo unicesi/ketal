@@ -25,8 +25,12 @@ public class CausalEqualsExpression implements Expression
 	@Override
 	public boolean evaluate(Event event)
 	{
-		return event.getTransportedVectorTime().lessThanOrEqual(this.event.getTransportedVectorTime());
-		
+		if(event!=null && this.event != null){
+			if(event.getTransportedVectorTime() != null && this.event.getTransportedVectorTime() !=null){
+				return event.getTransportedVectorTime().lessThanOrEqual(this.event.getTransportedVectorTime());
+			}
+		}
+		return false;
 	}
 
 	@Override

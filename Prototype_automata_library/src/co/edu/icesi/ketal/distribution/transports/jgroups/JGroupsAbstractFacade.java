@@ -31,8 +31,25 @@ public abstract class JGroupsAbstractFacade extends ReceiverAdapter {
 
 	// The properties configuring the Jgroups communication stack
 	// Properties are managed by class DistributionProperties
-	String props = DistributionProperties.getInstance()
-			.getStack("AspectsGroup");
+	//String props = DistributionProperties.getInstance()
+			//.getStack("AspectsGroup");
+	  private String props = "UDP(mcast_send_buf_size=32000;mcast_port=45566;ucast_recv_buf_size=64000;" +
+			   "mcast_addr=228.8.8.8;loopback=true;mcast_recv_buf_size=64000;max_bundle_size=60000;" +
+			   "max_bundle_timeout=30;" +
+			   "ucast_send_buf_size=32000;ip_ttl=32;enable_bundling=false" +
+			   System.getProperty("bind.addr") + 
+			   System.getProperty("bind.port") + "):" +
+			   "PING(timeout=2000;num_initial_members=3):" +
+			   //Added to simulate lost messages
+			   "DISCARD(up=0.05;excludeItself=true):" +
+			   "MERGE2(min_interval=10000;max_interval=20000):" +
+			   "FD(timeout=2000;max_tries=4):" +
+			   "VERIFY_SUSPECT(timeout=1500):" +
+			   "pbcast.NAKACK(use_mcast_xmit=false;retransmit_timeout=600,1200,2400,4800):" +
+			   "UNICAST(timeout=1200,2400,3600):" +
+			   "pbcast.STABLE(stability_delay=1000;desired_avg_gossip=20000;max_bytes=0):" +
+			   "FRAG(frag_size=8192):" +
+			   "pbcast.GMS(join_timeout=5000;print_local_addr=true):Causal(causal_order_prot_interest=false)";
 
 	String groupName;
 	EventBroker jeb;
@@ -57,9 +74,9 @@ public abstract class JGroupsAbstractFacade extends ReceiverAdapter {
 		this.groupName = groupName;
 		this.jeb = jeb;
 		try {
-			channel = new JChannel();
+			channel = new JChannel(props);
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,7 +91,6 @@ public abstract class JGroupsAbstractFacade extends ReceiverAdapter {
 		try {
 			channel = new JChannel();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

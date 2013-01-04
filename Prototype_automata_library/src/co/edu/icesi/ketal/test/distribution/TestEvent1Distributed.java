@@ -77,7 +77,7 @@ public class TestEvent1Distributed  implements Event, Serializable{
 		@Override
 		public boolean setTransportedVectorTime(TransportedVectorTime tvt) {
 			
-			if(this.tvt!=null)
+			if(tvt!=null)
 			{
 				this.tvt=tvt;
 				return true;

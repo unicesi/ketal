@@ -12,7 +12,8 @@ import org.jgroups.protocols.TransportedVectorTime;
 public interface Event
 {
 	/**
-	 * Method to determine if two events are equal
+	 * Method to determine if two events are equal, this method is needed 
+	 * if you shall use the DefaultEqualsExpression.
 	 * @param e Event to compare
 	 * @return boolean true if the events are equal, false in any other case
 	 */
@@ -55,6 +56,7 @@ public interface Event
 	
 	/**
 	 * This method is used by Causal Protocol in the JGroups Stack.
+	 * If the Expression CausalEqualsExpression must be used, this method is important.
 	 * @return true if it can be set or false in other case.
 	 */
 	public boolean setTransportedVectorTime(TransportedVectorTime tvt);

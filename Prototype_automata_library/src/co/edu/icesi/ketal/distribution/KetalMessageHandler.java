@@ -37,7 +37,6 @@ public class KetalMessageHandler implements BrokerMessageHandler {
 
 	/*@Override
 	public Object handle(Event event, Map metadata, Message msg) {
-		// TODO Auto-generated method stub
 		return null;
 	}*/
 
