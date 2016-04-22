@@ -159,36 +159,37 @@ public class Causal extends Protocol
         
         @Override
         public void writeTo(DataOutput out) throws IOException {
-            if(t == null)
-            {
-                out.writeBoolean(false);
-                return;
-            }
-            out.writeBoolean(true);
-
-            out.writeInt(t.senderPosition);
-            
-            int values[]=t.values;
-            
-            int len=values.length;
-            out.writeInt(len);
-            for(int i=0;i<len;i++) out.writeInt(values[i]);
+        	if(t == null)
+        	{
+        		out.writeBoolean(false);
+        		return;
+        	}
+        	out.writeBoolean(true);
+        	
+        	out.writeInt(t.senderPosition);
+        	
+        	int values[]=t.values;
+        	
+        	int len=values.length;
+        	out.writeInt(len);
+        	for(int i=0;i<len;i++) out.writeInt(values[i]);
         }
         
         @Override
-        public void readFrom(DataInput in) throws IOException, IllegalAccessException, InstantiationException {
-            if(in.readBoolean() == false)
-                return;
-
-            t=new TransportedVectorTime();
-            t.senderPosition=in.readInt();
-            
-            int len=in.readInt();
-            if (t.senderPosition<0||len<0||t.senderPosition>=len)
-                throw new InstantiationException("sender position="+t.senderPosition+", values length="+len);
-            
-            t.values=new int[len];
-            for(int i=0;i<len;i++) t.values[i]=in.readInt();
+        public void readFrom(DataInput in) throws IOException,
+        		IllegalAccessException, InstantiationException {
+        		if(in.readBoolean() == false)
+        			return;
+        		
+        		t=new TransportedVectorTime();
+        		t.senderPosition=in.readInt();
+        		
+        		int len=in.readInt();
+        		if (t.senderPosition<0||len<0||t.senderPosition>=len)
+        			throw new InstantiationException("sender position="+t.senderPosition+", values length="+len);
+        		
+        		t.values=new int[len];
+        		for(int i=0;i<len;i++) t.values[i]=in.readInt();
         }
         
         public String toString()
@@ -273,17 +274,18 @@ public class Causal extends Protocol
         
         @Override
         public void writeTo(DataOutput out) throws IOException {
-            newViewId.writeTo(out);
-            out.writeInt(localTime);
-            out.writeBoolean(complete);
+        	newViewId.writeTo(out);
+        	out.writeInt(localTime);
+        	out.writeBoolean(complete);
         }
         
         @Override
-        public void readFrom(DataInput in) throws IOException, IllegalAccessException, InstantiationException {
-            newViewId=new ViewId();
-            newViewId.readFrom(in);
-            localTime=in.readInt();
-            complete=in.readBoolean();
+        public void readFrom(DataInput in) throws IOException,
+        		IllegalAccessException, InstantiationException {
+        	newViewId=new ViewId();
+        	newViewId.readFrom(in);
+        	localTime=in.readInt();
+        	complete=in.readBoolean();
         }
         
         public String toString() {
@@ -360,14 +362,15 @@ public class Causal extends Protocol
         
         @Override
         public void writeTo(DataOutput out) throws IOException {
-            writeIntArray(out, missingTimeIndexes);
-            writeIntArray(out, missingCompletionIndexes);
+        	writeIntArray(out, missingTimeIndexes);
+        	writeIntArray(out, missingCompletionIndexes);
         }
-        
+
         @Override
-        public void readFrom(DataInput in) throws IOException {
-            missingTimeIndexes=readIntArray(in);
-            missingCompletionIndexes=readIntArray(in);
+        public void readFrom(DataInput in) throws IOException,
+        		IllegalAccessException, InstantiationException {
+        	missingTimeIndexes=readIntArray(in);
+        	missingCompletionIndexes=readIntArray(in);
         }
         
         public String toString() {
@@ -882,8 +885,8 @@ public class Causal extends Protocol
     
     /**
      * PROOF boolean flag waiting the own message.
-     * This arraylist contains messages the host has sent but they hasn´t been processed yet.
-     * @author Oscar Kiyoshige Garcés.
+     * This arraylist contains messages the host has sent but they hasnï¿½t been processed yet.
+     * @author Oscar Kiyoshige Garcï¿½s.
      */
     private ArrayList<TransportedVectorTime> waitingMessages= new ArrayList<TransportedVectorTime>();
     
@@ -1005,7 +1008,7 @@ public class Causal extends Protocol
      * protocol.
      * @param evt
      * @return
-     * @Modifiedby Oscar Kiyoshige Garcés.
+     * @Modifiedby Oscar Kiyoshige Garcï¿½s.
      */
     private Object upMsg(Event evt) {
     	

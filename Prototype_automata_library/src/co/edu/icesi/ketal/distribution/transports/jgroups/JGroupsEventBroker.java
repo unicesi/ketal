@@ -59,7 +59,7 @@ public class JGroupsEventBroker implements EventBroker {
 	public String getSyncAddress() {
 		return syncMonitor.getChannel().getAddress().toString();
 	}
-	// Modified by David Durán
+	// Modified by David Durï¿½n
 	// Method that calls the broadcastMessageSync(m) method for synchronous
 	// messages
 	@Override
@@ -68,7 +68,7 @@ public class JGroupsEventBroker implements EventBroker {
 //		syncMonitor.broadcastMessageSync(m);
 	}
 
-	// Modified by David Durán
+	// Modified by David Durï¿½n
 	// The msg and typeOfMsgSent parameters are needed to manipulate the
 	// synchronous messages
 	@Override
@@ -76,16 +76,16 @@ public class JGroupsEventBroker implements EventBroker {
 		return messageHandler.handle(e, metadata, msg, typeOfMsgSent);
 	}
 
-	//Created by David Durán
+	//Created by David Durï¿½n
 	@Override
-	public RspList multicastSync(String class_name, String method_name, Object... parameters) {
+	public RspList<Object> multicastSync(String class_name, String method_name, Object... parameters) {
 		return syncMonitor.broadcastMessageSync(class_name, method_name, parameters);
 	}
-
-	//Created by David Durán
+	
+	//Created by David Durï¿½n	
 	@Override
-	public NotifyingFuture<RspList<Object>> multicastWithFutures(
-			String class_name, String method_name, Object... parameters) {
+	public NotifyingFuture<RspList<Object>> multicastWithFutures(String class_name,
+			String method_name, Object... parameters) {
 		return syncMonitor.broadcastMessageWithFuture(class_name, method_name, parameters);
 	}
 

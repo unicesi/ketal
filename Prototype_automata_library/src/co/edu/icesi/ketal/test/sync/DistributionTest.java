@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import org.jgroups.stack.NakReceiverWindow;
 import org.junit.After;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,7 +84,14 @@ public class DistributionTest {
  		myVector.add(event1);
  		myVector.add(event2);
  		
- 	    Vector<Event> anVector = ((((KetalMessageHandler) brokerMessageHandler).getVectorEvents()));
+// 		Class<? extends BrokerMessageHandler> c = brokerMessageHandler.getClass();
+// 		System.out.println("--------------------------------------");
+// 		System.out.println(c.getName());
+// 		if (brokerMessageHandler instanceof BrokerMessageHandler) {
+//			System.out.println("Es por esto el error!");
+//		}
+ 		
+ 	    Vector<Event> anVector = ((((KetalMessageHandler) brokerMessageHandler2).getVectorEvents()));
  	    
  	    for(int index=0; index<anVector.size(); index++)
  	    {

@@ -9,7 +9,7 @@ import org.jgroups.util.NotifyingFuture;
 import org.jgroups.util.RspList;
 import co.edu.icesi.ketal.distribution.BrokerMessage;
 
-//Created By David Durán
+//Created By David Durï¿½n
 /**
  * Extends from JGroupsAbstractFacade class and works as sender and receiver to
  * handle synchronous messages
@@ -37,7 +37,7 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 	// private String groupName;
 	// private EventBroker jeb;
 	//
-	// // Modified by David Durán
+	// // Modified by David Durï¿½n
 	// // Contains the NAKACK recieved message
 	// private String msg = null;
 	// // Validates if the sender should wait until theres a NACK recieved
@@ -81,7 +81,7 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 		}
 	}
 
-	// Created by David Durán
+	// Created by David Durï¿½n
 	/**
 	 * Prepares a MethodCall with the given method (method_name) from the Class
 	 * (class_name) that has the parameters (method_parameters) to be executed
@@ -124,7 +124,7 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 		return rsp_list;
 	}
 
-	// Created by David Durán
+	// Created by David Durï¿½n
 	/**
 	 * Prepares a MethodCall with the given method (method_name) from the Class
 	 * (class_name) that has the parameters (method_parameters) to be executed
@@ -170,7 +170,7 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 		return futures;
 	}
 
-	// Created by David Durán
+	// Created by David Durï¿½n
 	/*
 	 * public RspList broadcastMessageSync(String method_name) { MethodCall
 	 * call; try {
@@ -190,7 +190,7 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 	 * return super.rsp_list; }
 	 */
 
-	// Modified by David Durán
+	// Modified by David Durï¿½n
 	// public void broadcastMessageSync1(BrokerMessage m) {
 	// try {
 	// // Validates if this is the first time that a message is about to be
@@ -236,7 +236,7 @@ public class JGroupsSyncFacade extends JGroupsAbstractFacade {
 	// }
 	// }
 
-	// Modified by David Durán
+	// Modified by David Durï¿½n
 	// public void receive1(Message msg) {
 	// BrokerMessage bm = (BrokerMessage) msg.getObject();
 	// if (bm != null) {

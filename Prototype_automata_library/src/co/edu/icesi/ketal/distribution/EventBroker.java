@@ -33,28 +33,28 @@ public interface EventBroker {
 	//
 	// public Object handle(Event e, Map metadata);
 
-	// Modified by David Durán
+	// Modified by David Durï¿½n
 	// The msg and typeOfMsgSent parameters are needed to manipulate the
 	// synchronous messages
 	public Object handle(Event e, Map metadata, Message msg, int typeOfMsgSent);
 
-	// Modified by David Durán
+	// Modified by David Durï¿½n
 	// This is the method that will send synchronous messages
 	public void multicastSync(Event e, Map metadata);
 
-	// Created by David Durán
+	// Created by David Durï¿½n
 	// This method returns a list that contains the results of the method called
 	// (method_name) executed in every node
-	public RspList multicastSync(String class_name, String method_name,
+	public RspList<Object> multicastSync(String class_name, String method_name,
 			Object... parameters);
 
-	// Created by David Durán
+	// Created by David Durï¿½n
 	// This method returns a list that is filled asynchronously and contains the
 	// results of the method called (method_name) executed in every node
 	public NotifyingFuture<RspList<Object>> multicastWithFutures(
 			String class_name, String method_name, Object... parameters);
 
-	// Written by Andrés Barrera
+	// Written by Andrï¿½s Barrera
 	public String getAsyncAddress();
 	
 	public String getSyncAddress();

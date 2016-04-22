@@ -38,6 +38,7 @@ public class Automaton {
 		endStates = new HashSet<State>();
 		transitions= new HashSet<Transition>();
 		expressionsExp_Char = new Hashtable<Expression,Character>();
+		expressionsChar_Exp = new Hashtable<Character, Expression>();
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class Automaton {
 	}
 	
 	/**
-	 * TODO Step que reciba un event, Se est‡ Trabajando esto.
+	 * TODO Step que reciba un event, Se estï¿½ Trabajando esto.
 	 * @param eve
 	 * @return
 	 */
@@ -390,7 +391,7 @@ public class Automaton {
 	 * @return boolean if the perform was successful
 	 * 
 	 * 
-	 * Modified by Oscar GarcŽs dic-2012
+	 * Modified by Oscar Garcï¿½s dic-2012
 	 */
 	public boolean perform(Event event, char c)
 	{
