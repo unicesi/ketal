@@ -80,7 +80,7 @@ public class PruebaConstructores {
 				Transition tran5 = new Transition(q4, q0, new Character('E'));
 				
 				
-				//Este ser’a la colecci—n que se pasar’a por par‡metro.
+				//Este serï¿½a la colecciï¿½n que se pasarï¿½a por parï¿½metro.
 				Set<Transition> sets = new HashSet<Transition>();
 				sets.add(tran1);
 				sets.add(tran2);
@@ -88,12 +88,12 @@ public class PruebaConstructores {
 				sets.add(tran4);
 				sets.add(tran5);
 				
-				Hashtable<Expression, Character> hash = new Hashtable<Expression, Character>();
-				hash.put(new DefaultEqualsExpression(new StackEvent("A")), 'A');
-				hash.put(new DefaultEqualsExpression(new StackEvent("B")), 'B');
-				hash.put(new DefaultEqualsExpression(new StackEvent("C")), 'C');
-				hash.put(new DefaultEqualsExpression(new StackEvent("D")), 'D');
-				hash.put(new DefaultEqualsExpression(new StackEvent("E")), 'E');	
+//				Hashtable<Expression, Character> hash = new Hashtable<Expression, Character>();
+//				hash.put(new DefaultEqualsExpression(new StackEvent("A")), 'A');
+//				hash.put(new DefaultEqualsExpression(new StackEvent("B")), 'B');
+//				hash.put(new DefaultEqualsExpression(new StackEvent("C")), 'C');
+//				hash.put(new DefaultEqualsExpression(new StackEvent("D")), 'D');
+//				hash.put(new DefaultEqualsExpression(new StackEvent("E")), 'E');	
 				
 				//First Constructor without Expressions map
 				Automaton auto= new Automaton(sets, q0, new HashSet<State>());
@@ -140,7 +140,7 @@ public class PruebaConstructores {
 		Transition tran5 = new Transition(q4, q0, new Character('E'));
 		
 		
-		//Este ser’a la colecci—n que se pasar’a por par‡metro.
+		//Este serï¿½a la colecciï¿½n que se pasarï¿½a por parï¿½metro.
 		Set<Transition> sets = new HashSet<Transition>();
 		sets.add(tran1);
 		sets.add(tran2);
@@ -210,7 +210,7 @@ public class PruebaConstructores {
 		Transition tran5 = new Transition(q3, q4, new Character('E'));
 		
 		
-		//Este ser’a la colecci—n que se pasar’a por par‡metro.
+		//Este serï¿½a la colecciï¿½n que se pasarï¿½a por parï¿½metro.
 		Set<Transition> sets = new HashSet<Transition>();
 		sets.add(tran1);
 		sets.add(tran2);
@@ -232,7 +232,7 @@ public class PruebaConstructores {
 	
 	public void crearAutomataParaEjemploStack()
 	{
-		//Se crean los Estados del aut—mata 
+		//Se crean los Estados del autï¿½mata 
 		State q0 = new State();
 		State q1 = new State();
 		State q2 = new State();
@@ -262,7 +262,7 @@ public class PruebaConstructores {
 	
 	public void crearAutomataParaEjemploTransaccional()
 	{
-		//Se crean los Estados del aut—mata 
+		//Se crean los Estados del autï¿½mata 
 		State q0 = new State();
 		State q1 = new State();
 		State q2 = new State();
@@ -314,7 +314,7 @@ public class PruebaConstructores {
 	}
 
 	public static void crarAutomataCausal(){
-		//Se crean los Estados del aut—mata 
+		//Se crean los Estados del autï¿½mata 
 				State q0 = new State();
 				State q1 = new State();
 				State q2 = new State();
