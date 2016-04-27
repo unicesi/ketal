@@ -6,7 +6,7 @@ package co.edu.icesi.ketal.core;
  */
 public class DefaultEqualsExpression implements Expression{
 	
-	public Event event;
+	private Event event;
 	
 	/**
 	 * Constructor to create a DefaultEqualsExpression with the given event
