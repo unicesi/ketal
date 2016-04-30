@@ -8,9 +8,16 @@ import co.edu.icesi.ketal.core.Event;
 
 public class StackEvent implements Event {
 
+	private String name;
 	
-	public String name;
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	private TransportedVectorTime tvt;
 	/*
 	 * Constructor.
