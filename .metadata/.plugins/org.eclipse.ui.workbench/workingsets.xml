@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1462224170368_1" label="co.edu.icesi.eketal.parent" name="co.edu.icesi.eketal.parent">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal.parent-master" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal.ui" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal.lib.osgi" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal.target" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal.ide" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/co.edu.icesi.eketal.lib" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1462224145820_0" label="Window Working Set" name="Aggregate for window 1462224145819"/>
+</workingSetManager>

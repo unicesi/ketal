@@ -17,17 +17,20 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtend.lib,
  org.eclipse.emf.common
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: co.edu.icesi.eketal.eketal.util,
- co.edu.icesi.eketal.parser.antlr.internal,
- co.edu.icesi.eketal.jvmmodel,
- co.edu.icesi.eketal.services,
- co.edu.icesi.eketal.eketal.impl,
- co.edu.icesi.eketal.scoping,
- co.edu.icesi.eketal,
- co.edu.icesi.eketal.serializer,
- co.edu.icesi.eketal.validation,
+Export-Package: co.edu.icesi.eketal,
  co.edu.icesi.eketal.eketal,
- co.edu.icesi.eketal.parser.antlr
+ co.edu.icesi.eketal.eketal.impl,
+ co.edu.icesi.eketal.eketal.util,
+ co.edu.icesi.eketal.generator,
+ co.edu.icesi.eketal.jvmmodel,
+ co.edu.icesi.eketal.outputconfiguration,
+ co.edu.icesi.eketal.parser.antlr,
+ co.edu.icesi.eketal.parser.antlr.internal,
+ co.edu.icesi.eketal.scoping,
+ co.edu.icesi.eketal.serializer,
+ co.edu.icesi.eketal.services,
+ co.edu.icesi.eketal.validation
 Import-Package: co.edu.icesi.ketal.core,
  dk.brics.automaton,
  org.apache.log4j
+Bundle-ClassPath: .

@@ -16,7 +16,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" output="target/test-classes" path="Users/Camilo P/Desktop/co.edu.icesi.eketal.parent-master/co.edu.icesi.eketal.parent-master/co.edu.icesi.eketal.lib">
+	<classpathentry kind="src" output="target/test-classes" path="Users/camilo/Documents/pruebagit/ketal/co.edu.icesi.eketal.parent-master/co.edu.icesi.eketal.lib">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
