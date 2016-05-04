@@ -12,6 +12,8 @@ import co.edu.icesi.eketal.eketal.Model;
 import co.edu.icesi.eketal.eketal.StateType;
 import co.edu.icesi.eketal.eketal.Step;
 import co.edu.icesi.eketal.eketal.TransDef;
+import co.edu.icesi.eketal.outputconfiguration.EketalOutputConfigurationProvider;
+import co.edu.icesi.eketal.outputconfiguration.OutputConfigurationAdapter;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import java.util.Arrays;
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtend2.lib.StringConcatenationClient;
@@ -31,6 +34,8 @@ import org.eclipse.xtext.common.types.JvmMember;
 import org.eclipse.xtext.common.types.JvmOperation;
 import org.eclipse.xtext.common.types.JvmTypeReference;
 import org.eclipse.xtext.common.types.JvmVisibility;
+import org.eclipse.xtext.naming.IQualifiedNameProvider;
+import org.eclipse.xtext.naming.QualifiedName;
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer;
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor;
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder;
@@ -53,6 +58,10 @@ public class EketalJvmModelInferrer extends AbstractModelInferrer {
   @Inject
   @Extension
   private JvmTypesBuilder _jvmTypesBuilder;
+  
+  @Inject
+  @Extension
+  private IQualifiedNameProvider _iQualifiedNameProvider;
   
   /**
    * The dispatch method {@code infer} is called for each instance of the
@@ -83,6 +92,18 @@ public class EketalJvmModelInferrer extends AbstractModelInferrer {
     String _name = element.getName();
     String _plus = ("Inferring model for " + _name);
     InputOutput.<String>println(_plus);
+    QualifiedName _fullyQualifiedName = this._iQualifiedNameProvider.getFullyQualifiedName(element);
+    final JvmGenericType implementacion = this._jvmTypesBuilder.toClass(element, _fullyQualifiedName);
+    boolean _equals = Objects.equal(implementacion, null);
+    if (_equals) {
+      return;
+    }
+    EList<Adapter> _eAdapters = implementacion.eAdapters();
+    OutputConfigurationAdapter _outputConfigurationAdapter = new OutputConfigurationAdapter(EketalOutputConfigurationProvider.EKETAL_OUTPUT);
+    _eAdapters.add(_outputConfigurationAdapter);
+    EList<Adapter> _eAdapters_1 = implementacion.eAdapters();
+    OutputConfigurationAdapter _outputConfigurationAdapter_1 = new OutputConfigurationAdapter(EketalOutputConfigurationProvider.ASPECTJ_OUTPUT);
+    _eAdapters_1.add(_outputConfigurationAdapter_1);
     String _name_1 = element.getName();
     String _firstUpper = StringExtensions.toFirstUpper(_name_1);
     String _plus_1 = ("co.edu.icesi.ketal.automaton." + _firstUpper);

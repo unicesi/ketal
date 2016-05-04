@@ -25,6 +25,9 @@ import co.edu.icesi.ketal.core.Automaton
 import co.edu.icesi.ketal.core.Transition
 import co.edu.icesi.ketal.core.DefaultEqualsExpression
 import java.util.TreeSet
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import co.edu.icesi.eketal.outputconfiguration.OutputConfigurationAdapter
+import co.edu.icesi.eketal.outputconfiguration.EketalOutputConfigurationProvider
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -39,6 +42,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
      */
 	@Inject extension JvmTypesBuilder
 
+	@Inject extension IQualifiedNameProvider
 	/**
 	 * The dispatch method {@code infer} is called for each instance of the
 	 * given element's type that is contained in a resource.
@@ -67,7 +71,14 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 	def dispatch void infer(Model element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
 		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
 		println("Inferring model for " + element.name)
-
+		
+		val implementacion = element.toClass(element.fullyQualifiedName)
+		
+		if(implementacion==null)
+			return;
+		
+		implementacion.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::EKETAL_OUTPUT))
+		implementacion.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT))
 		
 		acceptor.accept(element.toClass("co.edu.icesi.ketal.automaton."+element.name.toFirstUpper)) [
 			println("co.edu.icesi.ketal.automaton."+element.name)
