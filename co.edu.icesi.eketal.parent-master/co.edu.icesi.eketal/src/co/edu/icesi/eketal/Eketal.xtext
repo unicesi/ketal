@@ -43,23 +43,24 @@ MSig:
 //Event Declaration
 /////////////////////////////////////
 
+//TODO Acomodar al estilo aspectj
 EvDecl:
 	'event' name=ID'(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')'":"eventos+=OrEvent*
 ;
 
-OrEvent returns Expression:
-	AndEvent ({OrEvent.left=current} '||' right=AndEvent)*
+OrEvent returns EventExpression:
+	AndEvent ({OrEvent.left=current} op='||' right=AndEvent)*
 ;
 
-AndEvent returns Expression:
-	NotEvent ({AndEvent.left=current} '&&' right=NotEvent)*
+AndEvent returns EventExpression:
+	NotEvent ({AndEvent.left=current} op='&&' right=NotEvent)*
 ;
 
-NotEvent returns Expression:
-	AtomEvent | '!'right=AtomEvent
+NotEvent returns EventExpression:
+	AtomEvent | op='!' right=AtomEvent
 ;
 
-AtomEvent returns Expression:
+AtomEvent returns EventExpression:
 	EventPredicate | '('OrEvent')'
 ;
 
