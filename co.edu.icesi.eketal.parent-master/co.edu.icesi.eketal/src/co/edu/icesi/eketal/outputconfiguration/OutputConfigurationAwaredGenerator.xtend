@@ -23,6 +23,7 @@ class OutputConfigurationAwaredGenerator extends JvmModelGenerator{
 			val adapters = obj.eAdapters.filter(OutputConfigurationAdapter)
 			for (adapter : adapters) {
 				var outputConfiguration = adapter.getOutputConfigurationName()
+				println(outputConfiguration.toString)
 				if (outputConfiguration == EketalOutputConfigurationProvider::EKETAL_OUTPUT) {
 					val sfsa = new SingleOutputConfigurationFileSystemAccess(fsa, outputConfiguration)
 					this.internalDoGenerate(obj, sfsa) // PascaniJvmModelInferrer

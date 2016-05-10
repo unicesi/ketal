@@ -57,21 +57,25 @@ AndEvent returns EventExpression:
 ;
 
 NotEvent returns EventExpression:
-	AtomEvent | op='!' right=AtomEvent
+	AtomEvent | UnaryExpresion
+;
+
+UnaryExpresion returns EventExpression:
+	'!' expr=AtomEvent
 ;
 
 AtomEvent returns EventExpression:
-	EventPredicate | '('OrEvent')'
+	tipoEvento=EventPredicate | '('OrEvent')'
 ;
 
 EventPredicate:
-	Attr
+	KindAttribute
 	| Trigger
 ;
 	
-Attr:
-	'host' '('hostgroup=[Group]')' //
-	| 'on' '('ongroup=[Group]')'
+KindAttribute:
+	'host' '('hostgroup=[Group]')' //TODO deberia ser unico
+	| 'on' '('ongroup=[Group]')' //TODO deberia ser unico
 	| 'if' condition=XParenthesizedExpression
 //	| 'eq'"("JExp","JExp")"
 ;
