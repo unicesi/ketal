@@ -34,14 +34,21 @@
         eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmFormalParameter"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eventos" upperBound="-1"
-        eType="#//Expression" containment="true"/>
+        eType="#//EventExpression" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Expression"
+  <eClassifiers xsi:type="ecore:EClass" name="EventExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="expr" eType="#//EventExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tipoEvento" eType="#//EventPredicate"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//EventExpression"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//EventExpression"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventPredicate" eSuperTypes="#//Expression"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Attr" eSuperTypes="#//EventPredicate">
+  <eClassifiers xsi:type="ecore:EClass" name="EventPredicate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="KindAttribute" eSuperTypes="#//EventPredicate">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hostgroup" eType="#//Group"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ongroup" eType="#//Group"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="condition" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
@@ -98,12 +105,6 @@
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="grupo" eType="#//Group"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OrEvent" eSuperTypes="#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AndEvent" eSuperTypes="#//Expression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Expression"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OrEvent" eSuperTypes="#//EventExpression"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AndEvent" eSuperTypes="#//EventExpression"/>
 </ecore:EPackage>
