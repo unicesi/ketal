@@ -79,6 +79,11 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		
 		implementacion.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::EKETAL_OUTPUT))
 		implementacion.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT))
+
+		acceptor.accept(implementacion).initializeLater[
+			println("dentra")
+		]
+		
 		
 		acceptor.accept(element.toClass("co.edu.icesi.ketal.automaton."+element.name.toFirstUpper)) [
 			println("co.edu.icesi.ketal.automaton."+element.name)
