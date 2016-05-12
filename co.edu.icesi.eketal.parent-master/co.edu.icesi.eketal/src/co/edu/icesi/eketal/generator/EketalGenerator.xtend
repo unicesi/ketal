@@ -50,7 +50,7 @@ class EketalGenerator implements IGenerator{
 	
 	def CharSequence generate(EventClass modelo, String packageName){
 		var paquete = '''package «packageName»'''
-		var Set<JvmTypeReference> importaciones = new TreeSet()
+		var List<JvmTypeReference> importaciones = new ArrayList()
 		var aspect = '''
 		public aspect «modelo.name.toFirstUpper»{
 			«FOR event:modelo.declarations»
