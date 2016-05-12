@@ -60,8 +60,8 @@ NotEvent returns EventExpression:
 	AtomEvent | UnaryExpresion
 ;
 
-UnaryExpresion returns EventExpression:
-	'!' expr=AtomEvent
+UnaryExpresion returns EventExpression:{UnaryEvent}
+	op='!' expr=AtomEvent
 ;
 
 AtomEvent returns EventExpression:
