@@ -62,6 +62,7 @@ NotEvent returns EventExpression:
 
 UnaryExpresion returns EventExpression:{UnaryEvent}
 	op='!' expr=AtomEvent
+	//{UnaryEvent} => op='!' expr=AtomEvent //TODO significado de =>
 ;
 
 AtomEvent returns EventExpression:
