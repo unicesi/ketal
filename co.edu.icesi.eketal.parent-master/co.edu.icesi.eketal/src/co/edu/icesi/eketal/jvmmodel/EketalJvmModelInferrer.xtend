@@ -28,6 +28,7 @@ import java.util.TreeSet
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import co.edu.icesi.eketal.outputconfiguration.OutputConfigurationAdapter
 import co.edu.icesi.eketal.outputconfiguration.EketalOutputConfigurationProvider
+import co.edu.icesi.ketal.core.NamedEvent
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -77,22 +78,24 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		if(implementacion==null)
 			return;
 		
-		implementacion.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::EKETAL_OUTPUT))
-		implementacion.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT))
+		var eventClass = element.typeDeclaration
+		var eventClassImpl = eventClass.toClass(eventClass.fullyQualifiedName)
+		
+		eventClassImpl.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT))
+		eventClassImpl.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::EKETAL_OUTPUT))
 
-		acceptor.accept(implementacion).initializeLater[
+		acceptor.accept(eventClassImpl).initializeLater[
 			println("dentra")
 		]
 		
-		
-		acceptor.accept(element.toClass("co.edu.icesi.ketal.automaton."+element.name.toFirstUpper)) [
+		acceptor.accept(element.toClass("co.edu.icesi.eketal.automaton."+element.name.toFirstUpper)) [
 			println("co.edu.icesi.ketal.automaton."+element.name)
 			var declaraciones = element.typeDeclaration.declarations
 			for (declaracion : declaraciones) {
 				switch(declaracion){
 					co.edu.icesi.eketal.eketal.Automaton:{
-						members += declaracion.toField(declaracion.name, typeRef(Automaton))
-						members += declaracion.toConstructor[
+						members+=declaracion.toField(declaracion.name, typeRef(Automaton))
+						members+=declaracion.toConstructor[
 							body = '''
 							inicialize();
 							'''
@@ -112,34 +115,24 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 //			]
 //		]
 		
-		// An implementation for the initial hello world example could look like this:
-//   		acceptor.accept(element.toClass("my.company.greeting.MyGreetings")) [
-//   			for (greeting : element.greetings) {
-//   				members += greeting.toMethod("hello" + greeting.name, typeRef(String)) [
-//   					body = '''
-//							return "Hello «greeting.name»";
-//   					'''
-//   				]
-//   			}
-//   		]
 	}
 	
 	def AutomatonInit(co.edu.icesi.eketal.eketal.Automaton declaracion) {
 		val method = declaracion.toMethod("inicialize", typeRef(void))[
 		visibility = JvmVisibility::PRIVATE
 		body = '''
-		Automaton automata = null;
+		«typeRef(Automaton)» automata = null;
 		//Relación evento caracter
-		«Map.canonicalName»<String, Character> mapping = new «TreeMap.canonicalName»<String, Character>();
+		«typeRef(Map)»<String, Character> mapping = new «typeRef(TreeMap)»<String, Character>();
 		//Estado inicial
-		co.edu.icesi.ketal.core.State inicial = null;
+		«typeRef(State)» inicial = null;
 		//lista de estados finales
-		«Set.canonicalName»<co.edu.icesi.ketal.core.State> estadosFinales = new «HashSet.canonicalName»();
+		«typeRef(Set)»<«typeRef(State)»> estadosFinales = new «typeRef(HashSet)»();
 		//Conjunto de nombres y estados
-		«Map.canonicalName»<String, co.edu.icesi.ketal.core.State> estados = new «HashMap.canonicalName»();
+		«typeRef(Map)»<String, «typeRef(State)»> estados = new «typeRef(HashMap)»();
 		
 		//map de eventos con transiciones
-		«Map.canonicalName»<co.edu.icesi.ketal.core.DefaultEqualsExpression, co.edu.icesi.ketal.core.Transition> eventos = new «HashMap.canonicalName»();
+		«typeRef(Map)»<«typeRef(DefaultEqualsExpression)», «typeRef(Transition)»> eventos = new «typeRef(HashMap)»();
 		
 		int consecutivo = 0;
 		Character caracter = (char)consecutivo;
@@ -149,7 +142,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		«FOR step : declaracion.steps»
 			//Definición del estado: «step.name»
 			String estado«step.name.toFirstUpper» = "«step.name»";
-			estados.put(estado«step.name.toFirstUpper», new co.edu.icesi.ketal.core.State());
+			estados.put(estado«step.name.toFirstUpper», new «typeRef(State)»());
 			«IF step.type!=null && step.type==StateType.START»
 				//«step.type» «StateType.START» «StateType.START_VALUE»
 				//Estado inicial: «step.name»
@@ -161,14 +154,14 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 				//"Transiciones de " + «transition.event.name»+" -> "+«transition.target.name»
 					estadoLlegada = "«transition.target.name»";
 					if(!estados.containsKey(estadoLlegada)){
-						estados.put(estado«step.name.toFirstUpper», new co.edu.icesi.ketal.core.State());
+						estados.put(estado«step.name.toFirstUpper», new «typeRef(State)»());
 					}
 					caracter = (char)consecutivo;
 					consecutivo++;
 					nombreEvento = "«transition.event.name»";
 					mapping.put(nombreEvento, caracter);
-					co.edu.icesi.ketal.core.Transition «step.name»«transition.event.name.toFirstUpper» = new co.edu.icesi.ketal.core.Transition(estados.get(estado«step.name.toFirstUpper»), estados.get(estadoLlegada), caracter);
-					eventos.put(new co.edu.icesi.ketal.core.DefaultEqualsExpression(new co.edu.icesi.ketal.core.NamedEvent(nombreEvento)), «step.name»«transition.event.name.toFirstUpper»);
+					co.edu.icesi.ketal.core.Transition «step.name»«transition.event.name.toFirstUpper» = new «typeRef(Transition)»(estados.get(estado«step.name.toFirstUpper»), estados.get(estadoLlegada), caracter);
+					eventos.put(new «typeRef(DefaultEqualsExpression)»(new «typeRef(NamedEvent)»(nombreEvento)), «step.name»«transition.event.name.toFirstUpper»);
 				«ENDFOR»
 			«ELSE»
 				//Estado final «step.name.toFirstUpper»
