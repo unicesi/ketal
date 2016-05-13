@@ -49,39 +49,56 @@ class EketalGenerator implements IGenerator{
 	}
 	
 	def CharSequence generate(EventClass modelo, String packageName){
-		var paquete = '''package «packageName»'''
-		var List<JvmTypeReference> importaciones = new ArrayList()
+		var paquete = '''package «packageName»
+		'''
+		var Set<String> importaciones = new TreeSet()
 		var aspect = '''
 		public aspect «modelo.name.toFirstUpper»{
+			
 			«FOR event:modelo.declarations»
-				//--------Evento: «println(event.name.toString)»-------------
-				
 				«IF event instanceof JVarD»
-					«importaciones.add((event as JVarD).type)»
-					private «(event as JVarD).type.simpleName» «(event as JVarD).name.toFirstLower»
+					//«importaciones+=agregarImports((event as JVarD).type.qualifiedName)»
+					//--------Evento: «println(event.name.toString)»-------------
+					private «(event as JVarD).type.simpleName» «(event as JVarD).name.toFirstLower»;
 				«ENDIF»
 				«IF event instanceof EvDecl»
+					//--------Evento: «println(event.name.toString)»-------------
 					pointcut «event.name.toFirstLower»:
 						«createPointCut(event as EvDecl)»;
 					after() returning (Object o): «event.name.toFirstLower» {
-					System.out.println("Returned normally with " + o);
+						System.out.println("Returned normally with " + o);
 					}
 					after() throwing (Exception e): «event.name.toFirstLower» {
-					System.out.println("Threw an exception: " + e);
+						System.out.println("Threw an exception: " + e);
 					}
 					after(): «event.name.toFirstLower»{
-					System.out.println("Returned or threw an Exception");
+						System.out.println("Returned or threw an Exception");
 					}
 				«ENDIF»
+				
 			«ENDFOR»
 		}
 		'''
 		var imports = '''
 		«FOR tipo:importaciones»
-			import «tipo.qualifiedName»;
+			import «tipo»;
 		«ENDFOR»
+		
 		'''
 		return paquete+imports+aspect
+	}
+	
+	def agregarImports(String name) {
+		var lista = new ArrayList
+		if(!name.contains('<')){
+			lista.add(name)			
+		}else{
+			var String[] strings = name.split("<")
+			for(string:strings){
+				lista.add(string.replaceAll(">",""))
+			}
+		}
+		return lista
 	}
 	
 	def createPointCut(EvDecl decl) {
@@ -131,11 +148,11 @@ class EketalGenerator implements IGenerator{
 	def returnAttribute(KindAttribute attribute) {
 		println("KindEvent")
 		if(attribute.condition!=null){
-			//TODO este es una expresión booleana
+			return '''if()'''//TODO terminar
 		}else if(attribute.hostgroup!=null){
 			return '''host(«attribute.hostgroup.name»)'''
 		}else if(attribute.ongroup!=null){
-			//TODO acá debe hacer otro procesamiento dado que este elemento no está
+			return '''on()'''//TODO acá debe hacer otro procesamiento dado que este elemento no está
 			//soportado por aspectj
 		}
 	}
