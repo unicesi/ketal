@@ -4,23 +4,18 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.emf.ecore.resource.Resource
 import co.edu.icesi.eketal.eketal.EvDecl
-import co.edu.icesi.eketal.eketal.Model
 import co.edu.icesi.eketal.eketal.EventClass
-import co.edu.icesi.eketal.eketal.Decl
 import co.edu.icesi.eketal.eketal.AndEvent
 import co.edu.icesi.eketal.eketal.EventExpression
 import co.edu.icesi.eketal.eketal.OrEvent
 import co.edu.icesi.eketal.eketal.Trigger
 import co.edu.icesi.eketal.eketal.KindAttribute
-import co.edu.icesi.eketal.eketal.EventPredicate
 import co.edu.icesi.eketal.outputconfiguration.EketalOutputConfigurationProvider
 import java.io.File
-import java.util.List
 import co.edu.icesi.eketal.eketal.UnaryEvent
 import co.edu.icesi.eketal.eketal.JVarD
 import java.util.Set
 import java.util.TreeSet
-import org.eclipse.xtext.common.types.JvmTypeReference
 import java.util.ArrayList
 
 //https://www.eclipse.org/forums/index.php/t/486215/
@@ -38,9 +33,9 @@ class EketalGenerator implements IGenerator{
 		var packageName = "co/edu/icesi/eketal/aspects"
 //		var ruta = EketalOutputConfigurationProvider::ASPECTJ_OUTPUT+"-gen/"+packageName+"."+modelo.name.toFirstUpper+".aj"
 //		println("Ruta ="+ruta)
-		
+		fsa.generateFile("./"+packageName+"/"+modelo.name.toFirstUpper+".aj", EketalOutputConfigurationProvider::ASPECTJ_OUTPUT, modelo.generate(packageName.replaceAll("/",".")))
 //		fsa.generateFile(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT+"/"+modelo.name.toFirstUpper+".aj", modelo.generate(packageName))
-		fsa.generateFile("./"+packageName+"/"+modelo.name.toFirstUpper+".aj", modelo.generate(packageName.replaceAll("/",".")))
+//		fsa.generateFile("./"+packageName+"/"+modelo.name.toFirstUpper+".aj", modelo.generate(packageName.replaceAll("/",".")))
 	}
 	
 	
@@ -68,19 +63,18 @@ class EketalGenerator implements IGenerator{
 				«ENDIF»
 				«IF event instanceof EvDecl»
 					//--------Evento: «println(event.name.toString)»-------------
-					pointcut «event.name.toFirstLower»:
+					pointcut «event.name.toFirstLower»():
 						«createPointCut(event as EvDecl)»;
-					after() returning (Object o): «event.name.toFirstLower» {
+					after() returning (Object o): «event.name.toFirstLower»() {
 						System.out.println("Returned normally with " + o);
 					}
-					after() throwing (Exception e): «event.name.toFirstLower» {
+					after() throwing (Exception e): «event.name.toFirstLower»() {
 						System.out.println("Threw an exception: " + e);
 					}
-					after(): «event.name.toFirstLower»{
+					after(): «event.name.toFirstLower»(){
 						System.out.println("Returned or threw an Exception");
 					}
 				«ENDIF»
-				
 			«ENDFOR»
 		}
 		'''
@@ -112,7 +106,8 @@ class EketalGenerator implements IGenerator{
 		for(event : decl.eventos){
 			eventos+=eventExpression(event as EventExpression)
 		}
-		return eventos
+		val String valor = eventos.toString.substring(1, eventos.toString.length-1)
+		return valor
 	}
 	
 	def eventExpression(EventExpression event) {
@@ -133,13 +128,13 @@ class EketalGenerator implements IGenerator{
 						//AndEvent
 						var andEvent = event as AndEvent
 						return 
-						'''«eventExpression(andEvent.left as EventExpression)»&&«eventExpression(andEvent.right as EventExpression)»'''
+						'''«eventExpression(andEvent.left as EventExpression)» && «eventExpression(andEvent.right as EventExpression)»'''
 					}
 					OrEvent: {
 						//OrEvent
 						var orEvent = event as OrEvent
 						return 
-						'''«eventExpression(orEvent.left as EventExpression)»||«eventExpression(orEvent.right as EventExpression)»'''
+						'''«eventExpression(orEvent.left as EventExpression)» || «eventExpression(orEvent.right as EventExpression)»'''
 					}
 					UnaryEvent:{
 						var unaryEvent = event as UnaryEvent
@@ -164,7 +159,7 @@ class EketalGenerator implements IGenerator{
 	
 	def returnCall(Trigger trigger) {
 		println("Trigger")
-		return '''call * «trigger.esig»(«trigger.params.join(',')»)'''
+		return '''call(* «trigger.esig»(«trigger.params.join(',')»))'''
 	}
 	
 }
