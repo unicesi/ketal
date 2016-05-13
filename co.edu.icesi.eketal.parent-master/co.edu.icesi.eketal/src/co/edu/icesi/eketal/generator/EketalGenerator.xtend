@@ -35,11 +35,12 @@ class EketalGenerator implements IGenerator{
 	}
 	
 	def generateAspect(EventClass modelo, IFileSystemAccess fsa){
-		var packageName = "co.edu.icesi.eketal.aspects"
-		var ruta = "./.../"+EketalOutputConfigurationProvider::ASPECTJ_OUTPUT+"-gen/"+packageName+"."+modelo.name.toFirstUpper+".aj"
-		println("Ruta ="+ruta)
+		var packageName = "co/edu/icesi/eketal/aspects"
+//		var ruta = EketalOutputConfigurationProvider::ASPECTJ_OUTPUT+"-gen/"+packageName+"."+modelo.name.toFirstUpper+".aj"
+//		println("Ruta ="+ruta)
 		
-		fsa.generateFile(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT+modelo.name.toFirstUpper+".aj", modelo.generate(packageName))
+//		fsa.generateFile(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT+"/"+modelo.name.toFirstUpper+".aj", modelo.generate(packageName))
+		fsa.generateFile("./"+packageName+"/"+modelo.name.toFirstUpper+".aj", modelo.generate(packageName.replaceAll("/",".")))
 	}
 	
 	
@@ -49,11 +50,15 @@ class EketalGenerator implements IGenerator{
 	}
 	
 	def CharSequence generate(EventClass modelo, String packageName){
-		var paquete = '''package «packageName»
+		var paquete = '''package «packageName»;
+		
 		'''
 		var Set<String> importaciones = new TreeSet()
+		importaciones+="co.edu.icesi.eketal.automaton"
 		var aspect = '''
 		public aspect «modelo.name.toFirstUpper»{
+			
+			//private Automaton = new Automaton
 			
 			«FOR event:modelo.declarations»
 				«IF event instanceof JVarD»
