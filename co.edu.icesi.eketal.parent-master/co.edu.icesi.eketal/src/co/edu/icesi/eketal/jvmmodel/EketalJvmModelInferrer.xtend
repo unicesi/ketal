@@ -121,7 +121,6 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		val method = declaracion.toMethod("inicialize", typeRef(void))[
 		visibility = JvmVisibility::PRIVATE
 		body = '''
-		«typeRef(Automaton)» automata = null;
 		//Relación evento caracter
 		«typeRef(Map)»<String, Character> mapping = new «typeRef(TreeMap)»<String, Character>();
 		//Estado inicial
@@ -170,7 +169,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		«ENDFOR»
 		«TreeSet.canonicalName» transitionSet = new «TreeSet.canonicalName»();
 		transitionSet.addAll(eventos.values());
-		automata = new Automaton(transitionSet, inicial, estadosFinales);
+		«typeRef(Automaton)» automata = new Automaton(transitionSet, inicial, estadosFinales);
 		automata.initializeAutomaton();
 		«declaracion.name» = automata;
 		'''
