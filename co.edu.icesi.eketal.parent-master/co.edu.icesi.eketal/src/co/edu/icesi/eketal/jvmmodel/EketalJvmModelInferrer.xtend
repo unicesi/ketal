@@ -88,29 +88,29 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 			println("dentra")
 		]
 		
-		acceptor.accept(element.toClass("co.edu.icesi.eketal.automaton."+element.name.toFirstUpper)) [
-			println("co.edu.icesi.ketal.automaton."+element.name)
-			var declaraciones = element.typeDeclaration.declarations
-			for (declaracion : declaraciones) {
-				switch(declaracion){
-					co.edu.icesi.eketal.eketal.Automaton:{
-						members+=declaracion.toField(declaracion.name, typeRef(Automaton))
-						members+=declaracion.toGetter(declaracion.name, typeRef(Automaton))
-						members+=declaracion.toSetter(declaracion.name, typeRef(Automaton))
+		var declarations = element.typeDeclaration.declarations
+		for(declaracion:declarations){
+			switch(declaracion){
+				co.edu.icesi.eketal.eketal.Automaton:{//Debe ir con la ruta para el que compilador entienda que no es el objeto automáta de la libreria ketal, sino el elmento automata de la definicion del lenguaje (es decir, la producción)
+					//TODO estandar de nombre del atributo principal (si hay un estado con ese nombre va a dar problemas)
+					acceptor.accept(declaracion.toClass("co.edu.icesi.eketal.automaton."+declaracion.name.toFirstUpper)) [
+						println("co.edu.icesi.ketal.automaton."+element.name)
+						members+=declaracion.toField("automaton", typeRef(Automaton))
+						members+=declaracion.toGetter("automaton", typeRef(Automaton))
+						members+=declaracion.toSetter("automaton", typeRef(Automaton))
 						members+=declaracion.toConstructor[
 							body = '''
 							inicialize();
 							'''
 						]
-						members += AutomatonInit(declaracion)
-					}
-					Group:{
-						
-					}
+						members += AutomatonInit(declaracion as co.edu.icesi.eketal.eketal.Automaton)
+					]	
+				}
+				Group:{
+					
 				}
 			}
-		]
-		
+		}
 //		acceptor.accept(element.toClass("co.edu.icesi.ketal.automaton."+element.name)) [
 //			members += element.toConstructor[
 //				body = '''System.out.println("Hello world");'''
@@ -173,7 +173,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		transitionSet.addAll(eventos.values());
 		«typeRef(Automaton)» automata = new Automaton(transitionSet, inicial, estadosFinales);
 		automata.initializeAutomaton();
-		«declaracion.name» = automata;
+		automaton = automata;
 		'''
 		]
 		return method
