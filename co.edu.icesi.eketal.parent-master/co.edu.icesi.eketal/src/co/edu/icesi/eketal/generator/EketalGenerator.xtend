@@ -44,6 +44,7 @@ class EketalGenerator implements IGenerator{
 		
 		'''
 		var Set<String> importaciones = new TreeSet()
+		var pointcuts = new ArrayList<String>
 		importaciones+="co.edu.icesi.eketal.automaton.*"
 		var aspect = '''
 		public aspect «modelo.name.toFirstUpper»{
@@ -53,13 +54,13 @@ class EketalGenerator implements IGenerator{
 			«FOR event:modelo.declarations»
 				«IF event instanceof JVarD»
 					//«importaciones+=agregarImports((event as JVarD).type.qualifiedName)»
-					//--------Evento: «println(event.name.toString)»-------------
+					//--------Evento: «event.name.toString»-------------
 					private «(event as JVarD).type.simpleName» «(event as JVarD).name.toFirstLower»;
 				«ENDIF»
 				«IF event instanceof EvDecl»
-					//--------Evento: «println(event.name.toString)»-------------
+					//--------Evento: «event.name.toString»-------------
 					pointcut «event.name.toFirstLower»():
-						«createPointCut(event as EvDecl)»;
+						«createPointCut(event as EvDecl, pointcuts)»;
 						
 					after() returning (Object o): «event.name.toFirstLower»() {
 						System.out.println("Returned normally with " + o);
@@ -72,6 +73,11 @@ class EketalGenerator implements IGenerator{
 					}
 				«ENDIF»
 			«ENDFOR»
+			
+			«FOR pointcut:pointcuts»
+				«pointcut»;
+			«ENDFOR»
+			
 		}
 		'''
 		var imports = '''
@@ -96,22 +102,24 @@ class EketalGenerator implements IGenerator{
 		return lista
 	}
 	
-	def createPointCut(EvDecl decl) {
-		println("----------------------")
+	def createPointCut(EvDecl decl, ArrayList<String> pointcuts) {
 		var ArrayList<String> eventos = new ArrayList
 		for(event : decl.eventos){
-			eventos+=eventExpression(event as EventExpression)
+			eventos+=eventExpression(event as EventExpression, pointcuts)
 		}
 		val String valor = eventos.toString.substring(1, eventos.toString.length-1)
 		return valor
 	}
 	
-	def eventExpression(EventExpression event) {
+	def eventExpression(EventExpression event, ArrayList<String> pointcuts) {
 			if(event.tipoEvento!=null){
 				var tipoEvento = event.tipoEvento
 				switch(tipoEvento){
 					Trigger:{
-						return returnCall(tipoEvento as Trigger)
+						var pointcutTemp = returnCall(tipoEvento as Trigger)
+//						println("---porintcut: "+pointcutTemp.get(0)+"---"+pointcutTemp.get(1))
+						pointcuts+=pointcutTemp.get(1).toString
+						return pointcutTemp.get(0).toString
 					}
 					KindAttribute:{
 						return returnAttribute(tipoEvento as KindAttribute)						
@@ -124,29 +132,28 @@ class EketalGenerator implements IGenerator{
 						//AndEvent
 						var andEvent = event as AndEvent
 						return 
-						'''«eventExpression(andEvent.left as EventExpression)» && «eventExpression(andEvent.right as EventExpression)»'''
+						'''«eventExpression(andEvent.left as EventExpression, pointcuts)» && «eventExpression(andEvent.right as EventExpression, pointcuts)»'''
 					}
 					OrEvent: {
 						//OrEvent
 						var orEvent = event as OrEvent
 						return 
-						'''«eventExpression(orEvent.left as EventExpression)» || «eventExpression(orEvent.right as EventExpression)»'''
+						'''«eventExpression(orEvent.left as EventExpression, pointcuts)» || «eventExpression(orEvent.right as EventExpression, pointcuts)»'''
 					}
 					UnaryEvent:{
 						var unaryEvent = event as UnaryEvent
 						return
-						'''!«eventExpression(unaryEvent.expr as EventExpression)»'''
+						'''!«eventExpression(unaryEvent.expr as EventExpression, pointcuts)»'''
 					}
 				}
 			}
 	}
 	
 	def returnAttribute(KindAttribute attribute) {
-		println("KindEvent")
 		if(attribute.condition!=null){
-			return '''if()'''//TODO terminar
-		}else if(attribute.hostgroup!=null){
-			return '''host(«attribute.hostgroup.name»)'''
+			return '''if(«attribute.condition.toString»)'''//resolver if
+//		}else if(attribute.hostgroup!=null){
+//			return '''host(«attribute.hostgroup.name»)'''
 		}else if(attribute.ongroup!=null){
 			return '''on()'''//TODO acá debe hacer otro procesamiento dado que este elemento no está
 			//soportado por aspectj
@@ -154,8 +161,9 @@ class EketalGenerator implements IGenerator{
 	}
 	
 	def returnCall(Trigger trigger) {
-		println("Trigger")
-		return '''call(* «trigger.esig»(«trigger.params.join(',')»))'''
+		//la primera posición es el nombre del pointcut, la segunda es la definición
+		var CharSequence[] retorno = newArrayList('''«trigger.esig.toString.replaceAll("\\.", "").toFirstLower»()''', '''pointcut «trigger.esig.toString.replaceAll("\\.", "").toFirstLower»(): call(* «trigger.esig»(«trigger.params.join(',')»))''')
+		return retorno
 	}
 	
 }
