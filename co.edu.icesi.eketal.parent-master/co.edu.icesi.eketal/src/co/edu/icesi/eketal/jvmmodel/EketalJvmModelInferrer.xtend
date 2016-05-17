@@ -95,6 +95,8 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 				switch(declaracion){
 					co.edu.icesi.eketal.eketal.Automaton:{
 						members+=declaracion.toField(declaracion.name, typeRef(Automaton))
+						members+=declaracion.toGetter(declaracion.name, typeRef(Automaton))
+						members+=declaracion.toSetter(declaracion.name, typeRef(Automaton))
 						members+=declaracion.toConstructor[
 							body = '''
 							inicialize();
