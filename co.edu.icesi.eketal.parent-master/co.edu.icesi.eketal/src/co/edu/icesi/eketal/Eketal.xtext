@@ -75,8 +75,8 @@ EventPredicate:
 ;
 	
 KindAttribute:
-	'host' '('hostgroup=[Group]')' //TODO deberia ser unico
-	| 'on' '('ongroup=[Group]')' //TODO deberia ser unico
+//	'host' '('hostgroup=[Group]')' //TODO deberia ser unico
+	'on' '('ongroup=[Group]')' //TODO deberia ser unico
 	| 'if' condition=XParenthesizedExpression
 //	| 'eq'"("JExp","JExp")"
 ;
@@ -132,7 +132,7 @@ enum StateType:
 ////Reaction definition
 //////////////////////////////////////
 Rc:
-	(asyncex="asyncex")? 'reaction' pos=Pos name=ID '{' body=Body '}'
+	(syncex="syncex")? 'reaction' pos=Pos name=ID '{' body=Body '}'
 ;
 
 enum Pos:
