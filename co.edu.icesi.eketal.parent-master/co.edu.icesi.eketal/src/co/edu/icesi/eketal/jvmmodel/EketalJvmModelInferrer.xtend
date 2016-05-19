@@ -29,6 +29,8 @@ import org.eclipse.xtext.naming.IQualifiedNameProvider
 import co.edu.icesi.eketal.outputconfiguration.OutputConfigurationAdapter
 import co.edu.icesi.eketal.outputconfiguration.EketalOutputConfigurationProvider
 import co.edu.icesi.ketal.core.NamedEvent
+import org.eclipse.xtext.generator.IFileSystemAccess
+import co.edu.icesi.eketal.eketal.impl.DeclImpl
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -74,30 +76,68 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		println("Inferring model for " + element.name)
 		
 		val implementacion = element.toClass(element.fullyQualifiedName)
+		println( "modelo ruta" + element.fullyQualifiedName)
 		
 		if(implementacion==null)
 			return;
 		
 		var eventClass = element.typeDeclaration
-		var eventClassImpl = eventClass.toClass(eventClass.fullyQualifiedName)
+		var eventClassGenerate = eventClass.toClass(eventClass.fullyQualifiedName)
 		
-		eventClassImpl.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT))
-		eventClassImpl.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::EKETAL_OUTPUT))
+//		eventClassGenerate.eAdapters.add(new OutputConfigurationAdapter(EketalOutputConfigurationProvider::ASPECTJ_OUTPUT))
+		eventClassGenerate.eAdapters.add(new OutputConfigurationAdapter(IFileSystemAccess.DEFAULT_OUTPUT))
 
-		acceptor.accept(eventClassImpl).initializeLater[
+		acceptor.accept(eventClassGenerate)[
 			println("dentra")
+		]
+		
+		val claseGrupos = element.typeDeclaration
+		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsImpl.GroupsControl")) [
+			annotations += annotationRef("javax.ejb.Singleton");
+			members+=claseGrupos.toField("grupos", typeRef(Set))[
+				initializer = '''new TreeSet();'''
+			]
+			
+			members+=claseGrupos.toConstructor[
+				body='''agregarGrupos();'''
+			]
+			members+=claseGrupos.toMethod("addGroup", typeRef(Boolean))[
+				parameters+=claseGrupos.toParameter("nuevoGrupo", String.typeRef)
+				static = true
+				body='''
+					return grupos.add(nuevoGrupo);
+				'''
+			]
+			members+=claseGrupos.toMethod("removeGroup", typeRef(Boolean))[
+				parameters+=claseGrupos.toParameter("grupoEliminar", String.typeRef)
+				static = true
+				body='''
+					return grupos.remove(grupoEliminar);
+				'''
+			]
+			
+			members+=claseGrupos.toMethod("agregarGrupos", typeRef(Void))[
+				body='''
+				«FOR grupo:claseGrupos.declarations»
+					«IF grupo instanceof Group»
+						«var grupoTemp = grupo as Group»
+						addGroup("«grupoTemp.name»");
+					«ENDIF»
+				«ENDFOR»
+				'''
+			]
 		]
 		
 		var declarations = element.typeDeclaration.declarations
 		for(declaracion:declarations){
+			var grupos = new ArrayList
 			switch(declaracion){
 				co.edu.icesi.eketal.eketal.Automaton:{//Debe ir con la ruta para el que compilador entienda que no es el objeto automáta de la libreria ketal, sino el elmento automata de la definicion del lenguaje (es decir, la producción)
 					//TODO estandar de nombre del atributo principal (si hay un estado con ese nombre va a dar problemas)
 					acceptor.accept(declaracion.toClass("co.edu.icesi.eketal.automaton."+declaracion.name.toFirstUpper)) [
 						println("co.edu.icesi.ketal.automaton."+element.name)
-						members+=declaracion.toField("automaton", typeRef(Automaton))
+						members+=declaracion.toField("automaton", typeRef(Automaton))[static = true]
 						members+=declaracion.toGetter("automaton", typeRef(Automaton))
-						members+=declaracion.toSetter("automaton", typeRef(Automaton))
 						members+=declaracion.toConstructor[
 							body = '''
 							inicialize();
@@ -105,9 +145,6 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 						]
 						members += AutomatonInit(declaracion as co.edu.icesi.eketal.eketal.Automaton)
 					]	
-				}
-				Group:{
-					
 				}
 			}
 		}
