@@ -93,9 +93,10 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		
 		val claseGrupos = element.typeDeclaration
 		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsImpl.GroupsControl")) [
-			annotations += annotationRef("javax.ejb.Singleton");
+//			annotations += annotationRef("javax.ejb.Singleton"); //The type javax.ejb.Singleton is not on the classpath.
 			members+=claseGrupos.toField("grupos", typeRef(Set))[
-				initializer = '''new «typeRef(TreeSet)»();'''
+				static = true
+				initializer = '''new «typeRef(TreeSet)»()'''
 			]
 			
 			members+=claseGrupos.toConstructor[
@@ -117,7 +118,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 				'''
 			]
 			
-			members+=claseGrupos.toMethod("agregarGrupos", typeRef(Void))[
+			members+=claseGrupos.toMethod("agregarGrupos", typeRef(void))[
 				body='''
 				«FOR grupo:claseGrupos.declarations»
 					«IF grupo instanceof Group»
