@@ -95,7 +95,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsImpl.GroupsControl")) [
 			annotations += annotationRef("javax.ejb.Singleton");
 			members+=claseGrupos.toField("grupos", typeRef(Set))[
-				initializer = '''new TreeSet();'''
+				initializer = '''new «typeRef(TreeSet)»();'''
 			]
 			
 			members+=claseGrupos.toConstructor[
@@ -108,6 +108,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 					return grupos.add(nuevoGrupo);
 				'''
 			]
+			
 			members+=claseGrupos.toMethod("removeGroup", typeRef(Boolean))[
 				parameters+=claseGrupos.toParameter("grupoEliminar", String.typeRef)
 				static = true
