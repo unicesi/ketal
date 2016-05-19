@@ -31,7 +31,8 @@ class EketalGenerator implements IGenerator{
 	
 	def generateAspect(EventClass modelo, IFileSystemAccess fsa){
 		var packageName = "co.edu.icesi.eketal.aspects"
-		fsa.generateFile(prepareFileName("./"+packageName, modelo.name.toFirstUpper), EketalOutputConfigurationProvider::ASPECTJ_OUTPUT, modelo.generate(packageName))
+//		fsa.generateFile(prepareFileName("./"+packageName, modelo.name.toFirstUpper), EketalOutputConfigurationProvider::ASPECTJ_OUTPUT, modelo.generate(packageName))
+		fsa.generateFile(prepareFileName("./"+packageName, modelo.name.toFirstUpper), IFileSystemAccess.DEFAULT_OUTPUT, modelo.generate(packageName))
 	}
 	
 	
@@ -49,7 +50,7 @@ class EketalGenerator implements IGenerator{
 		var aspect = '''
 		public aspect «modelo.name.toFirstUpper»{
 		
-			//private Automaton = new Automaton
+			//private Automaton automata = miprieraclase.getAutomaton();
 			
 			«FOR event:modelo.declarations»
 				«IF event instanceof JVarD»
