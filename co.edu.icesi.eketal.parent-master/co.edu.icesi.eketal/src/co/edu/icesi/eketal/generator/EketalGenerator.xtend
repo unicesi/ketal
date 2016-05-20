@@ -17,6 +17,7 @@ import co.edu.icesi.eketal.eketal.JVarD
 import java.util.Set
 import java.util.TreeSet
 import java.util.ArrayList
+import co.edu.icesi.eketal.jvmmodel.EketalJvmModelInferrer
 
 //https://www.eclipse.org/forums/index.php/t/486215/
 
@@ -152,18 +153,23 @@ class EketalGenerator implements IGenerator{
 	
 	def returnAttribute(KindAttribute attribute) {
 		if(attribute.condition!=null){
+			//TODO
+			println(attribute.condition.eAdapters.toString)
+			println(attribute.condition.eContainer.toString)
+			println(attribute.condition.eContents.toString)
 			return '''if(«attribute.condition.toString»)'''//resolver if
 //		}else if(attribute.hostgroup!=null){
 //			return '''host(«attribute.hostgroup.name»)'''
 		}else if(attribute.ongroup!=null){
-			return '''on()'''//TODO acá debe hacer otro procesamiento dado que este elemento no está
-			//soportado por aspectj
+			return '''if(«EketalJvmModelInferrer.groupClassName».on("«attribute.ongroup.name»"))'''
+//			return '''on()'''//TODO acá debe hacer otro procesamiento dado que este elemento no está
+//			//soportado por aspectj
 		}
 	}
 	
 	def returnCall(Trigger trigger) {
 		//la primera posición es el nombre del pointcut, la segunda es la definición
-		var CharSequence[] retorno = newArrayList('''«trigger.esig.toString.replaceAll("\\.", "").toFirstLower»()''', '''pointcut «trigger.esig.toString.replaceAll("\\.", "").toFirstLower»(): call(* «trigger.esig»(«trigger.params.join(',')»))''')
+		var CharSequence[] retorno = newArrayList('''point«trigger.esig.toString.replaceAll("\\.", "").toFirstUpper»()''', '''pointcut point«trigger.esig.toString.replaceAll("\\.", "").toFirstUpper»(): call(* «trigger.esig»(«trigger.params.join(',')»))''')
 		return retorno
 	}
 	
