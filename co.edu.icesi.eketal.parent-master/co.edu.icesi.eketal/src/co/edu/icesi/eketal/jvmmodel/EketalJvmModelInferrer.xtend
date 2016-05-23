@@ -31,6 +31,14 @@ import co.edu.icesi.eketal.outputconfiguration.EketalOutputConfigurationProvider
 import co.edu.icesi.ketal.core.NamedEvent
 import org.eclipse.xtext.generator.IFileSystemAccess
 import co.edu.icesi.eketal.eketal.impl.DeclImpl
+import co.edu.icesi.eketal.eketal.EventClass
+import co.edu.icesi.eketal.eketal.EvDecl
+import co.edu.icesi.ketal.distribution.BrokerMessageHandler
+import co.edu.icesi.ketal.distribution.ReceiverMessageHandler
+import co.edu.icesi.ketal.distribution.EventBroker
+import co.edu.icesi.ketal.distribution.transports.jgroups.JGroupsEventBroker
+import co.edu.icesi.ketal.distribution.KetalMessageHandler
+import java.util.Vector
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -46,6 +54,8 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 	@Inject extension JvmTypesBuilder
 
 	@Inject extension IQualifiedNameProvider
+	
+	public static String groupClassName = "GroupsControl"
 	/**
 	 * The dispatch method {@code infer} is called for each instance of the
 	 * given element's type that is contained in a resource.
@@ -73,10 +83,9 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 	 */
 	def dispatch void infer(Model element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
 		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-		println("Inferring model for " + element.name)
+//		println("Inferring model for " + element.name)
 		
 		val implementacion = element.toClass(element.fullyQualifiedName)
-		println( "modelo ruta" + element.fullyQualifiedName)
 		
 		if(implementacion==null)
 			return;
@@ -92,11 +101,77 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 		]
 		
 		val claseGrupos = element.typeDeclaration
-		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsImpl.GroupsControl")) [
+		createGroupClass(acceptor, claseGrupos)
+		
+		var declarations = element.typeDeclaration.declarations
+		for(declaracion:declarations){
+			switch(declaracion){
+				co.edu.icesi.eketal.eketal.Automaton:{//Debe ir con la ruta para el que compilador entienda que no es el objeto automáta de la libreria ketal, sino el elmento automata de la definicion del lenguaje (es decir, la producción)
+					//TODO estandar de nombre del atributo principal (si hay un estado con ese nombre va a dar problemas)
+					acceptor.accept(declaracion.toClass("co.edu.icesi.eketal.automaton."+declaracion.name.toFirstUpper)) [
+						members+=declaracion.toField("automaton", typeRef(Automaton))[static = true]
+						members+=declaracion.toGetter("automaton", typeRef(Automaton))
+						members+=declaracion.toConstructor[
+							body = '''
+							inicialize();
+							'''
+						]
+						members += AutomatonInit(declaracion as co.edu.icesi.eketal.eketal.Automaton)
+					]	
+				}
+				EvDecl:{
+					acceptor.accept(declaracion.toClass("co.edu.icesi.eketal.multicast."+declaracion.name.toFirstUpper)) [
+						members+=declaracion.toField("brokerMessageHandler", typeRef(BrokerMessageHandler))[
+							static = true
+							initializer = '''new «typeRef(ReceiverMessageHandler)»()'''
+						]
+						members+=declaracion.toField("eventBroker", typeRef(EventBroker))[
+							static = true
+							initializer = '''new «typeRef(JGroupsEventBroker)»("", brokerMessageHandler)'''
+						]
+						
+						//TODO en este es el mulsticasSync o el Async?
+						members+=declaracion.toMethod("multicast", typeRef(void))[
+							parameters+=declaracion.toParameter("evento", Event.typeRef)
+							static = true
+							body='''
+								eventBroker.multicastSync(evento, null);
+							'''
+						]
+						
+						members+=declaracion.toField("ketalMessageHandler", typeRef(BrokerMessageHandler))[
+							static = true
+							initializer = '''new «typeRef(KetalMessageHandler)»()'''
+						]
+						members+=declaracion.toField("eventBrokerHandler", typeRef(EventBroker))[
+							static = true
+							initializer = '''new «typeRef(JGroupsEventBroker)»("", ketalMessageHandler)'''
+						]
+						members+=declaracion.toMethod("getEvents", typeRef(Vector))[
+							parameters+=declaracion.toParameter("evento", Event.typeRef)
+							static = true
+							body='''
+								return ((((«typeRef(KetalMessageHandler)») ketalMessageHandler).getVectorEvents()));
+							'''
+						]
+					]
+				}
+			}
+		}
+//		acceptor.accept(element.toClass("co.edu.icesi.ketal.automaton."+element.name)) [
+//			members += element.toConstructor[
+//				body = '''System.out.println("Hello world");'''
+//			]
+//		]
+		
+	}
+	
+	def createGroupClass(IJvmDeclaredTypeAcceptor acceptor, EventClass claseGrupos) {
+		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsImpl."+groupClassName)) [
 //			annotations += annotationRef("javax.ejb.Singleton"); //The type javax.ejb.Singleton is not on the classpath.
 			members+=claseGrupos.toField("grupos", typeRef(Set))[
 				static = true
-				initializer = '''new «typeRef(TreeSet)»()'''
+				initializer = '''new «typeRef(TreeSet)»<«typeRef(String)»>()'''
 			]
 			
 			members+=claseGrupos.toConstructor[
@@ -128,34 +203,15 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 				«ENDFOR»
 				'''
 			]
+			
+			//TODO realizar el llamado para ver
+			members+=claseGrupos.toMethod("on", typeRef(void))[
+				parameters+=claseGrupos.toParameter("grupo", typeRef(Boolean))
+				body='''
+					
+				'''
+			]
 		]
-		
-		var declarations = element.typeDeclaration.declarations
-		for(declaracion:declarations){
-			var grupos = new ArrayList
-			switch(declaracion){
-				co.edu.icesi.eketal.eketal.Automaton:{//Debe ir con la ruta para el que compilador entienda que no es el objeto automáta de la libreria ketal, sino el elmento automata de la definicion del lenguaje (es decir, la producción)
-					//TODO estandar de nombre del atributo principal (si hay un estado con ese nombre va a dar problemas)
-					acceptor.accept(declaracion.toClass("co.edu.icesi.eketal.automaton."+declaracion.name.toFirstUpper)) [
-						println("co.edu.icesi.ketal.automaton."+element.name)
-						members+=declaracion.toField("automaton", typeRef(Automaton))[static = true]
-						members+=declaracion.toGetter("automaton", typeRef(Automaton))
-						members+=declaracion.toConstructor[
-							body = '''
-							inicialize();
-							'''
-						]
-						members += AutomatonInit(declaracion as co.edu.icesi.eketal.eketal.Automaton)
-					]	
-				}
-			}
-		}
-//		acceptor.accept(element.toClass("co.edu.icesi.ketal.automaton."+element.name)) [
-//			members += element.toConstructor[
-//				body = '''System.out.println("Hello world");'''
-//			]
-//		]
-		
 	}
 	
 	def AutomatonInit(co.edu.icesi.eketal.eketal.Automaton declaracion) {

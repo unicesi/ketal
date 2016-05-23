@@ -134,13 +134,13 @@ class EketalGenerator implements IGenerator{
 						//AndEvent
 						var andEvent = event as AndEvent
 						return 
-						'''«eventExpression(andEvent.left as EventExpression, pointcuts)» && «eventExpression(andEvent.right as EventExpression, pointcuts)»'''
+						'''(«eventExpression(andEvent.left as EventExpression, pointcuts)» && «eventExpression(andEvent.right as EventExpression, pointcuts)»)'''
 					}
 					OrEvent: {
 						//OrEvent
 						var orEvent = event as OrEvent
 						return 
-						'''«eventExpression(orEvent.left as EventExpression, pointcuts)» || «eventExpression(orEvent.right as EventExpression, pointcuts)»'''
+						'''(«eventExpression(orEvent.left as EventExpression, pointcuts)» || «eventExpression(orEvent.right as EventExpression, pointcuts)»)'''
 					}
 					UnaryEvent:{
 						var unaryEvent = event as UnaryEvent
@@ -155,9 +155,10 @@ class EketalGenerator implements IGenerator{
 		if(attribute.condition!=null){
 			//TODO
 			println(attribute.condition.eAdapters.toString)
-			println(attribute.condition.eContainer.toString)
 			println(attribute.condition.eContents.toString)
-			return '''if(«attribute.condition.toString»)'''//resolver if
+			println(" :"+attribute.condition.eContents.get(0).identityEquals(attribute.condition.eContents.get(1)))
+			var body = attribute.condition
+			return '''if(«body»)'''//resolver if
 //		}else if(attribute.hostgroup!=null){
 //			return '''host(«attribute.hostgroup.name»)'''
 		}else if(attribute.ongroup!=null){
