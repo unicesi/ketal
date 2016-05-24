@@ -159,8 +159,8 @@ class EketalGenerator implements IGenerator{
 			println(" :"+attribute.condition.eContents.get(0).identityEquals(attribute.condition.eContents.get(1)))
 			var body = attribute.condition
 			return '''if(«body»)'''//resolver if
-//		}else if(attribute.hostgroup!=null){
-//			return '''host(«attribute.hostgroup.name»)'''
+		}else if(attribute.hostgroup!=null){
+			return '''«EketalJvmModelInferrer.groupClassName».host(«attribute.hostgroup.name»)'''
 		}else if(attribute.ongroup!=null){
 			return '''if(«EketalJvmModelInferrer.groupClassName».on("«attribute.ongroup.name»"))'''
 //			return '''on()'''//TODO acá debe hacer otro procesamiento dado que este elemento no está
