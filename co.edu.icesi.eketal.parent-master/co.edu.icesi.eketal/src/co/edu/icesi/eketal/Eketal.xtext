@@ -45,7 +45,7 @@ MSig:
 
 //TODO Acomodar al estilo aspectj
 EvDecl:
-	'event' name=ID'(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')'":"eventos+=OrEvent*
+	'event' name=ID'(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')'":"eventos+=OrEvent*';'
 ;
 
 OrEvent returns EventExpression:
@@ -75,8 +75,8 @@ EventPredicate:
 ;
 	
 KindAttribute:
-//	'host' '('hostgroup=[Group]')' //TODO deberia ser unico
-	'on' '('ongroup=[Group]')' //TODO deberia ser unico
+	'host' '('hostgroup=[Group]')' //TODO deberia ser unico
+	| 'on' '('ongroup=[Group]')' //TODO deberia ser unico
 	| 'if' condition=XParenthesizedExpression
 //	| 'eq'"("JExp","JExp")"
 ;
