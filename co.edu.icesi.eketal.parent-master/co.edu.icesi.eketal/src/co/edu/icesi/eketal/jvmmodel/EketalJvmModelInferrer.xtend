@@ -205,10 +205,20 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 			]
 			
 			//TODO realizar el llamado para ver
-			members+=claseGrupos.toMethod("on", typeRef(void))[
+			members+=claseGrupos.toMethod("on", typeRef(boolean))[
 				parameters+=claseGrupos.toParameter("grupo", typeRef(Boolean))
 				body='''
-					
+					return true;
+				'''
+			]
+			
+			members+=claseGrupos.toMethod("host", typeRef(boolean))[
+				parameters+=claseGrupos.toParameter("nombreGrupo", typeRef(String))
+				body='''
+					if(grupos==null){
+						return false;
+					}
+					return grupos.contains(nombreGrupo);
 				'''
 			]
 		]
