@@ -4,16 +4,16 @@
 package co.edu.icesi.eketal.serializer;
 
 import co.edu.icesi.eketal.eketal.AndEvent;
-import co.edu.icesi.eketal.eketal.Attr;
 import co.edu.icesi.eketal.eketal.Automaton;
 import co.edu.icesi.eketal.eketal.Body;
 import co.edu.icesi.eketal.eketal.EketalPackage;
 import co.edu.icesi.eketal.eketal.EvDecl;
 import co.edu.icesi.eketal.eketal.EventClass;
-import co.edu.icesi.eketal.eketal.Expression;
+import co.edu.icesi.eketal.eketal.EventExpression;
 import co.edu.icesi.eketal.eketal.Group;
 import co.edu.icesi.eketal.eketal.Host;
 import co.edu.icesi.eketal.eketal.JVarD;
+import co.edu.icesi.eketal.eketal.KindAttribute;
 import co.edu.icesi.eketal.eketal.MSig;
 import co.edu.icesi.eketal.eketal.Model;
 import co.edu.icesi.eketal.eketal.OrEvent;
@@ -21,6 +21,7 @@ import co.edu.icesi.eketal.eketal.Rc;
 import co.edu.icesi.eketal.eketal.Step;
 import co.edu.icesi.eketal.eketal.TransDef;
 import co.edu.icesi.eketal.eketal.Trigger;
+import co.edu.icesi.eketal.eketal.UnaryEvent;
 import co.edu.icesi.eketal.services.EketalGrammarAccess;
 import com.google.inject.Inject;
 import java.util.Set;
@@ -96,9 +97,6 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 			case EketalPackage.AND_EVENT:
 				sequence_AndEvent(context, (AndEvent) semanticObject); 
 				return; 
-			case EketalPackage.ATTR:
-				sequence_Attr(context, (Attr) semanticObject); 
-				return; 
 			case EketalPackage.AUTOMATON:
 				sequence_Automaton(context, (Automaton) semanticObject); 
 				return; 
@@ -111,8 +109,8 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 			case EketalPackage.EVENT_CLASS:
 				sequence_EventClass(context, (EventClass) semanticObject); 
 				return; 
-			case EketalPackage.EXPRESSION:
-				sequence_NotEvent(context, (Expression) semanticObject); 
+			case EketalPackage.EVENT_EXPRESSION:
+				sequence_AtomEvent(context, (EventExpression) semanticObject); 
 				return; 
 			case EketalPackage.GROUP:
 				sequence_Group(context, (Group) semanticObject); 
@@ -122,6 +120,9 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 				return; 
 			case EketalPackage.JVAR_D:
 				sequence_JVarD(context, (JVarD) semanticObject); 
+				return; 
+			case EketalPackage.KIND_ATTRIBUTE:
+				sequence_KindAttribute(context, (KindAttribute) semanticObject); 
 				return; 
 			case EketalPackage.MSIG:
 				sequence_MSig(context, (MSig) semanticObject); 
@@ -143,6 +144,9 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 				return; 
 			case EketalPackage.TRIGGER:
 				sequence_Trigger(context, (Trigger) semanticObject); 
+				return; 
+			case EketalPackage.UNARY_EVENT:
+				sequence_UnaryExpresion(context, (UnaryEvent) semanticObject); 
 				return; 
 			}
 		else if (epackage == TypesPackage.eINSTANCE)
@@ -398,17 +402,20 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	 *     AtomEvent returns AndEvent
 	 *
 	 * Constraint:
-	 *     (left=AndEvent_AndEvent_1_0 right=NotEvent)
+	 *     (left=AndEvent_AndEvent_1_0 op='&&' right=NotEvent)
 	 */
 	protected void sequence_AndEvent(ISerializationContext context, AndEvent semanticObject) {
 		if (errorAcceptor != null) {
 			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.AND_EVENT__LEFT) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.AND_EVENT__LEFT));
-			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EXPRESSION__RIGHT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EXPRESSION__RIGHT));
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__OP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__OP));
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.AND_EVENT__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.AND_EVENT__RIGHT));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getAndEventAccess().getAndEventLeftAction_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getAndEventAccess().getOpAmpersandAmpersandKeyword_1_1_0(), semanticObject.getOp());
 		feeder.accept(grammarAccess.getAndEventAccess().getRightNotEventParserRuleCall_1_2_0(), semanticObject.getRight());
 		feeder.finish();
 	}
@@ -416,20 +423,24 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     OrEvent returns Attr
-	 *     OrEvent.OrEvent_1_0 returns Attr
-	 *     AndEvent returns Attr
-	 *     AndEvent.AndEvent_1_0 returns Attr
-	 *     NotEvent returns Attr
-	 *     AtomEvent returns Attr
-	 *     EventPredicate returns Attr
-	 *     Attr returns Attr
+	 *     OrEvent returns EventExpression
+	 *     OrEvent.OrEvent_1_0 returns EventExpression
+	 *     AndEvent returns EventExpression
+	 *     AndEvent.AndEvent_1_0 returns EventExpression
+	 *     NotEvent returns EventExpression
+	 *     AtomEvent returns EventExpression
 	 *
 	 * Constraint:
-	 *     (hostgroup=[Group|ID] | ongroup=[Group|ID] | condition=XParenthesizedExpression)
+	 *     tipoEvento=EventPredicate
 	 */
-	protected void sequence_Attr(ISerializationContext context, Attr semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+	protected void sequence_AtomEvent(ISerializationContext context, EventExpression semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__TIPO_EVENTO) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__TIPO_EVENTO));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getAtomEventAccess().getTipoEventoEventPredicateParserRuleCall_0_0(), semanticObject.getTipoEvento());
+		feeder.finish();
 	}
 	
 	
@@ -532,6 +543,19 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
+	 *     EventPredicate returns KindAttribute
+	 *     KindAttribute returns KindAttribute
+	 *
+	 * Constraint:
+	 *     (hostgroup=[Group|ID] | ongroup=[Group|ID] | condition=XParenthesizedExpression)
+	 */
+	protected void sequence_KindAttribute(ISerializationContext context, KindAttribute semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
 	 *     Decl returns MSig
 	 *     MSig returns MSig
 	 *
@@ -561,29 +585,6 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     OrEvent returns Expression
-	 *     OrEvent.OrEvent_1_0 returns Expression
-	 *     AndEvent returns Expression
-	 *     AndEvent.AndEvent_1_0 returns Expression
-	 *     NotEvent returns Expression
-	 *     AtomEvent returns Expression
-	 *
-	 * Constraint:
-	 *     right=AtomEvent
-	 */
-	protected void sequence_NotEvent(ISerializationContext context, Expression semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EXPRESSION__RIGHT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EXPRESSION__RIGHT));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getNotEventAccess().getRightAtomEventParserRuleCall_1_1_0(), semanticObject.getRight());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * Contexts:
 	 *     OrEvent returns OrEvent
 	 *     OrEvent.OrEvent_1_0 returns OrEvent
 	 *     AndEvent returns OrEvent
@@ -592,17 +593,20 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	 *     AtomEvent returns OrEvent
 	 *
 	 * Constraint:
-	 *     (left=OrEvent_OrEvent_1_0 right=AndEvent)
+	 *     (left=OrEvent_OrEvent_1_0 op='||' right=AndEvent)
 	 */
 	protected void sequence_OrEvent(ISerializationContext context, OrEvent semanticObject) {
 		if (errorAcceptor != null) {
 			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.OR_EVENT__LEFT) == ValueTransient.YES)
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.OR_EVENT__LEFT));
-			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EXPRESSION__RIGHT) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EXPRESSION__RIGHT));
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__OP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__OP));
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.OR_EVENT__RIGHT) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.OR_EVENT__RIGHT));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getOrEventAccess().getOrEventLeftAction_1_0(), semanticObject.getLeft());
+		feeder.accept(grammarAccess.getOrEventAccess().getOpVerticalLineVerticalLineKeyword_1_1_0(), semanticObject.getOp());
 		feeder.accept(grammarAccess.getOrEventAccess().getRightAndEventParserRuleCall_1_2_0(), semanticObject.getRight());
 		feeder.finish();
 	}
@@ -614,7 +618,7 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	 *     Rc returns Rc
 	 *
 	 * Constraint:
-	 *     (asyncex='asyncex'? pos=Pos name=ID body=Body)
+	 *     (syncex='syncex'? pos=Pos name=ID body=Body)
 	 */
 	protected void sequence_Rc(ISerializationContext context, Rc semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -656,12 +660,6 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	
 	/**
 	 * Contexts:
-	 *     OrEvent returns Trigger
-	 *     OrEvent.OrEvent_1_0 returns Trigger
-	 *     AndEvent returns Trigger
-	 *     AndEvent.AndEvent_1_0 returns Trigger
-	 *     NotEvent returns Trigger
-	 *     AtomEvent returns Trigger
 	 *     EventPredicate returns Trigger
 	 *     Trigger returns Trigger
 	 *
@@ -670,6 +668,33 @@ public class EketalSemanticSequencer extends XbaseSemanticSequencer {
 	 */
 	protected void sequence_Trigger(ISerializationContext context, Trigger semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * Contexts:
+	 *     OrEvent returns UnaryEvent
+	 *     OrEvent.OrEvent_1_0 returns UnaryEvent
+	 *     AndEvent returns UnaryEvent
+	 *     AndEvent.AndEvent_1_0 returns UnaryEvent
+	 *     NotEvent returns UnaryEvent
+	 *     UnaryExpresion returns UnaryEvent
+	 *     AtomEvent returns UnaryEvent
+	 *
+	 * Constraint:
+	 *     (op='!' expr=AtomEvent)
+	 */
+	protected void sequence_UnaryExpresion(ISerializationContext context, UnaryEvent semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__OP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.EVENT_EXPRESSION__OP));
+			if (transientValues.isValueTransient(semanticObject, EketalPackage.Literals.UNARY_EVENT__EXPR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, EketalPackage.Literals.UNARY_EVENT__EXPR));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getUnaryExpresionAccess().getOpExclamationMarkKeyword_1_0(), semanticObject.getOp());
+		feeder.accept(grammarAccess.getUnaryExpresionAccess().getExprAtomEventParserRuleCall_2_0(), semanticObject.getExpr());
+		feeder.finish();
 	}
 	
 	

@@ -308,32 +308,41 @@ public interface EketalPackage extends EPackage
   int EV_DECL_FEATURE_COUNT = DECL_FEATURE_COUNT + 2;
 
   /**
-   * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.ExpressionImpl <em>Expression</em>}' class.
+   * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.EventExpressionImpl <em>Event Expression</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see co.edu.icesi.eketal.eketal.impl.ExpressionImpl
-   * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getExpression()
+   * @see co.edu.icesi.eketal.eketal.impl.EventExpressionImpl
+   * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getEventExpression()
    * @generated
    */
-  int EXPRESSION = 6;
+  int EVENT_EXPRESSION = 6;
 
   /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * The feature id for the '<em><b>Tipo Evento</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXPRESSION__RIGHT = 0;
+  int EVENT_EXPRESSION__TIPO_EVENTO = 0;
 
   /**
-   * The number of structural features of the '<em>Expression</em>' class.
+   * The feature id for the '<em><b>Op</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXPRESSION_FEATURE_COUNT = 1;
+  int EVENT_EXPRESSION__OP = 1;
+
+  /**
+   * The number of structural features of the '<em>Event Expression</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EVENT_EXPRESSION_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.EventPredicateImpl <em>Event Predicate</em>}' class.
@@ -346,41 +355,23 @@ public interface EketalPackage extends EPackage
   int EVENT_PREDICATE = 7;
 
   /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EVENT_PREDICATE__RIGHT = EXPRESSION__RIGHT;
-
-  /**
    * The number of structural features of the '<em>Event Predicate</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EVENT_PREDICATE_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 0;
+  int EVENT_PREDICATE_FEATURE_COUNT = 0;
 
   /**
-   * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.AttrImpl <em>Attr</em>}' class.
+   * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.KindAttributeImpl <em>Kind Attribute</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see co.edu.icesi.eketal.eketal.impl.AttrImpl
-   * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getAttr()
+   * @see co.edu.icesi.eketal.eketal.impl.KindAttributeImpl
+   * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getKindAttribute()
    * @generated
    */
-  int ATTR = 8;
-
-  /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ATTR__RIGHT = EVENT_PREDICATE__RIGHT;
+  int KIND_ATTRIBUTE = 8;
 
   /**
    * The feature id for the '<em><b>Hostgroup</b></em>' reference.
@@ -389,7 +380,7 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTR__HOSTGROUP = EVENT_PREDICATE_FEATURE_COUNT + 0;
+  int KIND_ATTRIBUTE__HOSTGROUP = EVENT_PREDICATE_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Ongroup</b></em>' reference.
@@ -398,7 +389,7 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTR__ONGROUP = EVENT_PREDICATE_FEATURE_COUNT + 1;
+  int KIND_ATTRIBUTE__ONGROUP = EVENT_PREDICATE_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Condition</b></em>' containment reference.
@@ -407,16 +398,16 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTR__CONDITION = EVENT_PREDICATE_FEATURE_COUNT + 2;
+  int KIND_ATTRIBUTE__CONDITION = EVENT_PREDICATE_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Attr</em>' class.
+   * The number of structural features of the '<em>Kind Attribute</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATTR_FEATURE_COUNT = EVENT_PREDICATE_FEATURE_COUNT + 3;
+  int KIND_ATTRIBUTE_FEATURE_COUNT = EVENT_PREDICATE_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.TriggerImpl <em>Trigger</em>}' class.
@@ -427,15 +418,6 @@ public interface EketalPackage extends EPackage
    * @generated
    */
   int TRIGGER = 9;
-
-  /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TRIGGER__RIGHT = EVENT_PREDICATE__RIGHT;
 
   /**
    * The feature id for the '<em><b>Esig</b></em>' attribute.
@@ -687,13 +669,13 @@ public interface EketalPackage extends EPackage
   int RC__NAME = DECL__NAME;
 
   /**
-   * The feature id for the '<em><b>Asyncex</b></em>' attribute.
+   * The feature id for the '<em><b>Syncex</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RC__ASYNCEX = DECL_FEATURE_COUNT + 0;
+  int RC__SYNCEX = DECL_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Pos</b></em>' attribute.
@@ -770,13 +752,22 @@ public interface EketalPackage extends EPackage
   int OR_EVENT = 17;
 
   /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * The feature id for the '<em><b>Tipo Evento</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int OR_EVENT__RIGHT = EXPRESSION__RIGHT;
+  int OR_EVENT__TIPO_EVENTO = EVENT_EXPRESSION__TIPO_EVENTO;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OR_EVENT__OP = EVENT_EXPRESSION__OP;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -785,7 +776,16 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OR_EVENT__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+  int OR_EVENT__LEFT = EVENT_EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int OR_EVENT__RIGHT = EVENT_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Or Event</em>' class.
@@ -794,7 +794,7 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int OR_EVENT_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+  int OR_EVENT_FEATURE_COUNT = EVENT_EXPRESSION_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.AndEventImpl <em>And Event</em>}' class.
@@ -807,13 +807,22 @@ public interface EketalPackage extends EPackage
   int AND_EVENT = 18;
 
   /**
-   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * The feature id for the '<em><b>Tipo Evento</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int AND_EVENT__RIGHT = EXPRESSION__RIGHT;
+  int AND_EVENT__TIPO_EVENTO = EVENT_EXPRESSION__TIPO_EVENTO;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int AND_EVENT__OP = EVENT_EXPRESSION__OP;
 
   /**
    * The feature id for the '<em><b>Left</b></em>' containment reference.
@@ -822,7 +831,16 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int AND_EVENT__LEFT = EXPRESSION_FEATURE_COUNT + 0;
+  int AND_EVENT__LEFT = EVENT_EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Right</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int AND_EVENT__RIGHT = EVENT_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>And Event</em>' class.
@@ -831,7 +849,53 @@ public interface EketalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int AND_EVENT_FEATURE_COUNT = EXPRESSION_FEATURE_COUNT + 1;
+  int AND_EVENT_FEATURE_COUNT = EVENT_EXPRESSION_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link co.edu.icesi.eketal.eketal.impl.UnaryEventImpl <em>Unary Event</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see co.edu.icesi.eketal.eketal.impl.UnaryEventImpl
+   * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getUnaryEvent()
+   * @generated
+   */
+  int UNARY_EVENT = 19;
+
+  /**
+   * The feature id for the '<em><b>Tipo Evento</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_EVENT__TIPO_EVENTO = EVENT_EXPRESSION__TIPO_EVENTO;
+
+  /**
+   * The feature id for the '<em><b>Op</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_EVENT__OP = EVENT_EXPRESSION__OP;
+
+  /**
+   * The feature id for the '<em><b>Expr</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_EVENT__EXPR = EVENT_EXPRESSION_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Unary Event</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_EVENT_FEATURE_COUNT = EVENT_EXPRESSION_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link co.edu.icesi.eketal.eketal.StateType <em>State Type</em>}' enum.
@@ -841,7 +905,7 @@ public interface EketalPackage extends EPackage
    * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getStateType()
    * @generated
    */
-  int STATE_TYPE = 19;
+  int STATE_TYPE = 20;
 
   /**
    * The meta object id for the '{@link co.edu.icesi.eketal.eketal.Pos <em>Pos</em>}' enum.
@@ -851,7 +915,7 @@ public interface EketalPackage extends EPackage
    * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getPos()
    * @generated
    */
-  int POS = 20;
+  int POS = 21;
 
 
   /**
@@ -1047,25 +1111,36 @@ public interface EketalPackage extends EPackage
   EReference getEvDecl_Eventos();
 
   /**
-   * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.Expression <em>Expression</em>}'.
+   * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.EventExpression <em>Event Expression</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Expression</em>'.
-   * @see co.edu.icesi.eketal.eketal.Expression
+   * @return the meta object for class '<em>Event Expression</em>'.
+   * @see co.edu.icesi.eketal.eketal.EventExpression
    * @generated
    */
-  EClass getExpression();
+  EClass getEventExpression();
 
   /**
-   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.Expression#getRight <em>Right</em>}'.
+   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.EventExpression#getTipoEvento <em>Tipo Evento</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference '<em>Right</em>'.
-   * @see co.edu.icesi.eketal.eketal.Expression#getRight()
-   * @see #getExpression()
+   * @return the meta object for the containment reference '<em>Tipo Evento</em>'.
+   * @see co.edu.icesi.eketal.eketal.EventExpression#getTipoEvento()
+   * @see #getEventExpression()
    * @generated
    */
-  EReference getExpression_Right();
+  EReference getEventExpression_TipoEvento();
+
+  /**
+   * Returns the meta object for the attribute '{@link co.edu.icesi.eketal.eketal.EventExpression#getOp <em>Op</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Op</em>'.
+   * @see co.edu.icesi.eketal.eketal.EventExpression#getOp()
+   * @see #getEventExpression()
+   * @generated
+   */
+  EAttribute getEventExpression_Op();
 
   /**
    * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.EventPredicate <em>Event Predicate</em>}'.
@@ -1078,47 +1153,47 @@ public interface EketalPackage extends EPackage
   EClass getEventPredicate();
 
   /**
-   * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.Attr <em>Attr</em>}'.
+   * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.KindAttribute <em>Kind Attribute</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Attr</em>'.
-   * @see co.edu.icesi.eketal.eketal.Attr
+   * @return the meta object for class '<em>Kind Attribute</em>'.
+   * @see co.edu.icesi.eketal.eketal.KindAttribute
    * @generated
    */
-  EClass getAttr();
+  EClass getKindAttribute();
 
   /**
-   * Returns the meta object for the reference '{@link co.edu.icesi.eketal.eketal.Attr#getHostgroup <em>Hostgroup</em>}'.
+   * Returns the meta object for the reference '{@link co.edu.icesi.eketal.eketal.KindAttribute#getHostgroup <em>Hostgroup</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>Hostgroup</em>'.
-   * @see co.edu.icesi.eketal.eketal.Attr#getHostgroup()
-   * @see #getAttr()
+   * @see co.edu.icesi.eketal.eketal.KindAttribute#getHostgroup()
+   * @see #getKindAttribute()
    * @generated
    */
-  EReference getAttr_Hostgroup();
+  EReference getKindAttribute_Hostgroup();
 
   /**
-   * Returns the meta object for the reference '{@link co.edu.icesi.eketal.eketal.Attr#getOngroup <em>Ongroup</em>}'.
+   * Returns the meta object for the reference '{@link co.edu.icesi.eketal.eketal.KindAttribute#getOngroup <em>Ongroup</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the reference '<em>Ongroup</em>'.
-   * @see co.edu.icesi.eketal.eketal.Attr#getOngroup()
-   * @see #getAttr()
+   * @see co.edu.icesi.eketal.eketal.KindAttribute#getOngroup()
+   * @see #getKindAttribute()
    * @generated
    */
-  EReference getAttr_Ongroup();
+  EReference getKindAttribute_Ongroup();
 
   /**
-   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.Attr#getCondition <em>Condition</em>}'.
+   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.KindAttribute#getCondition <em>Condition</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Condition</em>'.
-   * @see co.edu.icesi.eketal.eketal.Attr#getCondition()
-   * @see #getAttr()
+   * @see co.edu.icesi.eketal.eketal.KindAttribute#getCondition()
+   * @see #getKindAttribute()
    * @generated
    */
-  EReference getAttr_Condition();
+  EReference getKindAttribute_Condition();
 
   /**
    * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.Trigger <em>Trigger</em>}'.
@@ -1323,15 +1398,15 @@ public interface EketalPackage extends EPackage
   EClass getRc();
 
   /**
-   * Returns the meta object for the attribute '{@link co.edu.icesi.eketal.eketal.Rc#getAsyncex <em>Asyncex</em>}'.
+   * Returns the meta object for the attribute '{@link co.edu.icesi.eketal.eketal.Rc#getSyncex <em>Syncex</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Asyncex</em>'.
-   * @see co.edu.icesi.eketal.eketal.Rc#getAsyncex()
+   * @return the meta object for the attribute '<em>Syncex</em>'.
+   * @see co.edu.icesi.eketal.eketal.Rc#getSyncex()
    * @see #getRc()
    * @generated
    */
-  EAttribute getRc_Asyncex();
+  EAttribute getRc_Syncex();
 
   /**
    * Returns the meta object for the attribute '{@link co.edu.icesi.eketal.eketal.Rc#getPos <em>Pos</em>}'.
@@ -1409,6 +1484,17 @@ public interface EketalPackage extends EPackage
   EReference getOrEvent_Left();
 
   /**
+   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.OrEvent#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see co.edu.icesi.eketal.eketal.OrEvent#getRight()
+   * @see #getOrEvent()
+   * @generated
+   */
+  EReference getOrEvent_Right();
+
+  /**
    * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.AndEvent <em>And Event</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1428,6 +1514,38 @@ public interface EketalPackage extends EPackage
    * @generated
    */
   EReference getAndEvent_Left();
+
+  /**
+   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.AndEvent#getRight <em>Right</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Right</em>'.
+   * @see co.edu.icesi.eketal.eketal.AndEvent#getRight()
+   * @see #getAndEvent()
+   * @generated
+   */
+  EReference getAndEvent_Right();
+
+  /**
+   * Returns the meta object for class '{@link co.edu.icesi.eketal.eketal.UnaryEvent <em>Unary Event</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Unary Event</em>'.
+   * @see co.edu.icesi.eketal.eketal.UnaryEvent
+   * @generated
+   */
+  EClass getUnaryEvent();
+
+  /**
+   * Returns the meta object for the containment reference '{@link co.edu.icesi.eketal.eketal.UnaryEvent#getExpr <em>Expr</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Expr</em>'.
+   * @see co.edu.icesi.eketal.eketal.UnaryEvent#getExpr()
+   * @see #getUnaryEvent()
+   * @generated
+   */
+  EReference getUnaryEvent_Expr();
 
   /**
    * Returns the meta object for enum '{@link co.edu.icesi.eketal.eketal.StateType <em>State Type</em>}'.
@@ -1629,22 +1747,30 @@ public interface EketalPackage extends EPackage
     EReference EV_DECL__EVENTOS = eINSTANCE.getEvDecl_Eventos();
 
     /**
-     * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.ExpressionImpl <em>Expression</em>}' class.
+     * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.EventExpressionImpl <em>Event Expression</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see co.edu.icesi.eketal.eketal.impl.ExpressionImpl
-     * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getExpression()
+     * @see co.edu.icesi.eketal.eketal.impl.EventExpressionImpl
+     * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getEventExpression()
      * @generated
      */
-    EClass EXPRESSION = eINSTANCE.getExpression();
+    EClass EVENT_EXPRESSION = eINSTANCE.getEventExpression();
 
     /**
-     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * The meta object literal for the '<em><b>Tipo Evento</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference EXPRESSION__RIGHT = eINSTANCE.getExpression_Right();
+    EReference EVENT_EXPRESSION__TIPO_EVENTO = eINSTANCE.getEventExpression_TipoEvento();
+
+    /**
+     * The meta object literal for the '<em><b>Op</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EVENT_EXPRESSION__OP = eINSTANCE.getEventExpression_Op();
 
     /**
      * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.EventPredicateImpl <em>Event Predicate</em>}' class.
@@ -1657,14 +1783,14 @@ public interface EketalPackage extends EPackage
     EClass EVENT_PREDICATE = eINSTANCE.getEventPredicate();
 
     /**
-     * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.AttrImpl <em>Attr</em>}' class.
+     * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.KindAttributeImpl <em>Kind Attribute</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see co.edu.icesi.eketal.eketal.impl.AttrImpl
-     * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getAttr()
+     * @see co.edu.icesi.eketal.eketal.impl.KindAttributeImpl
+     * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getKindAttribute()
      * @generated
      */
-    EClass ATTR = eINSTANCE.getAttr();
+    EClass KIND_ATTRIBUTE = eINSTANCE.getKindAttribute();
 
     /**
      * The meta object literal for the '<em><b>Hostgroup</b></em>' reference feature.
@@ -1672,7 +1798,7 @@ public interface EketalPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ATTR__HOSTGROUP = eINSTANCE.getAttr_Hostgroup();
+    EReference KIND_ATTRIBUTE__HOSTGROUP = eINSTANCE.getKindAttribute_Hostgroup();
 
     /**
      * The meta object literal for the '<em><b>Ongroup</b></em>' reference feature.
@@ -1680,7 +1806,7 @@ public interface EketalPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ATTR__ONGROUP = eINSTANCE.getAttr_Ongroup();
+    EReference KIND_ATTRIBUTE__ONGROUP = eINSTANCE.getKindAttribute_Ongroup();
 
     /**
      * The meta object literal for the '<em><b>Condition</b></em>' containment reference feature.
@@ -1688,7 +1814,7 @@ public interface EketalPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ATTR__CONDITION = eINSTANCE.getAttr_Condition();
+    EReference KIND_ATTRIBUTE__CONDITION = eINSTANCE.getKindAttribute_Condition();
 
     /**
      * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.TriggerImpl <em>Trigger</em>}' class.
@@ -1857,12 +1983,12 @@ public interface EketalPackage extends EPackage
     EClass RC = eINSTANCE.getRc();
 
     /**
-     * The meta object literal for the '<em><b>Asyncex</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Syncex</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute RC__ASYNCEX = eINSTANCE.getRc_Asyncex();
+    EAttribute RC__SYNCEX = eINSTANCE.getRc_Syncex();
 
     /**
      * The meta object literal for the '<em><b>Pos</b></em>' attribute feature.
@@ -1925,6 +2051,14 @@ public interface EketalPackage extends EPackage
     EReference OR_EVENT__LEFT = eINSTANCE.getOrEvent_Left();
 
     /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference OR_EVENT__RIGHT = eINSTANCE.getOrEvent_Right();
+
+    /**
      * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.AndEventImpl <em>And Event</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -1941,6 +2075,32 @@ public interface EketalPackage extends EPackage
      * @generated
      */
     EReference AND_EVENT__LEFT = eINSTANCE.getAndEvent_Left();
+
+    /**
+     * The meta object literal for the '<em><b>Right</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference AND_EVENT__RIGHT = eINSTANCE.getAndEvent_Right();
+
+    /**
+     * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.impl.UnaryEventImpl <em>Unary Event</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see co.edu.icesi.eketal.eketal.impl.UnaryEventImpl
+     * @see co.edu.icesi.eketal.eketal.impl.EketalPackageImpl#getUnaryEvent()
+     * @generated
+     */
+    EClass UNARY_EVENT = eINSTANCE.getUnaryEvent();
+
+    /**
+     * The meta object literal for the '<em><b>Expr</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference UNARY_EVENT__EXPR = eINSTANCE.getUnaryEvent_Expr();
 
     /**
      * The meta object literal for the '{@link co.edu.icesi.eketal.eketal.StateType <em>State Type</em>}' enum.

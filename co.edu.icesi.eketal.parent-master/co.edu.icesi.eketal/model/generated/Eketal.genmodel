@@ -41,11 +41,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//EvDecl/eventos"/>
     </genClasses>
     <genClasses ecoreClass="Eketal.ecore#//EventExpression">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//EventExpression/expr"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//EventExpression/tipoEvento"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//EventExpression/left"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Eketal.ecore#//EventExpression/op"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//EventExpression/right"/>
     </genClasses>
     <genClasses ecoreClass="Eketal.ecore#//EventPredicate"/>
     <genClasses ecoreClass="Eketal.ecore#//KindAttribute">
@@ -78,7 +75,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Eketal.ecore#//TransDef/target"/>
     </genClasses>
     <genClasses ecoreClass="Eketal.ecore#//Rc">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Eketal.ecore#//Rc/asyncex"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Eketal.ecore#//Rc/syncex"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Eketal.ecore#//Rc/pos"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//Rc/body"/>
     </genClasses>
@@ -86,7 +83,16 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//Body/body"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Eketal.ecore#//Body/grupo"/>
     </genClasses>
-    <genClasses ecoreClass="Eketal.ecore#//OrEvent"/>
-    <genClasses ecoreClass="Eketal.ecore#//AndEvent"/>
+    <genClasses ecoreClass="Eketal.ecore#//OrEvent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//OrEvent/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//OrEvent/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Eketal.ecore#//AndEvent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//AndEvent/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//AndEvent/right"/>
+    </genClasses>
+    <genClasses ecoreClass="Eketal.ecore#//UnaryEvent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference Eketal.ecore#//UnaryEvent/expr"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

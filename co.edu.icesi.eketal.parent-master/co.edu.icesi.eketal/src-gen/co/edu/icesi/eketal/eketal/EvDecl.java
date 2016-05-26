@@ -44,7 +44,7 @@ public interface EvDecl extends Decl
 
   /**
    * Returns the value of the '<em><b>Eventos</b></em>' containment reference list.
-   * The list contents are of type {@link co.edu.icesi.eketal.eketal.Expression}.
+   * The list contents are of type {@link co.edu.icesi.eketal.eketal.EventExpression}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Eventos</em>' containment reference list isn't clear,
@@ -56,6 +56,6 @@ public interface EvDecl extends Decl
    * @model containment="true"
    * @generated
    */
-  EList<Expression> getEventos();
+  EList<EventExpression> getEventos();
 
 } // EvDecl

@@ -5,7 +5,7 @@ package co.edu.icesi.eketal.eketal.impl;
 
 import co.edu.icesi.eketal.eketal.EketalPackage;
 import co.edu.icesi.eketal.eketal.EvDecl;
-import co.edu.icesi.eketal.eketal.Expression;
+import co.edu.icesi.eketal.eketal.EventExpression;
 
 import java.util.Collection;
 
@@ -55,7 +55,7 @@ public class EvDeclImpl extends DeclImpl implements EvDecl
    * @generated
    * @ordered
    */
-  protected EList<Expression> eventos;
+  protected EList<EventExpression> eventos;
 
   /**
    * <!-- begin-user-doc -->
@@ -97,11 +97,11 @@ public class EvDeclImpl extends DeclImpl implements EvDecl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList<Expression> getEventos()
+  public EList<EventExpression> getEventos()
   {
     if (eventos == null)
     {
-      eventos = new EObjectContainmentEList<Expression>(Expression.class, this, EketalPackage.EV_DECL__EVENTOS);
+      eventos = new EObjectContainmentEList<EventExpression>(EventExpression.class, this, EketalPackage.EV_DECL__EVENTOS);
     }
     return eventos;
   }
@@ -159,7 +159,7 @@ public class EvDeclImpl extends DeclImpl implements EvDecl
         return;
       case EketalPackage.EV_DECL__EVENTOS:
         getEventos().clear();
-        getEventos().addAll((Collection<? extends Expression>)newValue);
+        getEventos().addAll((Collection<? extends EventExpression>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

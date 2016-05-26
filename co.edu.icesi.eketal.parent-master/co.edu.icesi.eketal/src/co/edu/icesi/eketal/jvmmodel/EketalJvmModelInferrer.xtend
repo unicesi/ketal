@@ -167,7 +167,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 	}
 	
 	def createGroupClass(IJvmDeclaredTypeAcceptor acceptor, EventClass claseGrupos) {
-		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsImpl."+groupClassName)) [
+		acceptor.accept(claseGrupos.toClass("co.edu.icesi.eketal.groupsimpl."+groupClassName)) [
 //			annotations += annotationRef("javax.ejb.Singleton"); //The type javax.ejb.Singleton is not on the classpath.
 			members+=claseGrupos.toField("grupos", typeRef(Set))[
 				static = true
@@ -206,7 +206,8 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 			
 			//TODO realizar el llamado para ver
 			members+=claseGrupos.toMethod("on", typeRef(boolean))[
-				parameters+=claseGrupos.toParameter("grupo", typeRef(Boolean))
+				parameters+=claseGrupos.toParameter("grupo", typeRef(String))
+				static = true
 				body='''
 					return true;
 				'''
@@ -214,6 +215,7 @@ class EketalJvmModelInferrer extends AbstractModelInferrer {
 			
 			members+=claseGrupos.toMethod("host", typeRef(boolean))[
 				parameters+=claseGrupos.toParameter("nombreGrupo", typeRef(String))
+				static = true
 				body='''
 					if(grupos==null){
 						return false;

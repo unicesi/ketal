@@ -44,7 +44,6 @@
 'after'=58
 'around'=57
 'as'=80
-'asyncex'=102
 'automaton'=75
 'before'=56
 'call'=73
@@ -81,6 +80,7 @@
 'static'=48
 'super'=51
 'switch'=85
+'syncex'=102
 'synchronized'=98
 'throw'=94
 'true'=107

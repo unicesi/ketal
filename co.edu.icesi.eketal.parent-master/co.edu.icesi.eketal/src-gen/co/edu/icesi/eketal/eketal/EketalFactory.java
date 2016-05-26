@@ -78,13 +78,13 @@ public interface EketalFactory extends EFactory
   EvDecl createEvDecl();
 
   /**
-   * Returns a new object of class '<em>Expression</em>'.
+   * Returns a new object of class '<em>Event Expression</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Expression</em>'.
+   * @return a new object of class '<em>Event Expression</em>'.
    * @generated
    */
-  Expression createExpression();
+  EventExpression createEventExpression();
 
   /**
    * Returns a new object of class '<em>Event Predicate</em>'.
@@ -96,13 +96,13 @@ public interface EketalFactory extends EFactory
   EventPredicate createEventPredicate();
 
   /**
-   * Returns a new object of class '<em>Attr</em>'.
+   * Returns a new object of class '<em>Kind Attribute</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Attr</em>'.
+   * @return a new object of class '<em>Kind Attribute</em>'.
    * @generated
    */
-  Attr createAttr();
+  KindAttribute createKindAttribute();
 
   /**
    * Returns a new object of class '<em>Trigger</em>'.
@@ -193,6 +193,15 @@ public interface EketalFactory extends EFactory
    * @generated
    */
   AndEvent createAndEvent();
+
+  /**
+   * Returns a new object of class '<em>Unary Event</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Unary Event</em>'.
+   * @generated
+   */
+  UnaryEvent createUnaryEvent();
 
   /**
    * Returns the package supported by this factory.

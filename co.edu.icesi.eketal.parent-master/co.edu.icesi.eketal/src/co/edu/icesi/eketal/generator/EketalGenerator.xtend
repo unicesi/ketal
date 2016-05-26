@@ -18,6 +18,8 @@ import java.util.Set
 import java.util.TreeSet
 import java.util.ArrayList
 import co.edu.icesi.eketal.jvmmodel.EketalJvmModelInferrer
+import org.eclipse.xtext.xbase.impl.XStringLiteralImpl
+import org.eclipse.xtext.xbase.XStringLiteral
 
 //https://www.eclipse.org/forums/index.php/t/486215/
 
@@ -48,6 +50,7 @@ class EketalGenerator implements IGenerator{
 		var Set<String> importaciones = new TreeSet()
 		var pointcuts = new ArrayList<String>
 		importaciones+="co.edu.icesi.eketal.automaton.*"
+		importaciones+="co.edu.icesi.eketal.groupsimpl.*"
 		var aspect = '''
 		public aspect «modelo.name.toFirstUpper»{
 		
@@ -153,12 +156,19 @@ class EketalGenerator implements IGenerator{
 	
 	def returnAttribute(KindAttribute attribute) {
 		if(attribute.condition!=null){
-			//TODO
-			println(attribute.condition.eAdapters.toString)
-			println(attribute.condition.eContents.toString)
-			println(" :"+attribute.condition.eContents.get(0).identityEquals(attribute.condition.eContents.get(1)))
-			var body = attribute.condition
-			return '''if(«body»)'''//resolver if
+			println(attribute.condition.eContents.size)
+			var body = ""
+			if(attribute.condition.eContents.size==1){
+				var XStringLiteralImpl valone = attribute.condition.eContents.get(0) as XStringLiteralImpl
+				body = '''«valone.value»'''
+			}else{
+				if(attribute.condition.eContents.get(0) instanceof XStringLiteralImpl && attribute.condition.eContents.get(1) instanceof XStringLiteralImpl){
+					var XStringLiteralImpl valone = attribute.condition.eContents.get(0) as XStringLiteralImpl
+					var XStringLiteralImpl valtwo = attribute.condition.eContents.get(1) as XStringLiteralImpl
+					body = '''"«valone.value»".equals("«valtwo.value»")'''
+				}
+			}
+			return '''if(«body»)'''
 		}else if(attribute.hostgroup!=null){
 			return '''«EketalJvmModelInferrer.groupClassName».host(«attribute.hostgroup.name»)'''
 		}else if(attribute.ongroup!=null){

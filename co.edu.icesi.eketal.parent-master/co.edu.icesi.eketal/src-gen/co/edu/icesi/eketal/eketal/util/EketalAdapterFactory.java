@@ -106,9 +106,9 @@ public class EketalAdapterFactory extends AdapterFactoryImpl
         return createEvDeclAdapter();
       }
       @Override
-      public Adapter caseExpression(Expression object)
+      public Adapter caseEventExpression(EventExpression object)
       {
-        return createExpressionAdapter();
+        return createEventExpressionAdapter();
       }
       @Override
       public Adapter caseEventPredicate(EventPredicate object)
@@ -116,9 +116,9 @@ public class EketalAdapterFactory extends AdapterFactoryImpl
         return createEventPredicateAdapter();
       }
       @Override
-      public Adapter caseAttr(Attr object)
+      public Adapter caseKindAttribute(KindAttribute object)
       {
-        return createAttrAdapter();
+        return createKindAttributeAdapter();
       }
       @Override
       public Adapter caseTrigger(Trigger object)
@@ -169,6 +169,11 @@ public class EketalAdapterFactory extends AdapterFactoryImpl
       public Adapter caseAndEvent(AndEvent object)
       {
         return createAndEventAdapter();
+      }
+      @Override
+      public Adapter caseUnaryEvent(UnaryEvent object)
+      {
+        return createUnaryEventAdapter();
       }
       @Override
       public Adapter defaultCase(EObject object)
@@ -283,16 +288,16 @@ public class EketalAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link co.edu.icesi.eketal.eketal.Expression <em>Expression</em>}'.
+   * Creates a new adapter for an object of class '{@link co.edu.icesi.eketal.eketal.EventExpression <em>Event Expression</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see co.edu.icesi.eketal.eketal.Expression
+   * @see co.edu.icesi.eketal.eketal.EventExpression
    * @generated
    */
-  public Adapter createExpressionAdapter()
+  public Adapter createEventExpressionAdapter()
   {
     return null;
   }
@@ -313,16 +318,16 @@ public class EketalAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link co.edu.icesi.eketal.eketal.Attr <em>Attr</em>}'.
+   * Creates a new adapter for an object of class '{@link co.edu.icesi.eketal.eketal.KindAttribute <em>Kind Attribute</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see co.edu.icesi.eketal.eketal.Attr
+   * @see co.edu.icesi.eketal.eketal.KindAttribute
    * @generated
    */
-  public Adapter createAttrAdapter()
+  public Adapter createKindAttributeAdapter()
   {
     return null;
   }
@@ -473,6 +478,21 @@ public class EketalAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createAndEventAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link co.edu.icesi.eketal.eketal.UnaryEvent <em>Unary Event</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see co.edu.icesi.eketal.eketal.UnaryEvent
+   * @generated
+   */
+  public Adapter createUnaryEventAdapter()
   {
     return null;
   }

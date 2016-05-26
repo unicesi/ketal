@@ -72,9 +72,9 @@ public class EketalFactoryImpl extends EFactoryImpl implements EketalFactory
       case EketalPackage.JVAR_D: return createJVarD();
       case EketalPackage.MSIG: return createMSig();
       case EketalPackage.EV_DECL: return createEvDecl();
-      case EketalPackage.EXPRESSION: return createExpression();
+      case EketalPackage.EVENT_EXPRESSION: return createEventExpression();
       case EketalPackage.EVENT_PREDICATE: return createEventPredicate();
-      case EketalPackage.ATTR: return createAttr();
+      case EketalPackage.KIND_ATTRIBUTE: return createKindAttribute();
       case EketalPackage.TRIGGER: return createTrigger();
       case EketalPackage.GROUP: return createGroup();
       case EketalPackage.HOST: return createHost();
@@ -85,6 +85,7 @@ public class EketalFactoryImpl extends EFactoryImpl implements EketalFactory
       case EketalPackage.BODY: return createBody();
       case EketalPackage.OR_EVENT: return createOrEvent();
       case EketalPackage.AND_EVENT: return createAndEvent();
+      case EketalPackage.UNARY_EVENT: return createUnaryEvent();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -199,10 +200,10 @@ public class EketalFactoryImpl extends EFactoryImpl implements EketalFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Expression createExpression()
+  public EventExpression createEventExpression()
   {
-    ExpressionImpl expression = new ExpressionImpl();
-    return expression;
+    EventExpressionImpl eventExpression = new EventExpressionImpl();
+    return eventExpression;
   }
 
   /**
@@ -221,10 +222,10 @@ public class EketalFactoryImpl extends EFactoryImpl implements EketalFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Attr createAttr()
+  public KindAttribute createKindAttribute()
   {
-    AttrImpl attr = new AttrImpl();
-    return attr;
+    KindAttributeImpl kindAttribute = new KindAttributeImpl();
+    return kindAttribute;
   }
 
   /**
@@ -335,6 +336,17 @@ public class EketalFactoryImpl extends EFactoryImpl implements EketalFactory
   {
     AndEventImpl andEvent = new AndEventImpl();
     return andEvent;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public UnaryEvent createUnaryEvent()
+  {
+    UnaryEventImpl unaryEvent = new UnaryEventImpl();
+    return unaryEvent;
   }
 
   /**

@@ -13,7 +13,7 @@ package co.edu.icesi.eketal.eketal;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link co.edu.icesi.eketal.eketal.Rc#getAsyncex <em>Asyncex</em>}</li>
+ *   <li>{@link co.edu.icesi.eketal.eketal.Rc#getSyncex <em>Syncex</em>}</li>
  *   <li>{@link co.edu.icesi.eketal.eketal.Rc#getPos <em>Pos</em>}</li>
  *   <li>{@link co.edu.icesi.eketal.eketal.Rc#getBody <em>Body</em>}</li>
  * </ul>
@@ -25,30 +25,30 @@ package co.edu.icesi.eketal.eketal;
 public interface Rc extends Decl
 {
   /**
-   * Returns the value of the '<em><b>Asyncex</b></em>' attribute.
+   * Returns the value of the '<em><b>Syncex</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Asyncex</em>' attribute isn't clear,
+   * If the meaning of the '<em>Syncex</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Asyncex</em>' attribute.
-   * @see #setAsyncex(String)
-   * @see co.edu.icesi.eketal.eketal.EketalPackage#getRc_Asyncex()
+   * @return the value of the '<em>Syncex</em>' attribute.
+   * @see #setSyncex(String)
+   * @see co.edu.icesi.eketal.eketal.EketalPackage#getRc_Syncex()
    * @model
    * @generated
    */
-  String getAsyncex();
+  String getSyncex();
 
   /**
-   * Sets the value of the '{@link co.edu.icesi.eketal.eketal.Rc#getAsyncex <em>Asyncex</em>}' attribute.
+   * Sets the value of the '{@link co.edu.icesi.eketal.eketal.Rc#getSyncex <em>Syncex</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Asyncex</em>' attribute.
-   * @see #getAsyncex()
+   * @param value the new value of the '<em>Syncex</em>' attribute.
+   * @see #getSyncex()
    * @generated
    */
-  void setAsyncex(String value);
+  void setSyncex(String value);
 
   /**
    * Returns the value of the '<em><b>Pos</b></em>' attribute.

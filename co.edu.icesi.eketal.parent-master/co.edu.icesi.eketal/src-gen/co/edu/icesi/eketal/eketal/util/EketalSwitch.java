@@ -118,10 +118,10 @@ public class EketalSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case EketalPackage.EXPRESSION:
+      case EketalPackage.EVENT_EXPRESSION:
       {
-        Expression expression = (Expression)theEObject;
-        T result = caseExpression(expression);
+        EventExpression eventExpression = (EventExpression)theEObject;
+        T result = caseEventExpression(eventExpression);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -129,16 +129,14 @@ public class EketalSwitch<T> extends Switch<T>
       {
         EventPredicate eventPredicate = (EventPredicate)theEObject;
         T result = caseEventPredicate(eventPredicate);
-        if (result == null) result = caseExpression(eventPredicate);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case EketalPackage.ATTR:
+      case EketalPackage.KIND_ATTRIBUTE:
       {
-        Attr attr = (Attr)theEObject;
-        T result = caseAttr(attr);
-        if (result == null) result = caseEventPredicate(attr);
-        if (result == null) result = caseExpression(attr);
+        KindAttribute kindAttribute = (KindAttribute)theEObject;
+        T result = caseKindAttribute(kindAttribute);
+        if (result == null) result = caseEventPredicate(kindAttribute);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -147,7 +145,6 @@ public class EketalSwitch<T> extends Switch<T>
         Trigger trigger = (Trigger)theEObject;
         T result = caseTrigger(trigger);
         if (result == null) result = caseEventPredicate(trigger);
-        if (result == null) result = caseExpression(trigger);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -207,7 +204,7 @@ public class EketalSwitch<T> extends Switch<T>
       {
         OrEvent orEvent = (OrEvent)theEObject;
         T result = caseOrEvent(orEvent);
-        if (result == null) result = caseExpression(orEvent);
+        if (result == null) result = caseEventExpression(orEvent);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -215,7 +212,15 @@ public class EketalSwitch<T> extends Switch<T>
       {
         AndEvent andEvent = (AndEvent)theEObject;
         T result = caseAndEvent(andEvent);
-        if (result == null) result = caseExpression(andEvent);
+        if (result == null) result = caseEventExpression(andEvent);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EketalPackage.UNARY_EVENT:
+      {
+        UnaryEvent unaryEvent = (UnaryEvent)theEObject;
+        T result = caseUnaryEvent(unaryEvent);
+        if (result == null) result = caseEventExpression(unaryEvent);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -320,17 +325,17 @@ public class EketalSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Expression</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Event Expression</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Expression</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Event Expression</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseExpression(Expression object)
+  public T caseEventExpression(EventExpression object)
   {
     return null;
   }
@@ -352,17 +357,17 @@ public class EketalSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Attr</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Kind Attribute</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Attr</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Kind Attribute</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseAttr(Attr object)
+  public T caseKindAttribute(KindAttribute object)
   {
     return null;
   }
@@ -523,6 +528,22 @@ public class EketalSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseAndEvent(AndEvent object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Unary Event</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Unary Event</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseUnaryEvent(UnaryEvent object)
   {
     return null;
   }

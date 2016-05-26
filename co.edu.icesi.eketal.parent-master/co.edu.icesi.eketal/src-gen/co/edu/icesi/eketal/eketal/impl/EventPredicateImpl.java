@@ -8,6 +8,8 @@ import co.edu.icesi.eketal.eketal.EventPredicate;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Event Predicate</b></em>'.
@@ -15,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class EventPredicateImpl extends ExpressionImpl implements EventPredicate
+public class EventPredicateImpl extends MinimalEObjectImpl.Container implements EventPredicate
 {
   /**
    * <!-- begin-user-doc -->

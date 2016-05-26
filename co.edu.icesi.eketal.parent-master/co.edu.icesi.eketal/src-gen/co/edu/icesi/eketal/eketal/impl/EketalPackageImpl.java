@@ -4,7 +4,6 @@
 package co.edu.icesi.eketal.eketal.impl;
 
 import co.edu.icesi.eketal.eketal.AndEvent;
-import co.edu.icesi.eketal.eketal.Attr;
 import co.edu.icesi.eketal.eketal.Automaton;
 import co.edu.icesi.eketal.eketal.Body;
 import co.edu.icesi.eketal.eketal.Decl;
@@ -12,11 +11,12 @@ import co.edu.icesi.eketal.eketal.EketalFactory;
 import co.edu.icesi.eketal.eketal.EketalPackage;
 import co.edu.icesi.eketal.eketal.EvDecl;
 import co.edu.icesi.eketal.eketal.EventClass;
+import co.edu.icesi.eketal.eketal.EventExpression;
 import co.edu.icesi.eketal.eketal.EventPredicate;
-import co.edu.icesi.eketal.eketal.Expression;
 import co.edu.icesi.eketal.eketal.Group;
 import co.edu.icesi.eketal.eketal.Host;
 import co.edu.icesi.eketal.eketal.JVarD;
+import co.edu.icesi.eketal.eketal.KindAttribute;
 import co.edu.icesi.eketal.eketal.MSig;
 import co.edu.icesi.eketal.eketal.Model;
 import co.edu.icesi.eketal.eketal.OrEvent;
@@ -26,6 +26,7 @@ import co.edu.icesi.eketal.eketal.StateType;
 import co.edu.icesi.eketal.eketal.Step;
 import co.edu.icesi.eketal.eketal.TransDef;
 import co.edu.icesi.eketal.eketal.Trigger;
+import co.edu.icesi.eketal.eketal.UnaryEvent;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -96,7 +97,7 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass expressionEClass = null;
+  private EClass eventExpressionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -110,7 +111,7 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass attrEClass = null;
+  private EClass kindAttributeEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -181,6 +182,13 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * @generated
    */
   private EClass andEventEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass unaryEventEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -448,9 +456,9 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getExpression()
+  public EClass getEventExpression()
   {
-    return expressionEClass;
+    return eventExpressionEClass;
   }
 
   /**
@@ -458,9 +466,19 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getExpression_Right()
+  public EReference getEventExpression_TipoEvento()
   {
-    return (EReference)expressionEClass.getEStructuralFeatures().get(0);
+    return (EReference)eventExpressionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getEventExpression_Op()
+  {
+    return (EAttribute)eventExpressionEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -478,9 +496,9 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getAttr()
+  public EClass getKindAttribute()
   {
-    return attrEClass;
+    return kindAttributeEClass;
   }
 
   /**
@@ -488,9 +506,9 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAttr_Hostgroup()
+  public EReference getKindAttribute_Hostgroup()
   {
-    return (EReference)attrEClass.getEStructuralFeatures().get(0);
+    return (EReference)kindAttributeEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -498,9 +516,9 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAttr_Ongroup()
+  public EReference getKindAttribute_Ongroup()
   {
-    return (EReference)attrEClass.getEStructuralFeatures().get(1);
+    return (EReference)kindAttributeEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -508,9 +526,9 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getAttr_Condition()
+  public EReference getKindAttribute_Condition()
   {
-    return (EReference)attrEClass.getEStructuralFeatures().get(2);
+    return (EReference)kindAttributeEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -708,7 +726,7 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getRc_Asyncex()
+  public EAttribute getRc_Syncex()
   {
     return (EAttribute)rcEClass.getEStructuralFeatures().get(0);
   }
@@ -788,6 +806,16 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getOrEvent_Right()
+  {
+    return (EReference)orEventEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getAndEvent()
   {
     return andEventEClass;
@@ -801,6 +829,36 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
   public EReference getAndEvent_Left()
   {
     return (EReference)andEventEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getAndEvent_Right()
+  {
+    return (EReference)andEventEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getUnaryEvent()
+  {
+    return unaryEventEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getUnaryEvent_Expr()
+  {
+    return (EReference)unaryEventEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -877,15 +935,16 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
     createEReference(evDeclEClass, EV_DECL__PARAMS);
     createEReference(evDeclEClass, EV_DECL__EVENTOS);
 
-    expressionEClass = createEClass(EXPRESSION);
-    createEReference(expressionEClass, EXPRESSION__RIGHT);
+    eventExpressionEClass = createEClass(EVENT_EXPRESSION);
+    createEReference(eventExpressionEClass, EVENT_EXPRESSION__TIPO_EVENTO);
+    createEAttribute(eventExpressionEClass, EVENT_EXPRESSION__OP);
 
     eventPredicateEClass = createEClass(EVENT_PREDICATE);
 
-    attrEClass = createEClass(ATTR);
-    createEReference(attrEClass, ATTR__HOSTGROUP);
-    createEReference(attrEClass, ATTR__ONGROUP);
-    createEReference(attrEClass, ATTR__CONDITION);
+    kindAttributeEClass = createEClass(KIND_ATTRIBUTE);
+    createEReference(kindAttributeEClass, KIND_ATTRIBUTE__HOSTGROUP);
+    createEReference(kindAttributeEClass, KIND_ATTRIBUTE__ONGROUP);
+    createEReference(kindAttributeEClass, KIND_ATTRIBUTE__CONDITION);
 
     triggerEClass = createEClass(TRIGGER);
     createEAttribute(triggerEClass, TRIGGER__ESIG);
@@ -912,7 +971,7 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
     createEReference(transDefEClass, TRANS_DEF__TARGET);
 
     rcEClass = createEClass(RC);
-    createEAttribute(rcEClass, RC__ASYNCEX);
+    createEAttribute(rcEClass, RC__SYNCEX);
     createEAttribute(rcEClass, RC__POS);
     createEReference(rcEClass, RC__BODY);
 
@@ -922,9 +981,14 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
 
     orEventEClass = createEClass(OR_EVENT);
     createEReference(orEventEClass, OR_EVENT__LEFT);
+    createEReference(orEventEClass, OR_EVENT__RIGHT);
 
     andEventEClass = createEClass(AND_EVENT);
     createEReference(andEventEClass, AND_EVENT__LEFT);
+    createEReference(andEventEClass, AND_EVENT__RIGHT);
+
+    unaryEventEClass = createEClass(UNARY_EVENT);
+    createEReference(unaryEventEClass, UNARY_EVENT__EXPR);
 
     // Create enums
     stateTypeEEnum = createEEnum(STATE_TYPE);
@@ -968,14 +1032,14 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
     jVarDEClass.getESuperTypes().add(this.getDecl());
     mSigEClass.getESuperTypes().add(this.getDecl());
     evDeclEClass.getESuperTypes().add(this.getDecl());
-    eventPredicateEClass.getESuperTypes().add(this.getExpression());
-    attrEClass.getESuperTypes().add(this.getEventPredicate());
+    kindAttributeEClass.getESuperTypes().add(this.getEventPredicate());
     triggerEClass.getESuperTypes().add(this.getEventPredicate());
     groupEClass.getESuperTypes().add(this.getDecl());
     automatonEClass.getESuperTypes().add(this.getDecl());
     rcEClass.getESuperTypes().add(this.getDecl());
-    orEventEClass.getESuperTypes().add(this.getExpression());
-    andEventEClass.getESuperTypes().add(this.getExpression());
+    orEventEClass.getESuperTypes().add(this.getEventExpression());
+    andEventEClass.getESuperTypes().add(this.getEventExpression());
+    unaryEventEClass.getESuperTypes().add(this.getEventExpression());
 
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1000,17 +1064,18 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
 
     initEClass(evDeclEClass, EvDecl.class, "EvDecl", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEvDecl_Params(), theTypesPackage.getJvmFormalParameter(), null, "params", null, 0, -1, EvDecl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getEvDecl_Eventos(), this.getExpression(), null, "eventos", null, 0, -1, EvDecl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEvDecl_Eventos(), this.getEventExpression(), null, "eventos", null, 0, -1, EvDecl.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(expressionEClass, Expression.class, "Expression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getExpression_Right(), this.getExpression(), null, "right", null, 0, 1, Expression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(eventExpressionEClass, EventExpression.class, "EventExpression", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getEventExpression_TipoEvento(), this.getEventPredicate(), null, "tipoEvento", null, 0, 1, EventExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getEventExpression_Op(), ecorePackage.getEString(), "op", null, 0, 1, EventExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eventPredicateEClass, EventPredicate.class, "EventPredicate", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(attrEClass, Attr.class, "Attr", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAttr_Hostgroup(), this.getGroup(), null, "hostgroup", null, 0, 1, Attr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAttr_Ongroup(), this.getGroup(), null, "ongroup", null, 0, 1, Attr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getAttr_Condition(), theXbasePackage.getXExpression(), null, "condition", null, 0, 1, Attr.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(kindAttributeEClass, KindAttribute.class, "KindAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getKindAttribute_Hostgroup(), this.getGroup(), null, "hostgroup", null, 0, 1, KindAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getKindAttribute_Ongroup(), this.getGroup(), null, "ongroup", null, 0, 1, KindAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getKindAttribute_Condition(), theXbasePackage.getXExpression(), null, "condition", null, 0, 1, KindAttribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(triggerEClass, Trigger.class, "Trigger", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTrigger_Esig(), ecorePackage.getEString(), "esig", null, 0, 1, Trigger.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1037,7 +1102,7 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
     initEReference(getTransDef_Target(), this.getStep(), null, "target", null, 0, 1, TransDef.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(rcEClass, Rc.class, "Rc", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getRc_Asyncex(), ecorePackage.getEString(), "asyncex", null, 0, 1, Rc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getRc_Syncex(), ecorePackage.getEString(), "syncex", null, 0, 1, Rc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getRc_Pos(), this.getPos(), "pos", null, 0, 1, Rc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRc_Body(), this.getBody(), null, "body", null, 0, 1, Rc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1046,10 +1111,15 @@ public class EketalPackageImpl extends EPackageImpl implements EketalPackage
     initEReference(getBody_Grupo(), this.getGroup(), null, "grupo", null, 0, 1, Body.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(orEventEClass, OrEvent.class, "OrEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getOrEvent_Left(), this.getExpression(), null, "left", null, 0, 1, OrEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getOrEvent_Left(), this.getEventExpression(), null, "left", null, 0, 1, OrEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getOrEvent_Right(), this.getEventExpression(), null, "right", null, 0, 1, OrEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(andEventEClass, AndEvent.class, "AndEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getAndEvent_Left(), this.getExpression(), null, "left", null, 0, 1, AndEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAndEvent_Left(), this.getEventExpression(), null, "left", null, 0, 1, AndEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getAndEvent_Right(), this.getEventExpression(), null, "right", null, 0, 1, AndEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(unaryEventEClass, UnaryEvent.class, "UnaryEvent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getUnaryEvent_Expr(), this.getEventExpression(), null, "expr", null, 0, 1, UnaryEvent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
     initEEnum(stateTypeEEnum, StateType.class, "StateType");

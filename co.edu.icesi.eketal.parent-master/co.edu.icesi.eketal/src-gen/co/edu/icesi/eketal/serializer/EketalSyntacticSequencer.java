@@ -113,11 +113,8 @@ public class EketalSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     '('*
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) '!' right=AtomEvent
-	 *     (rule start) (ambiguity) 'call' '(' esig=QualifiedName
-	 *     (rule start) (ambiguity) 'host' '(' hostgroup=[Group|ID]
-	 *     (rule start) (ambiguity) 'if' condition=XParenthesizedExpression
-	 *     (rule start) (ambiguity) 'on' '(' ongroup=[Group|ID]
+	 *     (rule start) (ambiguity) op='!'
+	 *     (rule start) (ambiguity) tipoEvento=EventPredicate
 	 *     (rule start) (ambiguity) {AndEvent.left=}
 	 *     (rule start) (ambiguity) {OrEvent.left=}
 	 */
@@ -130,7 +127,7 @@ public class EketalSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     '('+
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) '!' right=AtomEvent
+	 *     (rule start) (ambiguity) op='!'
 	 *     (rule start) (ambiguity) {AndEvent.left=}
 	 *     (rule start) (ambiguity) {OrEvent.left=}
 	 */

@@ -296,15 +296,19 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cColonKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		private final Assignment cEventosAssignment_6 = (Assignment)cGroup.eContents().get(6);
 		private final RuleCall cEventosOrEventParserRuleCall_6_0 = (RuleCall)cEventosAssignment_6.eContents().get(0);
+		private final Keyword cSemicolonKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
-		///////////////////////////////////////
+		////////////////////////////////////////
 		////Event Declaration
-		///////////////////////////////////////
+		////////////////////////////////////////
+		////TODO Acomodar al estilo aspectj
 		//EvDecl:
-		//	'event' name=ID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' ":" eventos+=OrEvent*;
+		//	'event' name=ID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' ":" eventos+=OrEvent*
+		//	';';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'event' name=ID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' ":" eventos+=OrEvent*
+		//';'
 		public Group getGroup() { return cGroup; }
 		
 		//'event'
@@ -351,6 +355,9 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		
 		//OrEvent
 		public RuleCall getEventosOrEventParserRuleCall_6_0() { return cEventosOrEventParserRuleCall_6_0; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_7() { return cSemicolonKeyword_7; }
 	}
 	public class OrEventElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.OrEvent");
@@ -358,28 +365,32 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cAndEventParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Action cOrEventLeftAction_1_0 = (Action)cGroup_1.eContents().get(0);
-		private final Keyword cVerticalLineVerticalLineKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cOpAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final Keyword cOpVerticalLineVerticalLineKeyword_1_1_0 = (Keyword)cOpAssignment_1_1.eContents().get(0);
 		private final Assignment cRightAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
 		private final RuleCall cRightAndEventParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
-		//OrEvent Expression:
-		//	AndEvent ({OrEvent.left=current} '||' right=AndEvent)*
+		//OrEvent EventExpression:
+		//	AndEvent ({OrEvent.left=current} op='||' right=AndEvent)*
 		@Override public ParserRule getRule() { return rule; }
 		
-		//AndEvent ({OrEvent.left=current} '||' right=AndEvent)*
+		//AndEvent ({OrEvent.left=current} op='||' right=AndEvent)*
 		public Group getGroup() { return cGroup; }
 		
 		//AndEvent
 		public RuleCall getAndEventParserRuleCall_0() { return cAndEventParserRuleCall_0; }
 		
-		//({OrEvent.left=current} '||' right=AndEvent)*
+		//({OrEvent.left=current} op='||' right=AndEvent)*
 		public Group getGroup_1() { return cGroup_1; }
 		
 		//{OrEvent.left=current}
 		public Action getOrEventLeftAction_1_0() { return cOrEventLeftAction_1_0; }
 		
+		//op='||'
+		public Assignment getOpAssignment_1_1() { return cOpAssignment_1_1; }
+		
 		//'||'
-		public Keyword getVerticalLineVerticalLineKeyword_1_1() { return cVerticalLineVerticalLineKeyword_1_1; }
+		public Keyword getOpVerticalLineVerticalLineKeyword_1_1_0() { return cOpVerticalLineVerticalLineKeyword_1_1_0; }
 		
 		//right=AndEvent
 		public Assignment getRightAssignment_1_2() { return cRightAssignment_1_2; }
@@ -393,28 +404,32 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cNotEventParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
 		private final Action cAndEventLeftAction_1_0 = (Action)cGroup_1.eContents().get(0);
-		private final Keyword cAmpersandAmpersandKeyword_1_1 = (Keyword)cGroup_1.eContents().get(1);
+		private final Assignment cOpAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final Keyword cOpAmpersandAmpersandKeyword_1_1_0 = (Keyword)cOpAssignment_1_1.eContents().get(0);
 		private final Assignment cRightAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
 		private final RuleCall cRightNotEventParserRuleCall_1_2_0 = (RuleCall)cRightAssignment_1_2.eContents().get(0);
 		
-		//AndEvent Expression:
-		//	NotEvent ({AndEvent.left=current} '&&' right=NotEvent)*
+		//AndEvent EventExpression:
+		//	NotEvent ({AndEvent.left=current} op='&&' right=NotEvent)*
 		@Override public ParserRule getRule() { return rule; }
 		
-		//NotEvent ({AndEvent.left=current} '&&' right=NotEvent)*
+		//NotEvent ({AndEvent.left=current} op='&&' right=NotEvent)*
 		public Group getGroup() { return cGroup; }
 		
 		//NotEvent
 		public RuleCall getNotEventParserRuleCall_0() { return cNotEventParserRuleCall_0; }
 		
-		//({AndEvent.left=current} '&&' right=NotEvent)*
+		//({AndEvent.left=current} op='&&' right=NotEvent)*
 		public Group getGroup_1() { return cGroup_1; }
 		
 		//{AndEvent.left=current}
 		public Action getAndEventLeftAction_1_0() { return cAndEventLeftAction_1_0; }
 		
+		//op='&&'
+		public Assignment getOpAssignment_1_1() { return cOpAssignment_1_1; }
+		
 		//'&&'
-		public Keyword getAmpersandAmpersandKeyword_1_1() { return cAmpersandAmpersandKeyword_1_1; }
+		public Keyword getOpAmpersandAmpersandKeyword_1_1_0() { return cOpAmpersandAmpersandKeyword_1_1_0; }
 		
 		//right=NotEvent
 		public Assignment getRightAssignment_1_2() { return cRightAssignment_1_2; }
@@ -426,51 +441,74 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.NotEvent");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cAtomEventParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final Keyword cExclamationMarkKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final Assignment cRightAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final RuleCall cRightAtomEventParserRuleCall_1_1_0 = (RuleCall)cRightAssignment_1_1.eContents().get(0);
+		private final RuleCall cUnaryExpresionParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		//NotEvent Expression:
-		//	AtomEvent | '!' right=AtomEvent
+		//NotEvent EventExpression:
+		//	AtomEvent | UnaryExpresion
 		@Override public ParserRule getRule() { return rule; }
 		
-		//AtomEvent | '!' right=AtomEvent
+		//AtomEvent | UnaryExpresion
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//AtomEvent
 		public RuleCall getAtomEventParserRuleCall_0() { return cAtomEventParserRuleCall_0; }
 		
-		//'!' right=AtomEvent
-		public Group getGroup_1() { return cGroup_1; }
+		//UnaryExpresion
+		public RuleCall getUnaryExpresionParserRuleCall_1() { return cUnaryExpresionParserRuleCall_1; }
+	}
+	public class UnaryExpresionElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.UnaryExpresion");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cUnaryEventAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cOpAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final Keyword cOpExclamationMarkKeyword_1_0 = (Keyword)cOpAssignment_1.eContents().get(0);
+		private final Assignment cExprAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cExprAtomEventParserRuleCall_2_0 = (RuleCall)cExprAssignment_2.eContents().get(0);
+		
+		//UnaryExpresion EventExpression:
+		//	{UnaryEvent} op='!' expr=AtomEvent
+		@Override public ParserRule getRule() { return rule; }
+		
+		//{UnaryEvent} op='!' expr=AtomEvent
+		public Group getGroup() { return cGroup; }
+		
+		//{UnaryEvent}
+		public Action getUnaryEventAction_0() { return cUnaryEventAction_0; }
+		
+		//op='!'
+		public Assignment getOpAssignment_1() { return cOpAssignment_1; }
 		
 		//'!'
-		public Keyword getExclamationMarkKeyword_1_0() { return cExclamationMarkKeyword_1_0; }
+		public Keyword getOpExclamationMarkKeyword_1_0() { return cOpExclamationMarkKeyword_1_0; }
 		
-		//right=AtomEvent
-		public Assignment getRightAssignment_1_1() { return cRightAssignment_1_1; }
+		//expr=AtomEvent
+		public Assignment getExprAssignment_2() { return cExprAssignment_2; }
 		
 		//AtomEvent
-		public RuleCall getRightAtomEventParserRuleCall_1_1_0() { return cRightAtomEventParserRuleCall_1_1_0; }
+		public RuleCall getExprAtomEventParserRuleCall_2_0() { return cExprAtomEventParserRuleCall_2_0; }
 	}
 	public class AtomEventElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.AtomEvent");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cEventPredicateParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final Assignment cTipoEventoAssignment_0 = (Assignment)cAlternatives.eContents().get(0);
+		private final RuleCall cTipoEventoEventPredicateParserRuleCall_0_0 = (RuleCall)cTipoEventoAssignment_0.eContents().get(0);
 		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
 		private final Keyword cLeftParenthesisKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final RuleCall cOrEventParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		private final Keyword cRightParenthesisKeyword_1_2 = (Keyword)cGroup_1.eContents().get(2);
 		
-		//AtomEvent Expression:
-		//	EventPredicate | '(' OrEvent ')'
+		//AtomEvent EventExpression:
+		//	tipoEvento=EventPredicate | '(' OrEvent ')'
 		@Override public ParserRule getRule() { return rule; }
 		
-		//EventPredicate | '(' OrEvent ')'
+		//tipoEvento=EventPredicate | '(' OrEvent ')'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
+		//tipoEvento=EventPredicate
+		public Assignment getTipoEventoAssignment_0() { return cTipoEventoAssignment_0; }
+		
 		//EventPredicate
-		public RuleCall getEventPredicateParserRuleCall_0() { return cEventPredicateParserRuleCall_0; }
+		public RuleCall getTipoEventoEventPredicateParserRuleCall_0_0() { return cTipoEventoEventPredicateParserRuleCall_0_0; }
 		
 		//'(' OrEvent ')'
 		public Group getGroup_1() { return cGroup_1; }
@@ -487,25 +525,25 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 	public class EventPredicateElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.EventPredicate");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cAttrParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cKindAttributeParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cTriggerParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//EventPredicate:
-		//	Attr
+		//	KindAttribute
 		//	| Trigger;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//Attr | Trigger
+		//KindAttribute | Trigger
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//Attr
-		public RuleCall getAttrParserRuleCall_0() { return cAttrParserRuleCall_0; }
+		//KindAttribute
+		public RuleCall getKindAttributeParserRuleCall_0() { return cKindAttributeParserRuleCall_0; }
 		
 		//Trigger
 		public RuleCall getTriggerParserRuleCall_1() { return cTriggerParserRuleCall_1; }
 	}
-	public class AttrElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.Attr");
+	public class KindAttributeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.KindAttribute");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
 		private final Keyword cHostKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
@@ -526,16 +564,17 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cConditionAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
 		private final RuleCall cConditionXParenthesizedExpressionParserRuleCall_2_1_0 = (RuleCall)cConditionAssignment_2_1.eContents().get(0);
 		
-		//Attr:
-		//	'host' '(' hostgroup=[Group] ')' //
-		//	| 'on' '(' ongroup=[Group] ')'
+		//KindAttribute:
+		//	'host' '(' hostgroup=[Group] ')' //TODO deberia ser unico
+		//	| 'on' '(' ongroup=[Group] ')' //TODO deberia ser unico
 		//	| 'if' condition=XParenthesizedExpression
 		//	//	| 'eq'"("JExp","JExp")"
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//'host' '(' hostgroup=[Group] ')' //
-		//| 'on' '(' ongroup=[Group] ')' | 'if' condition=XParenthesizedExpression
+		//'host' '(' hostgroup=[Group] ')' //TODO deberia ser unico
+		//| 'on' '(' ongroup=[Group] ')' //TODO deberia ser unico
+		//| 'if' condition=XParenthesizedExpression
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//'host' '(' hostgroup=[Group] ')'
@@ -973,8 +1012,8 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 	public class RcElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "co.edu.icesi.eketal.Eketal.Rc");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cAsyncexAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final Keyword cAsyncexAsyncexKeyword_0_0 = (Keyword)cAsyncexAssignment_0.eContents().get(0);
+		private final Assignment cSyncexAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Keyword cSyncexSyncexKeyword_0_0 = (Keyword)cSyncexAssignment_0.eContents().get(0);
 		private final Keyword cReactionKeyword_1 = (Keyword)cGroup.eContents().get(1);
 		private final Assignment cPosAssignment_2 = (Assignment)cGroup.eContents().get(2);
 		private final RuleCall cPosPosEnumRuleCall_2_0 = (RuleCall)cPosAssignment_2.eContents().get(0);
@@ -989,17 +1028,17 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		//////Reaction definition
 		////////////////////////////////////////
 		//Rc:
-		//	asyncex="asyncex"? 'reaction' pos=Pos name=ID '{' body=Body '}';
+		//	syncex="syncex"? 'reaction' pos=Pos name=ID '{' body=Body '}';
 		@Override public ParserRule getRule() { return rule; }
 		
-		//asyncex="asyncex"? 'reaction' pos=Pos name=ID '{' body=Body '}'
+		//syncex="syncex"? 'reaction' pos=Pos name=ID '{' body=Body '}'
 		public Group getGroup() { return cGroup; }
 		
-		//asyncex="asyncex"?
-		public Assignment getAsyncexAssignment_0() { return cAsyncexAssignment_0; }
+		//syncex="syncex"?
+		public Assignment getSyncexAssignment_0() { return cSyncexAssignment_0; }
 		
-		//"asyncex"
-		public Keyword getAsyncexAsyncexKeyword_0_0() { return cAsyncexAsyncexKeyword_0_0; }
+		//"syncex"
+		public Keyword getSyncexSyncexKeyword_0_0() { return cSyncexSyncexKeyword_0_0; }
 		
 		//'reaction'
 		public Keyword getReactionKeyword_1() { return cReactionKeyword_1; }
@@ -1186,9 +1225,10 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 	private final OrEventElements pOrEvent;
 	private final AndEventElements pAndEvent;
 	private final NotEventElements pNotEvent;
+	private final UnaryExpresionElements pUnaryExpresion;
 	private final AtomEventElements pAtomEvent;
 	private final EventPredicateElements pEventPredicate;
-	private final AttrElements pAttr;
+	private final KindAttributeElements pKindAttribute;
 	private final TriggerElements pTrigger;
 	private final GroupElements pGroup;
 	private final HostElements pHost;
@@ -1223,9 +1263,10 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		this.pOrEvent = new OrEventElements();
 		this.pAndEvent = new AndEventElements();
 		this.pNotEvent = new NotEventElements();
+		this.pUnaryExpresion = new UnaryExpresionElements();
 		this.pAtomEvent = new AtomEventElements();
 		this.pEventPredicate = new EventPredicateElements();
-		this.pAttr = new AttrElements();
+		this.pKindAttribute = new KindAttributeElements();
 		this.pTrigger = new TriggerElements();
 		this.pGroup = new GroupElements();
 		this.pHost = new HostElements();
@@ -1334,11 +1375,13 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		return getMSigAccess().getRule();
 	}
 	
-	///////////////////////////////////////
+	////////////////////////////////////////
 	////Event Declaration
-	///////////////////////////////////////
+	////////////////////////////////////////
+	////TODO Acomodar al estilo aspectj
 	//EvDecl:
-	//	'event' name=ID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' ":" eventos+=OrEvent*;
+	//	'event' name=ID '(' (params+=FullJvmFormalParameter (',' params+=FullJvmFormalParameter)*)? ')' ":" eventos+=OrEvent*
+	//	';';
 	public EvDeclElements getEvDeclAccess() {
 		return pEvDecl;
 	}
@@ -1347,8 +1390,8 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		return getEvDeclAccess().getRule();
 	}
 	
-	//OrEvent Expression:
-	//	AndEvent ({OrEvent.left=current} '||' right=AndEvent)*
+	//OrEvent EventExpression:
+	//	AndEvent ({OrEvent.left=current} op='||' right=AndEvent)*
 	public OrEventElements getOrEventAccess() {
 		return pOrEvent;
 	}
@@ -1357,8 +1400,8 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		return getOrEventAccess().getRule();
 	}
 	
-	//AndEvent Expression:
-	//	NotEvent ({AndEvent.left=current} '&&' right=NotEvent)*
+	//AndEvent EventExpression:
+	//	NotEvent ({AndEvent.left=current} op='&&' right=NotEvent)*
 	public AndEventElements getAndEventAccess() {
 		return pAndEvent;
 	}
@@ -1367,8 +1410,8 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		return getAndEventAccess().getRule();
 	}
 	
-	//NotEvent Expression:
-	//	AtomEvent | '!' right=AtomEvent
+	//NotEvent EventExpression:
+	//	AtomEvent | UnaryExpresion
 	public NotEventElements getNotEventAccess() {
 		return pNotEvent;
 	}
@@ -1377,8 +1420,18 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		return getNotEventAccess().getRule();
 	}
 	
-	//AtomEvent Expression:
-	//	EventPredicate | '(' OrEvent ')'
+	//UnaryExpresion EventExpression:
+	//	{UnaryEvent} op='!' expr=AtomEvent
+	public UnaryExpresionElements getUnaryExpresionAccess() {
+		return pUnaryExpresion;
+	}
+	
+	public ParserRule getUnaryExpresionRule() {
+		return getUnaryExpresionAccess().getRule();
+	}
+	
+	//AtomEvent EventExpression:
+	//	tipoEvento=EventPredicate | '(' OrEvent ')'
 	public AtomEventElements getAtomEventAccess() {
 		return pAtomEvent;
 	}
@@ -1388,7 +1441,7 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//EventPredicate:
-	//	Attr
+	//	KindAttribute
 	//	| Trigger;
 	public EventPredicateElements getEventPredicateAccess() {
 		return pEventPredicate;
@@ -1398,18 +1451,18 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 		return getEventPredicateAccess().getRule();
 	}
 	
-	//Attr:
-	//	'host' '(' hostgroup=[Group] ')' //
-	//	| 'on' '(' ongroup=[Group] ')'
+	//KindAttribute:
+	//	'host' '(' hostgroup=[Group] ')' //TODO deberia ser unico
+	//	| 'on' '(' ongroup=[Group] ')' //TODO deberia ser unico
 	//	| 'if' condition=XParenthesizedExpression
 	//	//	| 'eq'"("JExp","JExp")"
 	//;
-	public AttrElements getAttrAccess() {
-		return pAttr;
+	public KindAttributeElements getKindAttributeAccess() {
+		return pKindAttribute;
 	}
 	
-	public ParserRule getAttrRule() {
-		return getAttrAccess().getRule();
+	public ParserRule getKindAttributeRule() {
+		return getKindAttributeAccess().getRule();
 	}
 	
 	//Trigger:
@@ -1511,7 +1564,7 @@ public class EketalGrammarAccess extends AbstractGrammarElementFinder {
 	//////Reaction definition
 	////////////////////////////////////////
 	//Rc:
-	//	asyncex="asyncex"? 'reaction' pos=Pos name=ID '{' body=Body '}';
+	//	syncex="syncex"? 'reaction' pos=Pos name=ID '{' body=Body '}';
 	public RcElements getRcAccess() {
 		return pRc;
 	}

@@ -4,7 +4,7 @@
 package co.edu.icesi.eketal.eketal.impl;
 
 import co.edu.icesi.eketal.eketal.EketalPackage;
-import co.edu.icesi.eketal.eketal.Expression;
+import co.edu.icesi.eketal.eketal.EventExpression;
 import co.edu.icesi.eketal.eketal.OrEvent;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -24,11 +24,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * </p>
  * <ul>
  *   <li>{@link co.edu.icesi.eketal.eketal.impl.OrEventImpl#getLeft <em>Left</em>}</li>
+ *   <li>{@link co.edu.icesi.eketal.eketal.impl.OrEventImpl#getRight <em>Right</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class OrEventImpl extends ExpressionImpl implements OrEvent
+public class OrEventImpl extends EventExpressionImpl implements OrEvent
 {
   /**
    * The cached value of the '{@link #getLeft() <em>Left</em>}' containment reference.
@@ -38,7 +39,17 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
    * @generated
    * @ordered
    */
-  protected Expression left;
+  protected EventExpression left;
+
+  /**
+   * The cached value of the '{@link #getRight() <em>Right</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getRight()
+   * @generated
+   * @ordered
+   */
+  protected EventExpression right;
 
   /**
    * <!-- begin-user-doc -->
@@ -66,7 +77,7 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
    * <!-- end-user-doc -->
    * @generated
    */
-  public Expression getLeft()
+  public EventExpression getLeft()
   {
     return left;
   }
@@ -76,9 +87,9 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetLeft(Expression newLeft, NotificationChain msgs)
+  public NotificationChain basicSetLeft(EventExpression newLeft, NotificationChain msgs)
   {
-    Expression oldLeft = left;
+    EventExpression oldLeft = left;
     left = newLeft;
     if (eNotificationRequired())
     {
@@ -93,7 +104,7 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setLeft(Expression newLeft)
+  public void setLeft(EventExpression newLeft)
   {
     if (newLeft != left)
     {
@@ -114,6 +125,54 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
    * <!-- end-user-doc -->
    * @generated
    */
+  public EventExpression getRight()
+  {
+    return right;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetRight(EventExpression newRight, NotificationChain msgs)
+  {
+    EventExpression oldRight = right;
+    right = newRight;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EketalPackage.OR_EVENT__RIGHT, oldRight, newRight);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setRight(EventExpression newRight)
+  {
+    if (newRight != right)
+    {
+      NotificationChain msgs = null;
+      if (right != null)
+        msgs = ((InternalEObject)right).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EketalPackage.OR_EVENT__RIGHT, null, msgs);
+      if (newRight != null)
+        msgs = ((InternalEObject)newRight).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EketalPackage.OR_EVENT__RIGHT, null, msgs);
+      msgs = basicSetRight(newRight, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, EketalPackage.OR_EVENT__RIGHT, newRight, newRight));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
@@ -121,6 +180,8 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
     {
       case EketalPackage.OR_EVENT__LEFT:
         return basicSetLeft(null, msgs);
+      case EketalPackage.OR_EVENT__RIGHT:
+        return basicSetRight(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -137,6 +198,8 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
     {
       case EketalPackage.OR_EVENT__LEFT:
         return getLeft();
+      case EketalPackage.OR_EVENT__RIGHT:
+        return getRight();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -152,7 +215,10 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
     switch (featureID)
     {
       case EketalPackage.OR_EVENT__LEFT:
-        setLeft((Expression)newValue);
+        setLeft((EventExpression)newValue);
+        return;
+      case EketalPackage.OR_EVENT__RIGHT:
+        setRight((EventExpression)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -169,7 +235,10 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
     switch (featureID)
     {
       case EketalPackage.OR_EVENT__LEFT:
-        setLeft((Expression)null);
+        setLeft((EventExpression)null);
+        return;
+      case EketalPackage.OR_EVENT__RIGHT:
+        setRight((EventExpression)null);
         return;
     }
     super.eUnset(featureID);
@@ -187,6 +256,8 @@ public class OrEventImpl extends ExpressionImpl implements OrEvent
     {
       case EketalPackage.OR_EVENT__LEFT:
         return left != null;
+      case EketalPackage.OR_EVENT__RIGHT:
+        return right != null;
     }
     return super.eIsSet(featureID);
   }

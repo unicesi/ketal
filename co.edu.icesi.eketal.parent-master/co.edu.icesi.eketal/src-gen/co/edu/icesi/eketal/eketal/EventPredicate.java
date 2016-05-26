@@ -3,6 +3,7 @@
  */
 package co.edu.icesi.eketal.eketal;
 
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,6 +15,6 @@ package co.edu.icesi.eketal.eketal;
  * @model
  * @generated
  */
-public interface EventPredicate extends Expression
+public interface EventPredicate extends EObject
 {
 } // EventPredicate

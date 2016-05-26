@@ -30,6 +30,9 @@ Export-Package: co.edu.icesi.eketal,
  co.edu.icesi.eketal.services,
  co.edu.icesi.eketal.validation
 Import-Package: co.edu.icesi.ketal.core,
+ co.edu.icesi.ketal.distribution,
+ co.edu.icesi.ketal.distribution.transports.jgroups,
  dk.brics.automaton,
- org.apache.log4j
+ org.apache.log4j,
+ org.jgroups.util
 Bundle-ClassPath: .

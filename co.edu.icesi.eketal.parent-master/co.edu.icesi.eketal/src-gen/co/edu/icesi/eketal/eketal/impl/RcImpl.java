@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link co.edu.icesi.eketal.eketal.impl.RcImpl#getAsyncex <em>Asyncex</em>}</li>
+ *   <li>{@link co.edu.icesi.eketal.eketal.impl.RcImpl#getSyncex <em>Syncex</em>}</li>
  *   <li>{@link co.edu.icesi.eketal.eketal.impl.RcImpl#getPos <em>Pos</em>}</li>
  *   <li>{@link co.edu.icesi.eketal.eketal.impl.RcImpl#getBody <em>Body</em>}</li>
  * </ul>
@@ -34,24 +34,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 public class RcImpl extends DeclImpl implements Rc
 {
   /**
-   * The default value of the '{@link #getAsyncex() <em>Asyncex</em>}' attribute.
+   * The default value of the '{@link #getSyncex() <em>Syncex</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getAsyncex()
+   * @see #getSyncex()
    * @generated
    * @ordered
    */
-  protected static final String ASYNCEX_EDEFAULT = null;
+  protected static final String SYNCEX_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getAsyncex() <em>Asyncex</em>}' attribute.
+   * The cached value of the '{@link #getSyncex() <em>Syncex</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getAsyncex()
+   * @see #getSyncex()
    * @generated
    * @ordered
    */
-  protected String asyncex = ASYNCEX_EDEFAULT;
+  protected String syncex = SYNCEX_EDEFAULT;
 
   /**
    * The default value of the '{@link #getPos() <em>Pos</em>}' attribute.
@@ -109,9 +109,9 @@ public class RcImpl extends DeclImpl implements Rc
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getAsyncex()
+  public String getSyncex()
   {
-    return asyncex;
+    return syncex;
   }
 
   /**
@@ -119,12 +119,12 @@ public class RcImpl extends DeclImpl implements Rc
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setAsyncex(String newAsyncex)
+  public void setSyncex(String newSyncex)
   {
-    String oldAsyncex = asyncex;
-    asyncex = newAsyncex;
+    String oldSyncex = syncex;
+    syncex = newSyncex;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EketalPackage.RC__ASYNCEX, oldAsyncex, asyncex));
+      eNotify(new ENotificationImpl(this, Notification.SET, EketalPackage.RC__SYNCEX, oldSyncex, syncex));
   }
 
   /**
@@ -224,8 +224,8 @@ public class RcImpl extends DeclImpl implements Rc
   {
     switch (featureID)
     {
-      case EketalPackage.RC__ASYNCEX:
-        return getAsyncex();
+      case EketalPackage.RC__SYNCEX:
+        return getSyncex();
       case EketalPackage.RC__POS:
         return getPos();
       case EketalPackage.RC__BODY:
@@ -244,8 +244,8 @@ public class RcImpl extends DeclImpl implements Rc
   {
     switch (featureID)
     {
-      case EketalPackage.RC__ASYNCEX:
-        setAsyncex((String)newValue);
+      case EketalPackage.RC__SYNCEX:
+        setSyncex((String)newValue);
         return;
       case EketalPackage.RC__POS:
         setPos((Pos)newValue);
@@ -267,8 +267,8 @@ public class RcImpl extends DeclImpl implements Rc
   {
     switch (featureID)
     {
-      case EketalPackage.RC__ASYNCEX:
-        setAsyncex(ASYNCEX_EDEFAULT);
+      case EketalPackage.RC__SYNCEX:
+        setSyncex(SYNCEX_EDEFAULT);
         return;
       case EketalPackage.RC__POS:
         setPos(POS_EDEFAULT);
@@ -290,8 +290,8 @@ public class RcImpl extends DeclImpl implements Rc
   {
     switch (featureID)
     {
-      case EketalPackage.RC__ASYNCEX:
-        return ASYNCEX_EDEFAULT == null ? asyncex != null : !ASYNCEX_EDEFAULT.equals(asyncex);
+      case EketalPackage.RC__SYNCEX:
+        return SYNCEX_EDEFAULT == null ? syncex != null : !SYNCEX_EDEFAULT.equals(syncex);
       case EketalPackage.RC__POS:
         return pos != POS_EDEFAULT;
       case EketalPackage.RC__BODY:
@@ -311,8 +311,8 @@ public class RcImpl extends DeclImpl implements Rc
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (asyncex: ");
-    result.append(asyncex);
+    result.append(" (syncex: ");
+    result.append(syncex);
     result.append(", pos: ");
     result.append(pos);
     result.append(')');

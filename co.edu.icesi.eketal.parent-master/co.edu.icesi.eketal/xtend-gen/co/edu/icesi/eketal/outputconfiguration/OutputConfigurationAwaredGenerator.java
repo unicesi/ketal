@@ -39,8 +39,15 @@ public class OutputConfigurationAwaredGenerator extends JvmModelGenerator {
               final SingleOutputConfigurationFileSystemAccess sfsa = new SingleOutputConfigurationFileSystemAccess(fsa, outputConfiguration);
               this.internalDoGenerate(obj, sfsa);
             } else {
+              boolean _or = false;
               boolean _equals_1 = Objects.equal(outputConfiguration, EketalOutputConfigurationProvider.ASPECTJ_OUTPUT);
               if (_equals_1) {
+                _or = true;
+              } else {
+                boolean _equals_2 = Objects.equal(IFileSystemAccess.DEFAULT_OUTPUT, outputConfiguration);
+                _or = _equals_2;
+              }
+              if (_or) {
                 this.generator.doGenerate(input, fsa);
               }
             }
