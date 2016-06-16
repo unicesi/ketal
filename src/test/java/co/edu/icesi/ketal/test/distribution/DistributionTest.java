@@ -32,7 +32,6 @@ public class DistributionTest {
 	
 	@Before
 	public void setUp() throws Exception {
-	
 		//Setup the properties for message handlers and the event brokers
 		brokerMessageHandler = new KetalMessageHandler();
 		brokerMessageHandler2 = new KetalMessageHandler();
@@ -49,6 +48,9 @@ public class DistributionTest {
 
 	@After
 	public void tearDown() throws Exception {
+		System.out.println("termino");
+		eventBroker1.closeComunication();
+		eventBroker2.closeComunication();
 	}
 	
 	
@@ -85,6 +87,11 @@ public class DistributionTest {
  		
  	    Vector<Event> anVector = ((((KetalMessageHandler) brokerMessageHandler).getVectorEvents()));
  	    
+ 	    if(anVector.size()!=myVector.size()){
+ 	    	System.out.println("Size of the vector "+anVector.size()+"Size of the other vector"+myVector.size());
+ 	    	Assert.assertTrue(false);
+ 	    }
+ 	    
  	    for(int index=0; index<anVector.size(); index++)
  	    {
  	    	Event myEvent = myVector.get(index);
@@ -109,7 +116,6 @@ public class DistributionTest {
 		Event event1 = new TestEvent1Distributed('a');
 		Event event2 = new TestEvent1Distributed('b');
 		Event event3 = new TestEvent1Distributed('c');
-
 		
 		
 		Thread.sleep(5000);
@@ -122,6 +128,5 @@ public class DistributionTest {
 		
 		Thread.sleep(2000);
 		Assert.assertTrue(automaton.isAWordAutomaton(((KetalMessageHandler)brokerMessageHandler2).getVectorEvents()));
-		
 	}
 }
